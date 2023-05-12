@@ -1,0 +1,45 @@
+@import url('https://fonts.cdnfonts.com/css/helvetica-255');
+@import url('https://fonts.cdnfonts.com/css/satoshi');
+@import url('https://fonts.cdnfonts.com/css/heywow');
+@import url('https://fonts.cdnfonts.com/css/nollasans');
+@import url('https://fonts.cdnfonts.com/css/hellomissthang');
+@import url('https://fonts.cdnfonts.com/css/stella-nova');
+@import url('https://fonts.cdnfonts.com/css/proxima-nova-lt-2');
+@import url('https://fonts.cdnfonts.com/css/br-firma');
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800;900&family=Nunito+Sans:wght@200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&display=swap');
+* {
+  // font-family: 'Satoshi', sans-serif;
+  // font-family: 'Proxima Nova Lt', sans-serif;
+  // font-family: 'Helvetica', sans-serif;
+  // font-family: 'Nunito', sans-serif;
+  // font-family: 'Nunito Sans', sans-serif;
+  font-family: 'Manrope', sans-serif;
+}
+
+h1,
+h2,
+h3,
+.other-font {
+  
+  &,
+  & * {
+    // font-family: 'HelloMissThang', sans-serif;
+    // font-family: 'HeyWow', sans-serif;
+    font-family: 'Nollasans', sans-serif;
+    // font-family: 'Stella Nova', sans-serif;
+    // font-family: 'Jost', sans-serif;
+    font-weight: 700;
+
+
+  }
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}

@@ -2,21 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-html[data-theme="light"] {
-  --text-color: #00101b;
-  --bg-color: #F5F7F8;
-}
-
-:root {
-  color-scheme: light;
-  background-color: transparent;
-}
-:root, [data-theme]{
-  color: #00101b;
-}
 
 body {
-  background-color: #F8F8FC !important;
   transition: background 500ms;
   @apply text-base;
 
@@ -31,11 +18,11 @@ body {
 }
 
 .container {
-  @apply mx-auto px-5 md:px-6 lg:px-8 max-w-7xl;
+  @apply mx-auto px-5 md:px-6 lg:px-8 max-w-screen-2xl;
 }
 
 .items-center,
-.justify-between {
+.justify-between,.justify-center {
   @apply flex;
 }
 
@@ -47,7 +34,7 @@ button,
 .button,
 [type='submit'] {
   @apply p-3 bg-primary rounded-[32px] text-white font-bold border border-primary flex items-center justify-center gap-3 relative disabled:opacity-50 disabled:cursor-not-allowed;
-  height: 48px;
+  height: 52px;
   padding: 0 24px;
 
   &.other {
