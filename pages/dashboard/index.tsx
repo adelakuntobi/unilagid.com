@@ -1,5 +1,6 @@
 import Guidelines from '@/components/Guidelines';
 import Layout from '@/components/Layout';
+import styled from 'styled-components';
 
 const Dashboard = () => {
 
@@ -103,24 +104,54 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      <section>
+      {/* <section>
         <div className='bg-[#219653] text-white  px-10 py-12  relative overflow-hidden'>
-
           <img src="/img/dashboard-pattern.svg" className='absolute object-cover top-0 left-0 bottom-0 z-0 w-full h-full' alt="" />
-
           <div className='max-w-7xl mx-auto flex-col md:flex-row items-center justify-between'>
             <div className=''>
-
               <h4 className='text-2xl font-semibold'>Welcome,<span className='text-3xl'> Oguntunde Victor</span></h4>
               <p className='font-semibold text-lg'>Programme : Bachelor of Science in Electrical and Electronics Engineering</p>
-              {/* <p className='mb-4'>Fill in all required information to be able to create a student ID</p> */}
-              {/* <div className='items-center gap-3'>
-              <button>New Student</button>
-              <button>Returning Student</button>
-            </div> */}
             </div>
             <img className='relative z-10' src="/img/dashboard-header.svg" alt="" />
           </div>
+        </div>
+      </section> */}
+
+      <section className='bg-gray-50 py-28'>
+        <div className='max-w-7xl mx-auto items-center gap-10'>
+
+          <img src="/img/portal-victor.jfif" className=' w-56 h-64 rounded-md shadow' alt="" />
+          <div>
+            <span className='bg-[#ffbe00] text-xs rounded-sm px-2 py-1 font-bold'>Returning Student</span>
+            <h1 className='text-5xl my-2 font-bold'> <span className='uppercase'>Adelakun,</span> Oluwatobiloba Ayomipo</h1>
+            <h2 className='text-2xl font-bold'>160403048</h2>
+            <div className='flex flex-wrap gap-x-6 gap-y-2 max-w-xl mt-3'>
+              <HeaderProfile>
+                <label>Faculty:</label>
+                <p>Engineering</p>
+              </HeaderProfile>
+              <HeaderProfile>
+                <label>Department:</label>
+                <p>Electrical and Electronics Engineering</p>
+              </HeaderProfile>
+              <HeaderProfile>
+                <label>Gender:</label>
+                <p>Male</p>
+              </HeaderProfile>
+              <HeaderProfile>
+                <label>Hostel:</label>
+                <p>Eni Njoku</p>
+              </HeaderProfile>
+              <HeaderProfile>
+                <label>Year of Admission:</label>
+                <p>2018/2019</p>
+              </HeaderProfile>
+            </div>
+            <button className=' px-5 py-3 h-auto mt-6'>
+              Download Virtual Card
+            </button>
+          </div>
+
         </div>
       </section>
       <section className='max-w-7xl mx-auto px-4'>
@@ -148,11 +179,28 @@ const Dashboard = () => {
               }
             </div>
           </div>
-          <button className='px-20'>Continue</button>
+          <button className='px-12 mt-8'>Continue</button>
         </div>
       </section>
     </Layout>
   );
 };
+
+
+const HeaderProfile = styled.div`
+display: flex;
+align-items: center;
+/* font-size: 14px; */
+gap: 5px;
+font-weight: 500;
+label{
+  /* font-weight: 700; */
+  color: #908f8f;
+}
+p{
+    font-weight: 600;
+    color  : #3d3f45;
+    }
+`
 
 export default Dashboard;

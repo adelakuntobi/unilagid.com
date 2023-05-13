@@ -17,7 +17,7 @@ const Guidelines: React.FC<InputProps> = (props) => {
           <ul className='list-disc list-inside requirements'>
             <li>Requirements for the quality of passport photos:</li>
             {
-              guideline.list.map((item: string , index: Key | null | undefined) => (
+              guideline.list.map((item: string, index: Key | null | undefined) => (
                 <li key={index}>{item}</li>
               ))
             }
@@ -32,7 +32,7 @@ const Guidelines: React.FC<InputProps> = (props) => {
               <span>From left to right</span>
               <ul className='items-center gap-5 list-decimal pl-5'>
                 {
-                  guideline.errors.map((item: string , index: Key | null | undefined) => (
+                  guideline.errors.map((item: string, index: Key | null | undefined) => (
                     <li key={index}>{item},</li>
                   ))
                 }

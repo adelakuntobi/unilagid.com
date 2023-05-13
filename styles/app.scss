@@ -15,8 +15,8 @@
   // font-family: 'Proxima Nova Lt', sans-serif;
   // font-family: 'Helvetica', sans-serif;
   // font-family: 'Nunito', sans-serif;
-  // font-family: 'Nunito Sans', sans-serif;
-  font-family: 'Manrope', sans-serif;
+  font-family: 'Nunito Sans', sans-serif;
+  // font-family: 'Manrope', sans-serif;
 }
 
 h1,
@@ -42,4 +42,55 @@ input[type="number"]::-webkit-outer-spin-button {
   -moz-appearance: none;
   appearance: none;
   margin: 0;
+}
+
+.ct-toast {
+  padding: 18px 20px !important;
+  opacity: 1;
+  margin-top: 15px;
+  font-weight: 500;
+  font-size: 18px;
+  box-shadow: 0px 0px 24px rgba(146, 146, 146, 0.08) !important;
+  border-radius: 8px;
+
+  svg {
+    font-size: 1.2rem;
+  }
+
+  &-error {
+    color: #383A3C;
+    border: 1px solid #FF5A4E !important;
+    background: #FFF5F5 !important;
+
+    svg {
+      color: #D92D20;
+    }
+  }
+
+  &-success {
+    border-color: #1c9b88 !important;
+    color: #0E4E44;
+    background: #F3FFFD !important;
+    border: 1px solid #2FCFB7;
+
+    svg {
+      color: #1c9b88 !important;
+    }
+  }
+
+  .ct-heading {
+    color: black;
+    font-weight: 500;
+    font-size: 16px;
+    margin-bottom: 0;
+  }
+
+  .ct-text {
+    line-height: 1.25rem;
+  }
+  @media (max-width: 1024px) { 
+  padding: 14px !important;
+  margin-top: 8px !important;
+
+   }	
 }

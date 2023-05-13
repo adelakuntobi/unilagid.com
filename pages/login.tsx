@@ -41,10 +41,10 @@ const Login = () => {
 };
 
 export const FormInput = styled.div`
-display: flex;
-flex-direction: column;
-/* margin-bottom: 2rem ; */
-width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* margin-bottom: 2rem ; */
+  width: 100%;
   label{
     margin-bottom: 0.5rem;  
     font-size: 0.85rem;

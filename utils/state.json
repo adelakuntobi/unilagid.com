@@ -1,0 +1,151 @@
+[
+
+  {
+    "value": "AB",
+    "label": "ABIA"
+  },
+  {
+    "value": "AD",
+    "label": "ADAMAWA"
+  },
+  {
+    "value": "AK",
+    "label": "AKWA IBOM"
+  },
+  {
+    "value": "AN",
+    "label": "ANAMBRA"
+  },
+  {
+    "value": "BE",
+    "label": "BENUE"
+  },
+  {
+    "value": "BO",
+    "label": "BORNO"
+  },
+  {
+    "value": "BA",
+    "label": "BAUCHI"
+  },
+  {
+    "value": "BY",
+    "label": "BAYELSA"
+  },
+  {
+    "value": "CR",
+    "label": "CROSS RIVER"
+  },
+  {
+    "value": "DT",
+    "label": "DELTA"
+  },
+  {
+    "value": "EB",
+    "label": "EBONYI"
+  },
+  {
+    "value": "ED",
+    "label": "EDO"
+  },
+  {
+    "value": "EK",
+    "label": "EKITI"
+  },
+  {
+    "value": "EN",
+    "label": "ENUGU"
+  },
+  {
+    "value": "FC",
+    "label": "FEDERAL CAPITAL TERRITORY"
+  },
+  {
+    "value": "GB",
+    "label": "GOMBE"
+  },
+  {
+    "value": "IM",
+    "label": "IMO"
+  },
+  {
+    "value": "JG",
+    "label": "JIGAWA"
+  },
+  {
+    "value": "KB",
+    "label": "KEBBI"
+  },
+  {
+    "value": "KG",
+    "label": "KOGI"
+  },
+  {
+    "value": "KN",
+    "label": "KANO"
+  },
+  {
+    "value": "KT",
+    "label": "KATSINA"
+  },
+  {
+    "value": "KD",
+    "label": "KADUNA"
+  },
+  {
+    "value": "KW",
+    "label": "KWARA"
+  },
+  {
+    "value": "LA",
+    "label": "LAGOS"
+  },
+  {
+    "value": "NG",
+    "label": "NIGER"
+  },
+  {
+    "value": "NR",
+    "label": "NASSARAWA"
+  },
+  {
+    "value": "OD",
+    "label": "ONDO"
+  },
+  {
+    "value": "OG",
+    "label": "OGUN"
+  },
+  {
+    "value": "OS",
+    "label": "OSUN"
+  },
+  {
+    "value": "OY",
+    "label": "OYO"
+  }, 
+  {
+    "value": "PL",
+    "label": "PLATEAU"
+  },
+  {
+    "value": "RV",
+    "label": "RIVERS"
+  },
+  {
+    "value": "SO",
+    "label": "SOKOTO"
+  },
+  {
+    "value": "TB",
+    "label": "TARABA"
+  },
+  {
+    "value": "YB",
+    "label": "YOBE"
+  },
+  {
+    "value": "ZA",
+    "label": "ZAMFARA"
+  }
+]
