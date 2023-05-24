@@ -120,12 +120,14 @@ const Dashboard = () => {
       <section className='bg-gray-50 py-28'>
         <div className='max-w-7xl mx-auto items-center gap-10'>
 
-          <img src="/img/portal-victor.jfif" className=' w-56 h-64 rounded-md shadow' alt="" />
-          <div>
+          <img src="/img/portal.jfif" className=' w-56 h-64 rounded-md shadow' alt="" />
+          <div className='flex flex-col gap-4 justify-start items-start'>
             <span className='bg-[#ffbe00] text-xs rounded-sm px-2 py-1 font-bold'>Returning Student</span>
-            <h1 className='text-5xl my-2 font-bold'> <span className='uppercase'>Adelakun,</span> Oluwatobiloba Ayomipo</h1>
-            <h2 className='text-2xl font-bold'>160403048</h2>
-            <div className='flex flex-wrap gap-x-6 gap-y-2 max-w-xl mt-3'>
+            <div>
+              <h1 className='text-5xl font-bold'> <span className='uppercase'>Adelakun,</span> Oluwatobiloba Ayomipo</h1>
+              <h2 className='text-2xl font-bold'>160403048</h2>
+            </div>
+            <div className='flex flex-wrap gap-x-8 gap-y-1.5 max-w-xl'>
               <HeaderProfile>
                 <label>Faculty:</label>
                 <p>Engineering</p>
@@ -147,8 +149,8 @@ const Dashboard = () => {
                 <p>2018/2019</p>
               </HeaderProfile>
             </div>
-            <button className=' px-5 py-3 h-auto mt-6'>
-              Download Virtual Card
+            <button className=' px-6 py-2.5 rounded-full text-sm h-auto mt-2'>
+              Download Virtual Card   
             </button>
           </div>
 
