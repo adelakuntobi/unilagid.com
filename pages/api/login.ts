@@ -9,7 +9,7 @@ const users = [
     id: 1,
     name: 'John Doe',
     email: 'john@example.com',
-    password: '$2a$10$rCjbv7Vl1RTOMs.xFwZzB.zQX0B0bS12p0GQoc7hXoIKksN7tyaIq', // Password: "password"
+    password: 'test_password', // Password: "password"
   },
 ];
 
