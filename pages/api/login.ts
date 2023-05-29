@@ -1,47 +1,45 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import crypto from 'crypto';
+import { NextApiRequest, NextApiResponse } from "next";
+import { connectToDatabase } from "../../utils/db";
+import { comparePasswords, generateToken } from "../../utils/auth";
+import { ObjectId } from "mongodb";
 
-// User data for demonstration purposes
-const users = [
-  {
-    id: 1,
-    name: 'John Doe',
-    email: 'john@example.com',
-    password: 'test_password', // Password: "password"
-  },
-];
-
-// Generate a random secret key for JWT
-const secretKey = crypto.randomBytes(32).toString('hex');
-
-export default function login(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method Not Allowed' });
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
   const { email, password } = req.body;
 
-  // Find the user with the provided email
-  const user = users.find((user) => user.email === email);
-  if (!user) {
-    return res.status(401).json({ error: 'Invalid email or password' });
+  try {
+    const { db } = await connectToDatabase();
+    const collection = db.collection("users");
+    const user = await collection.findOne({ email });
+    const isPasswordValid = password === user?.password;
+
+    // if (!user || !(await comparePasswords(password, user.password))) {
+    if (!user || !isPasswordValid) {
+      return res.status(401).json({ error: "Invalid email or password" });
+    }
+
+    const userId = (user._id as ObjectId).toString(); // Convert ObjectId to string
+    const token = generateToken(userId);
+
+    return res.status(200).json({
+      message: "Authentication successful",
+      data: {
+        id: userId,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        age: user.age,
+        token,
+
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({ error: "Server error" });
   }
-
-  // Check if the provided password matches the stored hashed password
-  const isPasswordValid = bcrypt.compareSync(password, user.password);
-  if (!isPasswordValid) {
-    return res.status(401).json({ error: 'Invalid email or password' });
-  }
-
-  // Generate an access token
-  const accessToken = jwt.sign(
-    { id: user.id, name: user.name, email: user.email },
-    secretKey,
-    { expiresIn: '1h' }
-  );
-
-  // Return the access token and user information
-  res.json({ accessToken, name: user.name, email: user.email });
 }
