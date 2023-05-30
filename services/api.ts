@@ -4,7 +4,7 @@ import { getWithExpiry } from "../utils/req";
 let urls = {
   test: "http://localhost:3000/api/",
   development: "http://localhost:3000/api/",
-  production: "https://api.makecards.co/api/admin/",
+  production: "https://studentify-xyz.vercel.app/",
 };
 export let login = "login";
 export let overview = "super/overview";
