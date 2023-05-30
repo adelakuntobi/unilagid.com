@@ -1,7 +1,6 @@
-// const nodemailer = require("nodemailer");
 import nodemailer from 'nodemailer'
-const sendEmail = async ({ to, subject, text, html }) => {
-  const transporter = nodemailer.createTransport({
+
+const config = {
     host: process.env.SMTP_HOST,
     port: process.env.SMTP_PORT,
     secure: false,
@@ -9,10 +8,34 @@ const sendEmail = async ({ to, subject, text, html }) => {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASSWORD,
     },
-  });
+}
+
+type Config = { // defined somewhere inside `mysql` library
+  host: string,
+  username: string,
+  port: number,
+  secure: boolean,
+  user: string,
+  pass: string
+}
+
+
+
+const sendEmail = async ({ to, subject, text, html }: {to:any, subject:any, text:any, html:any}
+  ) => {
+  const transporter = nodemailer.createTransport(config as unknown as Config)
+  // const transporter = nodemailer.createTransport({
+  //   host: process.env.SMTP_HOST,
+  //   port: process.env.SMTP_PORT,
+  //   secure: false,
+  //   auth: {
+  //     user: process.env.SMTP_USER,
+  //     pass: process.env.SMTP_PASSWORD,
+  //   },
+  // });
 
   const emailOptions = {
-    from: `NodeAuth <${process.env.EMAIL_FROM}>`,
+    from: `Unilag Create ID Card <test@example.com>`,
     to,
     subject,
     text,
@@ -20,7 +43,7 @@ const sendEmail = async ({ to, subject, text, html }) => {
   };
 
   // Sending email
-  transporter.sendMail(emailOptions, (err, info) => {
+  transporter.sendMail(emailOptions, (err?:any, info?:any) => {
     if (err) {
       console.log(err);
     } else {
@@ -29,4 +52,4 @@ const sendEmail = async ({ to, subject, text, html }) => {
   });
 };
 
-module.exports = sendEmail;
+export default sendEmail;
