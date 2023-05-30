@@ -2,18 +2,14 @@ import Axios from "axios";
 import { getWithExpiry } from "../utils/req";
 
 let urls = {
-  test: "http://localhost:3000/api/",
-  development: "http://localhost:3000/api/",
-  production: "https://studentify-xyz.vercel.app/api/",
+  test: "http://localhost:3000",
+  development: "http://localhost:3000",
+  production: "https://studentify-xyz.vercel.app",
 };
-export let login = "login";
-export let overview = "super/overview";
-export let updateDollar = "super/dollar-rate/update";
-
+export let login = "/api/login";
+export let updatePassword = "/api/update-password";
+export let overview = "/api/account";
 export let filterBy = (type, param) => `super/${type}/filter/${param}`;
-export let activityLog = "super/user/activities/";
-export let blockUser = "super/user/status/";
-export let blockUserCard = "super/user/card/dollar/";
 
 const token = getWithExpiry("jwtToken");
 const bearerToken = "Bearer " + token;

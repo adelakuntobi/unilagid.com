@@ -23,6 +23,7 @@ const Login = () => {
     password: ''
   })
   const [isOpen, setIsOpen] = useState(false)
+  const [error, setError] = useState(false)
   const router = useRouter()
 
   const { isLoading, mutate: LoginUser } = useMutation(
@@ -41,14 +42,16 @@ const Login = () => {
         cogotoast("Welcome back Superadmin ", "success");
       },
       onError: (res) => {
-        // const err = res?.response?.data;
-        // cogotoast(err.message || "Something went wrong, please try again.", "error");
+        const err = res['response'].data;
+        setError(true)
+        cogotoast(err?.message || "Something went wrong, please try again.", "error");
       }
     }
   );
 
   
   const handleChange = (event: { target: { name: any; value: any; }; }) => {
+    setError(false)
     setFields({
       ...fields,
       [event.target.name]: event.target.value,
@@ -85,13 +88,16 @@ const Login = () => {
           <FormInput>
             <label htmlFor="email">Matric No.</label>
             <input type="number" name="matricNo" id="matricNo" placeholder='Enter your Matric No'
+            className={error && "!border-red-600"}
               onChange={handleChange} />
+              
+            <small className=' block text-red-600 font-semibold'>{error && "Invalid matriculation number and password match"}</small>
           </FormInput>
 
           <FormInput className="">
             <label className="text-[#344054] font-medium ">Password</label>
-            <div className="input-div !border-[#D0D5DD] border rounded-md !px-2 flex items-center gap-3 focus-within:!border-primary"
-              style={{ boxShadow: "0px 1px 2px rgba(16, 24, 40, 0.05)" }}>
+            <div className={`${error ? "!border-red-600" : "!border-[#D0D5DD]"} input-div  border rounded-md !px-2 flex items-center gap-3 focus-within:!border-primary`}
+              >
               <input required name="password" placeholder="***************************"
                 type={isOpen ? "text" : "password"}
                 className="!px-2"
@@ -145,6 +151,7 @@ export const FormInput = styled.div`
     background: transparent;
     outline: 0;
     input{
+    box-shadow: none;
       padding: 0;
       border: 0;
     }

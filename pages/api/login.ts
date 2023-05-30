@@ -24,7 +24,7 @@ export default async function handler(
     if (!user || !isPasswordValid) {
       return res
         .status(401)
-        .json({ status: "error", message: "Invalid email or password" });
+        .json({ status: "error", message: "Invalid Matric number or password" });
     }
 
     const userId = (user._id as ObjectId).toString(); // Convert ObjectId to string
