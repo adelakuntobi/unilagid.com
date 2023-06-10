@@ -3,7 +3,6 @@ import Logo from '@/components/Logo';
 import cogotoast from '@/components/toaster';
 import Head from 'next/head';
 import styled from 'styled-components';
-import Link from 'next/link'
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 import { useMutation } from 'react-query'
 import { useRouter } from 'next/router'
@@ -35,11 +34,12 @@ const Login = () => {
         const res = response.data
         router.push("/dashboard")
 
-        const { access_token } = res.data;
+        const { firstLogin, firstName, access_token } = res.data;
         api.defaults.headers.Authorization = `Bearer ${access_token}`
         // api.defaults.headers.auth_key= `${process.env.API_AUTHORIZATION_KEY}`
         setWithExpiry('jwtToken', access_token, 18000000)
-        cogotoast("Welcome back Superadmin ", "success");
+        if(firstLogin) cogotoast(`Welcome ${firstName}, Update your password to continue `, "success");
+        else cogotoast(`Welcome back ${firstName}`, "success")
       },
       onError: (res) => {
         const err = res['response'].data;
@@ -88,10 +88,10 @@ const Login = () => {
           <FormInput>
             <label htmlFor="email">Matric No.</label>
             <input type="number" name="matricNo" id="matricNo" placeholder='Enter your Matric No'
-            className={error && "!border-red-600"}
+            className={error ? "!border-red-600" : undefined}
               onChange={handleChange} />
               
-            <small className=' block text-red-600 font-semibold'>{error && "Invalid matriculation number and password match"}</small>
+            <small className=' block text-red-600 font-semibold'>{error && "Your Matric No/Password doesn't match. Please try again."}</small>
           </FormInput>
 
           <FormInput className="">
@@ -147,6 +147,7 @@ export const FormInput = styled.div`
     box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
     border: 1px solid #D0D5DD;
     border-radius: 8px;
+    font-size: 14px;
     width: 100%;
     background: transparent;
     outline: 0;

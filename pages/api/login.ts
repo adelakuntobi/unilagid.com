@@ -15,7 +15,9 @@ export default async function handler(
   const { matricNo, password } = req.body;
 
   try {
-    const { db } = await connectToDatabase();
+    const { client, db } = await connectToDatabase();
+    await client.connect();
+
     const collection = db.collection("users");
     const user = await collection.findOne({ matricNo });
     const isPasswordValid = password === user?.password;
@@ -49,11 +51,13 @@ export default async function handler(
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
+        firstLogin: user.firstLogin,
         age: user.age,
         access_token,
       },
     });
   } catch (error) {
+    console.log(error)
     return res.status(500).json({ error: "Server error" });
   }
 }

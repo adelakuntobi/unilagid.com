@@ -1,109 +1,30 @@
+import FullPageLoader from '@/components/FullpageLoader';
 import Guidelines from '@/components/Guidelines';
 import Layout from '@/components/Layout';
+import api, { overview } from '@/services/api';
+import { NEW_STUDENT, RETURNING_STUDENT } from '@/utils/pageUrl';
+import { guidelines2, guidelinesArr } from '@/utils/reuseables';
+import Link from 'next/link';
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
 
+export const getOverview = async () => {
+  const response = await api.get(overview);
+  return response
+}
 const Dashboard = () => {
 
-  const guidelinesArr = [
-    {
-      title: 'Photo size',
-      text: 'Standard format: 2 x 2 inches (or 51 x 51 mm) in size (White Background)'
-    },
-    {
-      title: "Width of face",
-      text: "Between 16 mm and 20 mm from ear to ear."
-    },
-    {
-      title: "Length of face",
-      text: "Ages 11 and above: between 26 mm and 30 mm from chin to crown.",
-      img: "length-of-face",
-      errors: [
-        'other side not visible',
-        'not centeralized'
-      ]
-    },
-    {
-      title: "Quality of photo",
-      list: [
-        'colour photo',
-        'true likeness and no more than six months old when the application is submitted',
-        'natural representation',
-        'sharp image, with sufficient contrast and detail',
-        'undamaged',
-        'not a reproduction (copy)',
-        'unaltered by computer software',
-        'printed on high-quality, smooth photo paper',
-        'minimum 400 dpi resolution',
-      ],
-      img: "quality-of-photo",
-      errors: [
-        'blurry image',
-        'too little contrast'
-      ]
-    },
-    {
-      title: "Glasses",
-      list: [
-        'eyes fully visible',
-        'fully transparent lenses',
-        'no glare on the glasses',
-        'no shadow',
-      ],
-      img: "glasses",
-      errors: [
-        'blurry image',
-        'too little contrast'
-      ]
-    }
-  ]
-
-  const guidelines2 = [
-    {
-      title: "Lightning",
-      list: [
-        'even',
-        'not overexposed or underexposed',
-        'no shadow on the face or in the background',
-        'no reflection on the face',
-        'no reflection caused by accessories',
-      ],
-      img: "lightning",
-      errors: [
-        'non-uniform color',
-      ]
-    },
-    {
-      title: "Position",
-      list: [
-        'head facing forward',
-        'eyes horizontally aligned',
-        'head not tilted',
-        'shoulders straight',
-      ],
-      img: "position",
-      errors: [
-        'head tilted',
-      ]
-    },
-    {
-      title: "Background",
-      list: [
-        'White',
-        'plain',
-        'all one colour',
-        'uniform colour (no fade)',
-        'sufficient contrast with head',
-      ],
-      img: "background",
-      errors: [
-        'head tilted',
-      ]
-    },
-  ]
+  const { data: overviewRes, error, isSuccess: isSuccessful, isLoading } = useQuery('overviewData', getOverview, {
+    staleTime: Infinity,
+    refetchOnWindowFocus: 'always'
+  });
+  const user = overviewRes?.data?.data
 
 
+  if (isLoading) return <FullPageLoader />
   return (
     <Layout>
+
       {/* <section>
         <div className='bg-[#219653] text-white  px-10 py-12  relative overflow-hidden'>
           <img src="/img/dashboard-pattern.svg" className='absolute object-cover top-0 left-0 bottom-0 z-0 w-full h-full' alt="" />
@@ -120,38 +41,43 @@ const Dashboard = () => {
       <section className='bg-gray-50 py-28'>
         <div className='max-w-7xl mx-auto items-center gap-10'>
 
-          <img src="/img/portal.jfif" className=' w-56 h-64 rounded-md shadow' alt="" />
+          <img src={`https://studentportal.unilag.edu.ng/(S(2nuegtmwglih1jpo5ja5dpc0))/StudentPassport.aspx?MatricNo=${user?.matricNo}`} className=' w-56 h-64 rounded-md shadow' alt="" />
           <div className='flex flex-col gap-4 justify-start items-start'>
-            <span className='bg-[#ffbe00] text-xs rounded-sm px-2 py-1 font-bold'>Returning Student</span>
+            {
+              user?.newStudent ? <span className='bg-[#219653] text-white text-xs rounded-sm px-2 py-1 font-bold'>Fresh Student</span> :
+                <span className='bg-[#ffbe00] text-xs rounded-sm px-2 py-1 font-bold'>Returning Student</span>}
             <div>
-              <h1 className='text-5xl font-bold'> <span className='uppercase'>Adelakun,</span> Oluwatobiloba Ayomipo</h1>
-              <h2 className='text-2xl font-bold'>160403048</h2>
+              <h1 className='text-5xl font-bold'> <span className='uppercase'>{user?.lastName},</span> {user?.firstName} {user?.otherNames}</h1>
+              <h2 className='text-2xl font-bold'>{user?.matricNo}</h2>
             </div>
             <div className='flex flex-wrap gap-x-8 gap-y-1.5 max-w-xl'>
               <HeaderProfile>
                 <label>Faculty:</label>
-                <p>Engineering</p>
+                <p>{user?.faculty}</p>
               </HeaderProfile>
               <HeaderProfile>
                 <label>Department:</label>
-                <p>Electrical and Electronics Engineering</p>
+                <p>{user?.department}</p>
               </HeaderProfile>
               <HeaderProfile>
                 <label>Gender:</label>
-                <p>Male</p>
+                <p>{user?.gender}</p>
               </HeaderProfile>
               <HeaderProfile>
                 <label>Hostel:</label>
-                <p>Eni Njoku</p>
+                <p>{user?.hostel}</p>
               </HeaderProfile>
               <HeaderProfile>
                 <label>Year of Admission:</label>
-                <p>2018/2019</p>
+                <p>{user?.yearOfAdmission}</p>
               </HeaderProfile>
             </div>
-            <button className=' px-6 py-2.5 rounded-full text-sm h-auto mt-2'>
-              Download Virtual Card   
-            </button>
+            {
+              user?.newStudent &&
+              <button className=' px-6 py-2.5 rounded-full text-sm h-auto mt-2'>
+                Download Virtual Card
+              </button>
+            }
           </div>
 
         </div>
@@ -181,7 +107,13 @@ const Dashboard = () => {
               }
             </div>
           </div>
-          <button className='px-12 mt-8'>Continue</button>
+          {/* {
+          } */}
+          <Link href={
+            user?.newStudent ? NEW_STUDENT : RETURNING_STUDENT
+          }>
+            <button className='px-12 mt-8'>Continue</button>
+          </Link>
         </div>
       </section>
     </Layout>

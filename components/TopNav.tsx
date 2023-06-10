@@ -1,8 +1,10 @@
-import React from 'react';
+import { logOutAction } from '@/utils/auth';
 import Logo from './Logo';
 import { IoMdNotificationsOutline } from "react-icons/io"
 
+
 const TopNav = () => {
+ 
   return (
     <nav className=' py-5 shadow-md ' >
       <section className='max-w-7xl mx-auto items-center justify-between'>
@@ -19,7 +21,8 @@ const TopNav = () => {
             {/* <IoMdNotificationsOutline className='text-gray-400 text-2xl' /> */}
           {/* </div> */}
           <p className='text-primary font-semibold text-sm'>Check ID Card Status</p>
-          <button className='rounded px-6 py-2.5 h-auto text-sm tracking-wide'>Logout</button>
+
+          <button onClick={logOutAction} className='rounded px-6 py-2.5 h-auto text-sm tracking-wide'>Logout</button>
         </div>
       </section>
     </nav>

@@ -55,7 +55,6 @@ export default async function handler(
         { _id: new ObjectId(userId) },
         { $set: { password } }
       );
-      console.log(result)
   
       if (result.matchedCount === 0) {
         return res.status(404).json({ error: 'User not found' });

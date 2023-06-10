@@ -7,6 +7,17 @@ import { HiOutlineCreditCard } from "react-icons/hi"
 import { BsSendPlus } from "react-icons/bs"
 import Link from 'next/link'
 
+import {
+  Accordion,
+  AccordionItem,
+  AccordionItemHeading,
+  AccordionItemButton,
+  AccordionItemPanel,
+} from 'react-accessible-accordion';
+
+// Demo styles, see 'Styles' section below for some notes on use.
+import 'react-accessible-accordion/dist/fancy-example.css';
+import styled from 'styled-components'
 
 export default function Home() {
 
@@ -85,7 +96,7 @@ export default function Home() {
 
 
       <main className='mb-32'>
-        <section className='container !max-w-6xl items-center gap-24 py-20'>
+        <section className='container !max-w-6xl items-center gap-24 py-24'>
           <div className=' w-6/12'>
             <h3 className='text-6xl other-font mb-12 font-light'>Create your student ID with just a few clicks.</h3>
             <div className='grid grid-cols-2 gap-6'>
@@ -107,14 +118,79 @@ export default function Home() {
           </div>
           <img src="/img/phone-mockup.svg" alt="" />
         </section>
+        <section className='py-24 mb-24 bg-[#FFFBFA]'>
+          <div className='container !max-w-6xl '>
+            <h3 className='text-5xl other-font mb-12 text-center mx-auto !font-light'>Commonly Asked<br /> Questions</h3>
+            {/* FAQ */}
+            <Accordion>
+              <AccordionItem>
+                <AccordionItemHeading>
+                  <AccordionItemButton>
+                    What is this ID creation platform for ?
+                  </AccordionItemButton>
+                </AccordionItemHeading>
+                <AccordionItemPanel>
+                  <p>
+                    Exercitation in fugiat est ut ad ea cupidatat ut in
+                    cupidatat occaecat ut occaecat consequat est minim minim
+                    esse tempor laborum consequat esse adipisicing eu
+                    reprehenderit enim.
+                  </p>
+                </AccordionItemPanel>
+              </AccordionItem>
+              <AccordionItem>
+                <AccordionItemHeading>
+                  <AccordionItemButton>
+                    How do I receive my student ID after creating it?
+                  </AccordionItemButton>
+                </AccordionItemHeading>
+                <AccordionItemPanel>
+                  <p>
+                    In ad velit in ex nostrud dolore cupidatat consectetur
+                    ea in ut nostrud velit in irure cillum tempor laboris
+                    sed adipisicing eu esse duis nulla non.
+                  </p>
+                </AccordionItemPanel>
+              </AccordionItem>
+              <AccordionItem>
+                <AccordionItemHeading>
+                  <AccordionItemButton>
+                    What should I do if I encounter problems or errors?
+                  </AccordionItemButton>
+                </AccordionItemHeading>
+                <AccordionItemPanel>
+                  <p>
+                    In ad velit in ex nostrud dolore cupidatat consectetur
+                    ea in ut nostrud velit in irure cillum tempor laboris
+                    sed adipisicing eu esse duis nulla non.
+                  </p>
+                </AccordionItemPanel>
+              </AccordionItem>
+              <AccordionItem>
+                <AccordionItemHeading>
+                  <AccordionItemButton>
+                    How do I register for an account?
+                  </AccordionItemButton>
+                </AccordionItemHeading>
+                <AccordionItemPanel>
+                  <p>
+                    In ad velit in ex nostrud dolore cupidatat consectetur
+                    ea in ut nostrud velit in irure cillum tempor laboris
+                    sed adipisicing eu esse duis nulla non.
+                  </p>
+                </AccordionItemPanel>
+              </AccordionItem>
+            </Accordion>
+          </div>
+        </section>
 
 
-        <section className='bg-[#219653] text-white container !max-w-6xl items-center rounded-3xl gap-24 lg:!px-32'>
+        <section className='bg-[#219653] text-white container !max-w-7xl items-center rounded-3xl gap-24 lg:!px-32'>
           <div className='flex flex-col gap-2 items-start'>
 
             <h3 className='text-5xl leading-tight '>One app.<br />
               All Processes.</h3>
-            <p className='mb-5'>Enjoy the ease of ID creation. Benefits include convenience, efficiency, cost-effectiveness, customization, security, sustainability, and accessibility.</p>
+            <p className='mb-5 text-lg'>Enjoy the ease of ID creation. Benefits include convenience, efficiency, cost-effectiveness, customization, security, sustainability, and accessibility.</p>
             <Link href="/login">
               <button className='px-14 bg-white text-black font-bold border-none'>Get Started</button>
             </Link>
@@ -122,18 +198,67 @@ export default function Home() {
           <img className=' rounded-t-[53px] mt-20' src='/img/app-mockup.svg' alt="" />
 
         </section>
+
       </main>
 
-      <footer className='bg-[#101828] text-white pt-5'>
+      <footer className='bg-[#101828] rounded-t-[52px] text-white pt-5 '>
         <div className="container">
-          <Logo />
-          <div className='items-center border-t border-gray-50 gap-6 pyh-3'>
+          <div className='grid gap-6 grid-cols-5 py-16'>
+            <div className='col-span-3'>
+              <div className='items-center gap-2 '>
+                <img src='/img/logo.svg' alt="" />
+                <p className='uppercase text-[#fff] leading-none font-bold'>
+                  University <br /> of Lagos
+                </p>
+              </div>
+            </div>
+            <div>
+              <FooterUls>
+                <li>OFFICIAL CONTACT</li>
+                <li><a href="http://unilag.edu.ng">unilag.edu.ng</a></li>
+                <li><a href="tel:+234 507 364 616">+234 507 364 616</a></li>
+              </FooterUls>
+            </div>
+            <div>
+              <FooterUls>
+                <li>For enquiries</li>
+              <li> <a href="mailto:hello@unilag.edu.ng">hello@unilag.edu.ng</a></li>
+                <li><a href="tel:+234 507 364 616">+234 507 364 616</a></li>
+              </FooterUls>
+            </div>
+          </div>
+          <div className='items-center justify-between !text-[#eeececb2] font-bold gap-6 py-6'>
             <small>&copy; 2023 UNILAG. All rights reserved</small>
+            <div className='items-center gap-8'>
+
+            <small>Terms and conditions</small>
             <small>Privacy Policy</small>
+            <small>Cookie policy</small>
+            </div>
           </div>
         </div>
+
       </footer>
 
     </div>
   )
 }
+
+
+const FooterUls = styled.ul`
+  li{
+    font-weight: 400;
+    font-size: 18.0228px;
+    line-height: 32px;
+    letter-spacing: -0.379502px;
+    color: #FFFCF9;
+
+    &:first-of-type{
+      letter-spacing: -0.316251px;
+      text-transform: uppercase;
+      color: rgba(238, 236, 236, 0.7);
+      margin-bottom: 6px;
+    }
+  }
+
+`

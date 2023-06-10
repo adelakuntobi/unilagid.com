@@ -7,8 +7,8 @@ let urls = {
   production: "https://studentify-xyz.vercel.app",
 };
 export let login = "/api/login";
+export let overview = "/api/overview";
 export let updatePassword = "/api/update-password";
-export let overview = "/api/account";
 export let filterBy = (type, param) => `super/${type}/filter/${param}`;
 
 const token = getWithExpiry("jwtToken");
@@ -29,5 +29,7 @@ const api = Axios.create({
   baseURL: urls[process.env.NEXT_PUBLIC_ENVIRONMENT],
   headers: headers,
 });
+
+
 
 export default api;
