@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { setWithExpiry } from '../utils/req';
 import api, { login } from '../services/api'
 import CircleLoader from '@/components/Loader';
+import { FormInput } from '@/styles/useStyles';
 
 
 
@@ -129,47 +130,4 @@ const Login = () => {
 
 
 
-export const FormInput = styled.div`
-  display: flex;
-  flex-direction: column;
-  /* margin-bottom: 2rem ; */
-  width: 100%;
-  label{
-    margin-bottom: 0.5rem;  
-    font-size: 0.85rem;
-    line-height: 1;
-    letter-spacing: 0.02em;
-    font-weight: 500;
-    opacity: 0.7;
-  }
-  input,select,.input-div,.PhoneInput{
-    padding: 0.65rem 1rem;
-    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-    border: 1px solid #D0D5DD;
-    border-radius: 8px;
-    font-size: 14px;
-    width: 100%;
-    background: transparent;
-    outline: 0;
-    input{
-    box-shadow: none;
-      padding: 0;
-      border: 0;
-    }
-
-    .input-div,textarea{
-      &:focus,&:focus-within{
-        box-shadow: let(0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 0 #0000), let(--tw-ring-shadow, 0 0 #0000), let(--tw-shadow);
-      }
-    }
-    &:focus,&:focus-within{
-      box-shadow: let(0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 0 #0000), let(--tw-ring-shadow, 0 0 #0000), let(--tw-shadow);
-    }
-
-
-    @media (max-width: 768px) { 
-      padding: 0.65rem 0.5rem;
-    }	
-  }
-`;
 export default Login;

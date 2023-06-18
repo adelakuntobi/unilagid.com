@@ -46,8 +46,6 @@ export function setWithExpiry(key: string, val: any, ttl: number) {
 
 export default function Selfie(props: any) {
   const [idType, setIdType] = useState({ value: '', label: '' },)
-  const [idError, setIdError] = useState("")
-  const [callModal, setCallModal] = useState(false)
   const [consent, setConsent] = useState<any>(false)
   const [camera, setCamera] = useState<any>(false)
   const [takePicture, setTakePicture] = useState<any>(false)
@@ -69,17 +67,12 @@ export default function Selfie(props: any) {
 
   const handleSubmit = (e: any) => {
     e.preventDefault()
-    if (!idType || !fields || imgSrc.length < 8) {
+    if (imgSrc.length < 8) {
       cogotoast("Please fill all the fields", "error");
     }
-    else if (fields.id_number.length < 1 || !idType.value) {
-      cogotoast("Please select valid means of identification", "error");
-    }
-    else if (fields.id_number.length !== 11) {
-      setIdError("Incorrect ID Number")
-    }
+
     else {
-      setCallModal(true)
+      props.nextStep();
       // sendSelfieAndId()
     }
   }
@@ -411,7 +404,7 @@ export default function Selfie(props: any) {
               !camera ?
                 <button disabled={takePicture} className="w-full mt-12 py-3 transform"
                   onClick={capture}>Take Picture</button> :
-                <button className="w-full py-3 transform"
+                <button onClick={handleSubmit} className="w-full py-3 transform"
                   >Continue</button>
             }
 

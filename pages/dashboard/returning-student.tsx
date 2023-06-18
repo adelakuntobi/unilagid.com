@@ -1,7 +1,8 @@
 import Logo from '@/components/Logo';
+import withAuth from '@/services/withAuth';
+import { FormInput } from '@/styles/useStyles';
 import Head from 'next/head';
 import styled from 'styled-components';
-import { FormInput } from '../login';
 
 
 const ReturningStudent = () => {
@@ -23,13 +24,13 @@ const ReturningStudent = () => {
           </div>
           <FormInput>
             <label htmlFor="email">Affidavit <small>(SVG, JPG or PNG)</small></label>
-            <input type="number" name="matric_no" id="email" placeholder='Enter your Matric No' />
+            <input type="file" name="matric_no" id="email" placeholder='Enter your Matric No' />
           </FormInput>
 
           <div>
             <FormInput>
             <label htmlFor="">Police report <small>(SVG, JPG or PNG)</small></label>
-              <input type="password" name="password" id="password" />
+              <input type="file" name="password" id="password" />
             </FormInput>
           </div>
 
@@ -41,4 +42,4 @@ const ReturningStudent = () => {
   );
 };
 
-export default ReturningStudent;
+export default withAuth(ReturningStudent);

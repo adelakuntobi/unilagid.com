@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import * as Pages from "@/utils/pageUrl"
 import Logo from './Logo';
 import Link from 'next/link';
+import Head from 'next/head';
 
 
 const ProgressNav = (props: any) => {
@@ -14,8 +15,8 @@ const ProgressNav = (props: any) => {
 
   const List = [
     "Selfie Verification",
-    "Basic information",
-    "Preview Submission",
+    "Basic Information",
+    "Upload signature",
   ]
   const dots = [];
   for (let i = 1; i <= props.totalSteps; i += 1) {
@@ -51,24 +52,31 @@ const ProgressNav = (props: any) => {
 
 
   return (
-    <section className="container  flex-wrap items-center justify-between pt-8 pb-2  lg:py-8 gap-y-6">
-      <Logo />
+    <>
+      <Head>
+        <title>{`Studentify`}</title>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      <section className="container  flex-wrap items-center justify-between pt-8 pb-2  lg:py-8 gap-y-6">
+        <Logo />
 
-      <div className="flex items-center justify-end gap-2 lg:order-2">
+        <div className="flex items-center justify-end gap-2 lg:order-2">
 
-        <Link href={Pages.LOGIN}>
-          <button className={`outlined px-8 md:px-14 font-medium !h-[38px] md:!h-[48px]  ${isWhite ? "!text-white !border-white" : null}`}>
-            Logout </button>
-        </Link>
+          <Link href={Pages.LOGIN}>
+            <button className={`outlined px-8 md:px-14 font-medium !h-[38px] md:!h-[48px]  ${isWhite ? "!text-white !border-white" : null}`}>
+              Logout </button>
+          </Link>
 
-      </div>
-      {
-        props.isOnboarding &&
-        <ul className="w-full progress-steps lg:order-1 lg:w-auto lg:py-0">
-          {dots}
-        </ul>
-      }
-    </section>
+        </div>
+        {
+          props.isOnboarding &&
+          <ul className="w-full progress-steps lg:order-1 lg:w-auto lg:py-0">
+            {dots}
+          </ul>
+        }
+      </section>
+    </>
   );
 };
 

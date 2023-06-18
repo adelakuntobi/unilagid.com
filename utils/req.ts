@@ -2,7 +2,6 @@ import axios from "axios";
 import setAuthToken from "./setAuthToken";
 import { LOGIN } from "./pageUrl";
 
-
 export function getWithExpiry(key: string) {
   if (typeof window !== "undefined") {
     const itemStr = sessionStorage.getItem(key);
@@ -22,10 +21,18 @@ export function getWithExpiry(key: string) {
   }
 }
 export function setWithExpiry(key: string, val: any, ttl: number) {
-  const now = new Date()
+  const now = new Date();
   const item = {
     value: val,
     expiry: now.getTime() + ttl,
-  }
-  sessionStorage.setItem(key, JSON.stringify(item))
+  };
+  sessionStorage.setItem(key, JSON.stringify(item));
+}
+
+export function returnMsg(message:string, status: boolean, data?:any) {
+  return {
+    message: message,
+    status: status ? "success" : "error",
+    data: data,
+  };
 }

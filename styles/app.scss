@@ -57,3 +57,49 @@ input[type="number"]::-webkit-outer-spin-button {
 
    }	
 }
+
+
+.drop_box {
+  margin: 10px 0;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border: 2px dashed #e5e9f2;
+  border-radius: 5px;
+}
+
+.drop_box h4 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #2e2e2e;
+}
+
+.drop_box p {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  color: #a3a3a3;
+}
+
+.btn {
+  text-decoration: none;
+  background-color: #005af0;
+  color: #ffffff;
+  padding: 7px 14px;
+  border: none;
+  outline: none;
+  transition: 0.3s;
+  font-size: 14px;
+  height: auto;
+  border-radius: 4px;
+}
+
+.btn:hover{
+  text-decoration: none;
+  background-color: #ffffff;
+  color: #005af0;
+  border: none;
+  outline: 1px solid #010101;
+}

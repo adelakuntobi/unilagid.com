@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import AuthService from './AuthService';
-import FullPageLoader from '@/components/FullpageLoader';
+import FullPageLoader from '../components/FullpageLoader';
 
 const withAuth = (WrappedComponent) => {
   const RequiresAuth = (props) => {

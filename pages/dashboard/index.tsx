@@ -1,29 +1,188 @@
 import FullPageLoader from '@/components/FullpageLoader';
 import Guidelines from '@/components/Guidelines';
 import Layout from '@/components/Layout';
-import api, { overview } from '@/services/api';
+import api, { overview, updatePassword } from '@/services/api';
+import { FormInput, Modalstyle } from '@/styles/useStyles';
 import { NEW_STUDENT, RETURNING_STUDENT } from '@/utils/pageUrl';
 import { guidelines2, guidelinesArr } from '@/utils/reuseables';
 import Link from 'next/link';
-import { useQuery } from 'react-query';
+import { useEffect, useState } from 'react';
+import { useMutation, useQuery } from 'react-query';
 import styled from 'styled-components';
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa"
+import CircleLoader from '@/components/Loader';
+import cogotoast from '@/components/toaster';
+import withAuth from '@/services/withAuth';
+import { useRouter } from "next/router"
 
 export const getOverview = async () => {
   const response = await api.get(overview);
   return response
 }
 const Dashboard = () => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false)
+  const [missingRequirements, setMissingRequirements] = useState([]);
+  const [fields, setFields] = useState({
+    password: '',
+    confirmPassword: ''
+  })
 
+  const router = useRouter()
   const { data: overviewRes, error, isSuccess: isSuccessful, isLoading } = useQuery('overviewData', getOverview, {
     staleTime: Infinity,
     refetchOnWindowFocus: 'always'
   });
+
+  useEffect(()=> {
+    console.log(error)
+    if (error) {
+      console.log(error)
+      if (error['response'].data.message === "Unauthenticated") {
+        cogotoast("Please login to continue", "error");
+        router.push('/login')
+      }
+    }
+  }, [error, router])
+
   const user = overviewRes?.data?.data
+
+  function validatePassword(password) {
+    // Define the regular expressions for each password requirement
+    const uppercasePattern = /[A-Z]/;
+    const lowercasePattern = /[a-z]/;
+    const digitPattern = /\d/;
+    const minLength = 8;
+
+    // Store the missing requirements
+    const missingRequirements = [];
+
+    // Check each requirement and add the missing ones to the array
+    if (!uppercasePattern.test(password)) {
+      missingRequirements.push('uppercase');
+    }
+    if (!lowercasePattern.test(password)) {
+      missingRequirements.push('lowercase');
+    }
+    if (!digitPattern.test(password)) {
+      missingRequirements.push('digit');
+    }
+    if (password.length < minLength) {
+      missingRequirements.push(`at least ${minLength} characters`);
+    }
+
+    // Return the array of missing requirements
+    return missingRequirements;
+  }
+
+
+  const handleChange = (event: { target: { name: any; value: any; }; }) => {
+    const newPassword = event.target.value;
+    const requirements = validatePassword(newPassword);
+    setMissingRequirements(requirements);
+    setFields({
+      ...fields,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const changePassword = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    try {
+      if (fields?.password === fields?.confirmPassword) LoginUser();
+      else cogotoast("Password and confirm password does not match", "error")
+    } catch (err) {
+      cogotoast(err.message || "Something went wrong, please try again", "error");
+    }
+  }
+
+  const { isLoading: isChangeLoading, mutate: LoginUser } = useMutation(
+    async () => {
+      return await api.put(updatePassword, { ...fields, })
+    },
+    {
+      onSuccess: (response) => {
+        const res = response.data
+
+        const { firstLogin, firstName, access_token } = res.data;
+        api.defaults.headers.Authorization = `Bearer ${access_token}`
+        // api.defaults.headers.auth_key= `${process.env.API_AUTHORIZATION_KEY}`
+        if (firstLogin) cogotoast(`Welcome ${firstName}, Update your password to continue `, "success");
+        else cogotoast(`Welcome back ${firstName}`, "success")
+      },
+      onError: (res) => {
+        const err = res['response'].data;
+        cogotoast(err?.message || "Something went wrong, please try again.", "error");
+      }
+    }
+  );
 
 
   if (isLoading) return <FullPageLoader />
   return (
     <Layout>
+      {
+        user?.firstLogin &&
+        <Modalstyle>
+
+          <div className=" max-w-lg bg-white w-full text-black p-6 rounded-lg">
+            <form onSubmit={changePassword} className='w-full flex flex-col gap-8'>
+              <div className='justify-center flex-col gap-1'>
+                <h2 className='text-2xl mb-4 text-center'>Change your password </h2>
+              </div>
+              <FormInput>
+                <label htmlFor="email">New password</label>
+                <div className={`${missingRequirements.length > 0 ? "!border-red-600" : "!border-[#D0D5DD]"} input-div  border rounded-md !px-2 flex items-center gap-3 focus-within:!border-primary`}
+                >
+                  <input required name="password" placeholder="************"
+                    type={isOpen ? "text" : "password"}
+                    className="!px-2"
+                    onChange={handleChange}
+                    value={fields['password']}
+                    autoComplete='off'
+                  />
+                  <div onClick={() => setIsOpen(e => !e)} className="cursor-pointer text-xl text-gray-500">
+                    {
+                      isOpen ? <FaRegEye /> : <FaRegEyeSlash />
+                    }
+                  </div>
+                </div>
+                {missingRequirements.length > 0 && (
+                  <small className='text-red-500 block font-semibold'>Your password must contain {missingRequirements.join(', ')}</small>
+                )}
+
+              </FormInput>
+
+              <FormInput className="">
+                <label className="text-[#344054] font-medium ">Confirm Password</label>
+                <div className={`${error ? "!border-red-600" : "!border-[#D0D5DD]"} input-div  border rounded-md !px-2 flex items-center gap-3 focus-within:!border-primary`}
+                >
+                  <input required name="confirmPassword" placeholder="************"
+                    type={isOpen ? "text" : "password"}
+                    className="!px-2"
+                    onChange={handleChange}
+                    value={fields['confirmPassword']}
+                    autoComplete='off'
+                  />
+                  <div onClick={() => setIsConfirmOpen(e => !e)} className="cursor-pointer text-xl text-gray-500">
+                    {
+                      isConfirmOpen ? <FaRegEye /> : <FaRegEyeSlash />
+                    }
+                  </div>
+                </div>
+                {/* <small className='text-red-500 block font-semibold'>{error && "Your Matric No/Password doesn't match. Please try again."}</small> */}
+
+              </FormInput>
+              <button className='!w-full mt-4' disabled={isChangeLoading}>
+                {
+                  isChangeLoading ? <CircleLoader /> : "Submit"
+                }
+              </button>
+            </form>
+          </div>
+        </Modalstyle>
+      }
 
       {/* <section>
         <div className='bg-[#219653] text-white  px-10 py-12  relative overflow-hidden'>
@@ -73,7 +232,7 @@ const Dashboard = () => {
               </HeaderProfile>
             </div>
             {
-              user?.newStudent &&
+              !user?.newStudent &&
               <button className=' px-6 py-2.5 rounded-full text-sm h-auto mt-2'>
                 Download Virtual Card
               </button>
@@ -137,4 +296,4 @@ p{
     }
 `
 
-export default Dashboard;
+export default withAuth(Dashboard);

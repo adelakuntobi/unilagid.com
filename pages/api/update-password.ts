@@ -41,33 +41,49 @@ export default async function handler(
 
       // Perform any operations with the found user document
       // For example, return the user's details
-      const { password } = req.body;
+      const { password, newPassword } = req.body;
 
       // Validate the incoming request data
       if (!password) {
-        return res.status(400).json({ error: "Missing required fields" });
+        return res
+          .status(400)
+          .json({ message: "Password field is missing", status: "error" });
+      } 
+       if (password !== newPassword) {
+        return res.status(400).json({
+          message: "Password and confirm password doesn't match",
+          status: "error",
+        });
       }
-
       // const isPasswordValid = password === user.password;
 
-      // Update the user details in the MongoDB collection
-      const result = await db.collection('users').updateOne(
-        { _id: new ObjectId(userId) },
-        { $set: { password } }
-      );
-  
+      // Update the user details with password and firstLogin in the MongoDB collection?
+
+      const result = await db
+        .collection("users")
+        .updateMany(
+          { _id: new ObjectId(userId) },
+          { $set: { password: newPassword, firstLogin: false } }
+        );
+      // .updateOne({ _id: new ObjectId(userId) }, { $set: { password } });
+
       if (result.matchedCount === 0) {
-        return res.status(404).json({ error: 'User not found' });
+        return res.status(404).json({ error: "User not found" });
       }
       // Close the MongoDB connection
       client.close();
-  
 
       return res
         .status(200)
         .json({ message: "Password updated successfully", status: "success" });
     } catch (error) {
       console.log(error);
+      if (error.name === "TokenExpiredError") {
+        return res.status(401).json({
+          message: "Unauthenticated",
+          status: "error",
+        });
+      }
       return res.status(401).json({ error: "Invalid token" });
     }
   } catch (error) {

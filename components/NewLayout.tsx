@@ -18,14 +18,16 @@ export default function AuthLayout(props: { children: any }) {
 
   return (
     <>
-      <div className='z-40 items-center justify-center px-4 onboard lg:py-10 '>
+      <div className='z-40 items-center justify-between flex-col px-4 onboard lg:py-10 '>
         {children}
       </div>
       {/* <div>
         2022, toni
       </div> */}
       {/* <Footer /> */}
-        
+        <footer className="py-6 container  mx-auto">
+          @2023
+        </footer>
     </>
   )
 }
