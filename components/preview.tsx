@@ -3,10 +3,12 @@ import { Editables } from './edit-info';
 import AuthLayout from './NewLayout';
 import { IoMdArrowBack } from 'react-icons/io';
 import cogotoast from './toaster';
+import Successful from './success';
 
 const Preview = (props: any) => {
   const [fileInfo, setFileInfo] = useState<any>()
   const [progressBar, setProgressBar] = useState<any>(0)
+  const [success, setSuccess] = useState(false)
 
   function handleChange(event) {
     console.log(`${event}`);
@@ -28,16 +30,13 @@ const Preview = (props: any) => {
   }
 
 
-  useEffect(() => {
-  }, [])
-
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (fileInfo === "") {
       cogotoast("Please select a file first", "error")
     }
     else {
+      setSuccess(true)
       setInterval(() => calculateUploadPercentage(0, fileInfo?.size), 1000)
     }
   }
@@ -94,6 +93,9 @@ const Preview = (props: any) => {
           </form>
         </div>
       </div>
+      {
+          success && <Successful />
+        }
     </AuthLayout>
   );
 };
