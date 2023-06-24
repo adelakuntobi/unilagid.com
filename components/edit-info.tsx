@@ -29,8 +29,6 @@ const EditInfo = (props: any) => {
     { faculty: "Science" },
     { address: "No 1, Oba Street, Ibadan, Oyo State", editable: true, width: "full" },
     // { yearOfStudy: "2", editable: false, label: "Year of Study", },
-    { lga: "Ibadan North", label: "Local government", },
-    { stateOfOrigin: "Oyo State", label: "State of Origin", },
     // { religion: "Christianity", label: "Religion", },
     { dateOfBirth: "12/12/2000", label: "Date of Birth", },
     { maritalStatus: "Single", label: "Marital status", }

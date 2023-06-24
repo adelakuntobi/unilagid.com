@@ -13,6 +13,7 @@ import api, { createStudent } from '../services/api'
 import CircleLoader from '@/components/Loader';
 import { FormInput } from '@/styles/useStyles';
 import { faculties } from '@/utils/data';
+import Successful from '@/components/success';
 
 
 
@@ -23,24 +24,25 @@ const CreateUser = () => {
     faculty: '',
   })
   const [isOpen, setIsOpen] = useState(false)
+  const [faculty, setFaculty] = useState([])
   const [error, setError] = useState(false)
   const router = useRouter()
 
-  const { isLoading, mutate: LoginUser } = useMutation(
+  const { isLoading, mutate: LoginUser, isSuccess } = useMutation(
     async () => {
       return await api.post(createStudent, { ...fields, })
     },
     {
       onSuccess: (response) => {
         const res = response.data
-        router.push("/dashboard")
+        // router.push("/login")
 
-        const { firstLogin, firstName, access_token } = res.data;
-        api.defaults.headers.Authorization = `Bearer ${access_token}`
+        // const { firstLogin, firstName, access_token } = res.data;
+        // api.defaults.headers.Authorization = `Bearer ${access_token}`
         // api.defaults.headers.auth_key= `${process.env.API_AUTHORIZATION_KEY}`
-        setWithExpiry('jwtToken', access_token, 18000000)
-        if (firstLogin) cogotoast(`Welcome ${firstName}, Update your password to continue `, "success");
-        else cogotoast(`Welcome back ${firstName}`, "success")
+        // setWithExpiry('jwtToken', access_token, 18000000)
+        // if (firstLogin) cogotoast(`Welcome ${firstName}, Update your password to continue `, "success");
+        // else cogotoast(`Welcome back ${firstName}`, "success")
       },
       onError: (res) => {
         const err = res['response'].data;
@@ -52,11 +54,18 @@ const CreateUser = () => {
 
 
   const handleChange = (event: { target: { name: any; value: any; }; }) => {
+    const { name, value } = event.target;
+
     setError(false)
-    setFields({
-      ...fields,
-      [event.target.name]: event.target.value,
-    });
+
+    if (name === "faculty"){
+      console.log(faculties[`${value}`])
+      setFaculty(faculties[`${value}`])
+    }
+      setFields({
+        ...fields,
+        [name]: value,
+      });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -93,7 +102,7 @@ const CreateUser = () => {
             <div className='grid gap-x-4 gap-y-8 grid-cols-1 md:grid-cols-2'>
 
               <FormInput>
-                <label htmlFor="title">First name</label>
+                <label htmlFor="firstName">First name</label>
                 <input type="text" name="firstName" placeholder='Abisoye'
                   onChange={handleChange} />
               </FormInput>
@@ -106,8 +115,8 @@ const CreateUser = () => {
             <div className='grid gap-x-4 gap-y-8 grid-cols-1 md:grid-cols-2'>
 
               <FormInput>
-                <label htmlFor="title">Other name</label>
-                <input type="number" name="matricNo" placeholder='Asumptha'
+                <label htmlFor="otherNames">Other name</label>
+                <input type="text" name="otherNames" placeholder='Asumptha'
                   onChange={handleChange} />
               </FormInput>
               <FormInput>
@@ -120,11 +129,11 @@ const CreateUser = () => {
 
               <FormInput>
                 <label htmlFor="title">Title</label>
-                <select name="title" id="">
+                <select name="title"  onChange={handleChange}>
                   <option value="">-- Please Select --</option>
-                  <option value="mr">Mr</option>
-                  <option value="miss">Miss</option>
-                  <option value="mrs">Mrs</option>
+                  <option value="Mr">Mr</option>
+                  <option value="Miss">Miss</option>
+                  <option value="Mrs">Mrs</option>
                 </select>
               </FormInput>
               <FormInput>
@@ -136,7 +145,7 @@ const CreateUser = () => {
             <div className='grid gap-x-4 gap-y-8 grid-cols-1 md:grid-cols-2'>
               <FormInput>
                 <label htmlFor="title">Gender</label>
-                <select name="gender" id="">
+                <select name="gender" onChange={handleChange}>
                   <option value="">-- Please Select --</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
@@ -150,27 +159,27 @@ const CreateUser = () => {
             </div>
             <div className='grid gap-x-4 gap-y-8 grid-cols-1 md:grid-cols-2'>
               <FormInput>
-                <label htmlFor="title">Faculty</label>
+                <label htmlFor="faculty">Faculty</label>
                 <select name="faculty" onChange={handleChange}>
                   <option value="">-- Please Select --</option>
                   <option value="arts">Arts</option>
                   <option value="education">Education</option>
-                  <option value="sciecne">Sciences</option>
+                  <option value="science">Sciences</option>
                   <option value="law">Law</option>
                   <option value="bizAdd">Management Sciences</option>
-                  <option value="social">Social Sciences</option>
+                  <option value="socialSciences">Social Sciences</option>
                   <option value="engineering">Engineering</option>
                   <option value="environmental">Environmental Sciences</option>
                 </select>
               </FormInput>
               <FormInput>
                 <label htmlFor="department">Department</label>
-                <select name="department">
+                <select name="department" onChange={handleChange}>
                   <option value="">-- Please Select --</option>
                   {
-                    faculties['sciences'].map((dept, key) => {
+                    faculty.map((dept, key) => {
                       return (
-                        <option key={key} value="">{dept}</option>
+                        <option key={key} value={dept}>{dept}</option>
                       )
                     })
                   }
@@ -178,18 +187,39 @@ const CreateUser = () => {
               </FormInput>
             </div>
             <FormInput>
-              <label htmlFor="email">Address</label>
+              <label htmlFor="address">Address</label>
               <input type="text" name="address" placeholder='40, Yeguban street, Iransi '
                 onChange={handleChange} />
             </FormInput>
             <div className='grid gap-x-4 gap-y-8 grid-cols-1 md:grid-cols-2'>
               <FormInput>
                 <label htmlFor="dob">Date of Birth</label>
-                <input type="date" name="dob" onChange={handleChange} />
+                <input type="date" name="dateOfBirth" onChange={handleChange} />
               </FormInput>
               <FormInput>
                 <label htmlFor="hostel">Status</label>
                 <select name="hostel" onChange={handleChange}>
+                  <option value="">-- Please Select --</option>
+                  <option value="single">Single</option>
+                  <option value="married">Married</option>
+                  <option value="divorced">Divorced</option>
+                </select>
+              </FormInput>
+            </div>
+            <div className='grid gap-x-4 gap-y-8 grid-cols-1 md:grid-cols-2'>
+              <FormInput>
+                <label htmlFor="yearOfAdmission">Year of Admission</label>
+                <select name="yearOfAdmission" onChange={handleChange}>
+                  <option value="">-- Please Select --</option>
+                  <option value="2017/2018">2017/2018</option>
+                  <option value="2018/2019">2018/2019</option>
+                  <option value="2019/2020">2019/2020</option>
+                  <option value="2020/2021">2020/2021</option>
+                </select>
+              </FormInput>
+              <FormInput>
+                <label htmlFor="hostel">Status</label>
+                <select name="status" onChange={handleChange}>
                   <option value="">-- Please Select --</option>
                   <option value="single">Single</option>
                   <option value="married">Married</option>
@@ -207,6 +237,10 @@ const CreateUser = () => {
           </form>
         </div>
       </div>
+
+      {
+      isSuccess && <Successful />
+      }
     </>
   );
 };

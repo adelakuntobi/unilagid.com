@@ -90,26 +90,22 @@ const Dashboard = () => {
     e.preventDefault()
 
     try {
-      if (fields?.password === fields?.confirmPassword) LoginUser();
+      if (fields?.password === fields?.confirmPassword) UpdatePassword();
       else cogotoast("Password and confirm password does not match", "error")
     } catch (err) {
       cogotoast(err.message || "Something went wrong, please try again", "error");
     }
   }
 
-  const { isLoading: isChangeLoading, mutate: LoginUser } = useMutation(
+  const { isLoading: isChangeLoading, mutate: UpdatePassword } = useMutation(
     async () => {
-      return await api.put(updatePassword, { ...fields, })
+      return await api.put(updatePassword, { ...fields })
     },
     {
       onSuccess: (response) => {
         const res = response.data
-
-        const { firstLogin, firstName, access_token } = res.data;
-        api.defaults.headers.Authorization = `Bearer ${access_token}`
-        // api.defaults.headers.auth_key= `${process.env.API_AUTHORIZATION_KEY}`
-        if (firstLogin) cogotoast(`Welcome ${firstName}, Update your password to continue `, "success");
-        else cogotoast(`Welcome back ${firstName}`, "success")
+        cogotoast(response.data.message, response.data.status);
+        getOverview()
       },
       onError: (res) => {
         const err = res['response'].data;
@@ -159,7 +155,7 @@ const Dashboard = () => {
                 <div className={`${error ? "!border-red-600" : "!border-[#D0D5DD]"} input-div  border rounded-md !px-2 flex items-center gap-3 focus-within:!border-primary`}
                 >
                   <input required name="confirmPassword" placeholder="************"
-                    type={isOpen ? "text" : "password"}
+                    type={isConfirmOpen ? "text" : "password"}
                     className="!px-2"
                     onChange={handleChange}
                     value={fields['confirmPassword']}
@@ -224,7 +220,7 @@ const Dashboard = () => {
               </HeaderProfile>
               <HeaderProfile>
                 <label>Hostel:</label>
-                <p>{user?.hostel}</p>
+                <p>{user?.hostel} Hall</p>
               </HeaderProfile>
               <HeaderProfile>
                 <label>Year of Admission:</label>
@@ -291,6 +287,7 @@ label{
   color: #908f8f;
 }
 p{
+  text-transform: capitalize;
     font-weight: 600;
     color  : #3d3f45;
     }

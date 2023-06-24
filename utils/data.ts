@@ -45,7 +45,7 @@ export const faculties = {
     "Business Administration",
     "Industrial Relations & Personnel Management",
   ],
-  sciences: [
+  science: [
     "Biochemistry",
     "Botany",
     "Cell Biology & Genetics",
@@ -58,7 +58,7 @@ export const faculties = {
     "Physics",
     "Zoology",
   ],
-  socialSciences: [
+  socialScience: [
     "Economics",
     "Geography",
     "Mass Communication",

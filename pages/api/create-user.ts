@@ -1,5 +1,6 @@
 import { User } from "@/lib";
 import { returnMsg } from "@/utils/req";
+import { boysHostels, girlsHostels } from "@/utils/reuseables";
 import sendEmail from "@/utils/sendmail";
 import { validateUserPayload } from "@/utils/validations";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -9,12 +10,20 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const { lastName, matricNo, email } = req.body;
+    const { gender, lastName, matricNo, email } = req.body;
+    var hall = boysHostels;
+    if (gender === "female") hall = girlsHostels;
+    const hostel = hall[Math.floor(Math.random() * hall.length)];
 
     // Validate the incoming request data
-    const validate = validateUserPayload(req.body);
-    if (!validate.success){
-      console.log(validate.error)
+    const validate = validateUserPayload({
+      ...req.body,
+      hostel,
+      newStudent: true,
+      firstLogin: true,
+    });
+    if (!validate.success) {
+      console.log(validate.error);
       return res.status(400).json(returnMsg(validate.error, false));
     }
     req.body = validate.data.value;
@@ -39,6 +48,7 @@ export default async function handler(
       .json({ message: "User created successfully", status: "success", data });
   } catch (error) {
     console.error("Error creating user:", error);
+    // Check if the email is unique?
     return res.status(500).json({ error: "Error creating user" });
   }
 }

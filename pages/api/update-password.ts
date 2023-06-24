@@ -39,7 +39,7 @@ export default async function handler(
 
       // Perform any operations with the found user document
       // For example, return the user's details
-      const { password, newPassword } = req.body;
+      const { password, confirmPassword } = req.body;
 
       // Validate the incoming request data
       if (!password) {
@@ -47,7 +47,7 @@ export default async function handler(
           .status(400)
           .json({ message: "Password field is missing", status: "error" });
       }
-      if (password !== newPassword) {
+      if (password !== confirmPassword) {
         return res.status(400).json({
           message: "Password and confirm password doesn't match",
           status: "error",
@@ -59,7 +59,7 @@ export default async function handler(
 
       const result = await User.updateMany(
         { _id: new ObjectId(userId) },
-        { $set: { password: newPassword, firstLogin: false } }
+        { $set: { password: confirmPassword, firstLogin: false } }
       );
       // .updateOne({ _id: new ObjectId(userId) }, { $set: { password } });
 

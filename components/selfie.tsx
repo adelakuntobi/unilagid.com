@@ -52,12 +52,10 @@ export default function Selfie(props: any) {
   const webcamRef = useRef<Webcam>(null);
 
   const [imgSrc, setImgSrc] = useState<any | null>(null);
+  const [fields, setFields] = useState({})
   const [step, setStep] = useState("")
-  const [fields, setFields] = useState({ id_number: "" })
-  const [maxLength, setMaxLength] = useState("")
 
   const [screenshotQuality, setScreenhotQuality] = useState(1)
-
   // useEffect(() => {
   //   if (imgSrc.length > 8) {
   //     setCamera(true)
@@ -73,6 +71,9 @@ export default function Selfie(props: any) {
 
     else {
       props.nextStep();
+      setFields({
+        selfie: imgSrc[0].image
+      })
       // sendSelfieAndId()
     }
   }
@@ -402,15 +403,15 @@ export default function Selfie(props: any) {
 
             {
               !camera ?
-              <div>
+                <div>
 
-                <button disabled={takePicture} className="w-full mt-12 py-3 transform"
-                  onClick={capture}>Take Picture</button> 
-                    <label className="font-medium mt-3 block opacity-70 text-center">Having difficulties taking pictures? <b className="text-black opacity-100 hover:text-primary hover:underline cursor-pointer">Try uploading</b></label>
-                  </div>
-                  :
+                  <button disabled={takePicture} className="w-full mt-12 py-3 transform"
+                    onClick={capture}>Take Picture</button>
+                  <label className="font-medium mt-3 block opacity-70 text-center">Having difficulties taking pictures? <b className="text-black opacity-100 hover:text-primary hover:underline cursor-pointer">Try uploading</b></label>
+                </div>
+                :
                 <button onClick={handleSubmit} className="w-full py-3 transform"
-                  >Continue</button>
+                >Continue</button>
             }
 
           </div>
