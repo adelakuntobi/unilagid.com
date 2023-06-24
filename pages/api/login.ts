@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { connectToDatabase } from "../../utils/db";
 import { comparePasswords, generateToken } from "../../utils/auth";
 import { ObjectId } from "mongodb";
 import sendEmail from "@/utils/sendmail";
 import { returnMsg } from "@/utils/req";
 import { data } from "autoprefixer";
+import { User } from "@/lib";
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,15 +20,15 @@ export default async function handler(
   const { matricNo, password } = req.body;
 
   try {
-    const { client, db } = await connectToDatabase();
-    await client.connect();
-
-    const collection = db.collection("users");
-    const user = await collection.findOne({ matricNo });
+    console.log(matricNo)
+    const user = await User.findOne({ matricNo });
     const isPasswordValid = password === user?.password;
+    console.log(user)
 
     // if (!user || !(await comparePasswords(password, user.password))) {
     if (!user || !isPasswordValid) {
+      console.log(user)
+      // console.log(is)
       return res
         .status(401)
         .json({

@@ -75,7 +75,7 @@ const LogoutPopup = () => {
             <h3 className="text-xl font-semibold mb-10">Are you still active on the app?</h3>
             <div className="flex justify-around flex-col md:flex-row gap-y-3">
               <button className='outlined' onClick={logOutAction}>No, log me out</button>
-              <button onClick={() => setIsOpen(false)}>Yes, I'm still here</button>
+              <button onClick={() => setIsOpen(false)}>Yes, I&apos;m still here</button>
             </div>
           </div>
         </Modalstyle>

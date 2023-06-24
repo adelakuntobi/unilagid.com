@@ -1,5 +1,5 @@
+import { User } from '@/lib';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { connectToDatabase } from '../../utils/db';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -10,7 +10,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ error: 'Invalid user data' });
     }
 
-    const { client, db } = await connectToDatabase();
 
     const insertedUsers = [];
 
@@ -37,12 +36,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       };
 
       // Insert the user document into the MongoDB collection
-      await db.collection('users').insertOne(newUser);
+      await User.create(newUser);
 
       insertedUsers.push(newUser);
     }
 
-    client.close();
 
     return res.status(201).json({ message: 'Users created successfully', users: insertedUsers });
   } catch (error) {

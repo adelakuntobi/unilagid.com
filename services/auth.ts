@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
-import { connectToDatabase } from "@/utils/db";
 import { ObjectId } from "mongodb";
+import { User } from "@/lib";
 
 
 export const authenticateToken = async (
@@ -29,10 +29,7 @@ export const authenticateToken = async (
     // Access the user ID from the decoded token
     const userId = decodedToken["userId"];
 
-    const { client, db } = await connectToDatabase();
-    await client.connect();
-    const collection = db.collection("users");
-    const user = await collection.findOne({
+    const user = await User.findOne({
       _id: new ObjectId(userId),
     });
     if (!user) {

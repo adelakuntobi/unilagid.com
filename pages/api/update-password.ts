@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { connectToDatabase } from "../../utils/db";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
+import { User } from "@/lib";
 
 export default async function handler(
   req: NextApiRequest,
@@ -29,8 +29,6 @@ export default async function handler(
       // Access the user ID from the decoded token
       const userId = decodedToken["userId"];
 
-      const { client, db } = await connectToDatabase();
-
       // Find the user document by user ID in the MongoDB collection
       // const user = await db
       //   .collection("users")
@@ -48,8 +46,8 @@ export default async function handler(
         return res
           .status(400)
           .json({ message: "Password field is missing", status: "error" });
-      } 
-       if (password !== newPassword) {
+      }
+      if (password !== newPassword) {
         return res.status(400).json({
           message: "Password and confirm password doesn't match",
           status: "error",
@@ -59,19 +57,16 @@ export default async function handler(
 
       // Update the user details with password and firstLogin in the MongoDB collection?
 
-      const result = await db
-        .collection("users")
-        .updateMany(
-          { _id: new ObjectId(userId) },
-          { $set: { password: newPassword, firstLogin: false } }
-        );
+      const result = await User.updateMany(
+        { _id: new ObjectId(userId) },
+        { $set: { password: newPassword, firstLogin: false } }
+      );
       // .updateOne({ _id: new ObjectId(userId) }, { $set: { password } });
 
       if (result.matchedCount === 0) {
         return res.status(404).json({ error: "User not found" });
       }
       // Close the MongoDB connection
-      client.close();
 
       return res
         .status(200)

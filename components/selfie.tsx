@@ -402,8 +402,13 @@ export default function Selfie(props: any) {
 
             {
               !camera ?
+              <div>
+
                 <button disabled={takePicture} className="w-full mt-12 py-3 transform"
-                  onClick={capture}>Take Picture</button> :
+                  onClick={capture}>Take Picture</button> 
+                    <label className="font-medium mt-3 block opacity-70 text-center">Having difficulties taking pictures? <b className="text-black opacity-100 hover:text-primary hover:underline cursor-pointer">Try uploading</b></label>
+                  </div>
+                  :
                 <button onClick={handleSubmit} className="w-full py-3 transform"
                   >Continue</button>
             }

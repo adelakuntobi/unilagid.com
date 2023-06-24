@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { connectToDatabase } from "../../utils/db";
 import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
+import { User } from "@/lib";
 
 export default async function handler(
   req: NextApiRequest,
@@ -28,17 +28,13 @@ export default async function handler(
       // Access the user ID from the decoded token
       const userId = decodedToken["userId"];
 
-      const { client, db } = await connectToDatabase();
-      await client.connect();
-      const collection = db.collection("users");
-      const data = await collection.findOne({
+      const data = await User.findOne({
         _id: new ObjectId(userId),
       });
       if (!data) {
         return res.status(404).json({ error: "User not found" });
       }
 
-      client.close();
       return res.status(200).json({
         message: "Details fetched successfully",
         status: "success",

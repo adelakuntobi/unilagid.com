@@ -31,7 +31,7 @@ export function setWithExpiry(key: string, val: any, ttl: number) {
 
 export function returnMsg(message:string, status: boolean, data?:any) {
   return {
-    message: message,
+    message,
     status: status ? "success" : "error",
     data: data,
   };

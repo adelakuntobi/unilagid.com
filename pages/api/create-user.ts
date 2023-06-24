@@ -1,6 +1,7 @@
-import { connectToDatabase } from "@/utils/db";
-import { findEmptyField } from "@/utils/isEmpty";
+import { User } from "@/lib";
+import { returnMsg } from "@/utils/req";
 import sendEmail from "@/utils/sendmail";
+import { validateUserPayload } from "@/utils/validations";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -8,35 +9,30 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const { lastName, matricNo } = req.body;
+    const { lastName, matricNo, email } = req.body;
 
     // Validate the incoming request data
-
-    const emptyField = findEmptyField(req.body, []);
-    if (emptyField) {
-      return res.status(400).json({
-        status: "error",
-        message: `The field '${emptyField}' is required.`,
-      });
+    const validate = validateUserPayload(req.body);
+    if (!validate.success){
+      console.log(validate.error)
+      return res.status(400).json(returnMsg(validate.error, false));
     }
-    const { client, db } = await connectToDatabase();
+    req.body = validate.data.value;
 
-    const existingUser = await db.collection("users").findOne({ matricNo });
+    const existingUser = await User.findOne({ matricNo, email });
     if (existingUser) {
-      return res.status(400).json({ error: "User already exists" });
+      return res.status(400).json(returnMsg("User already exist", false));
     }
 
     // Create the user object
     const data = {
-      // id,
       ...req.body,
       password: lastName.toLowerCase(),
+      // createdAt: new Date(),
     };
 
     // Insert the user document into the MongoDB collection
-    await db.collection("users").insertOne(data);
-
-    client.close();
+    await User.create(data);
 
     return res
       .status(201)

@@ -1,5 +1,5 @@
+import { User } from '@/lib';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { connectToDatabase } from '../../utils/db';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -10,10 +10,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    const { client, db } = await connectToDatabase();
 
     // Update the user document in the MongoDB collection
-    const result = await db.collection('users').updateOne(
+    const result = await User.updateOne(
       { id },
       {
         $set: {
@@ -26,7 +25,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     );
 
-    client.close();
 
     if (result.matchedCount === 0) {
       return res.status(404).json({ error: 'User not found' });

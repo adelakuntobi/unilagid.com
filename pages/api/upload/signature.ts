@@ -1,7 +1,6 @@
 import multer from 'multer';
 import { NextApiRequest, NextApiResponse } from 'next';
 import mongoose from 'mongoose';
-import { connectToDatabase } from '@/utils/db';
 
 const upload = multer({ dest: 'uploads/' });
 
@@ -9,7 +8,6 @@ const handler = upload.single('image');
 
 const uploadApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const { client, db } = await connectToDatabase(); // Connect to the database using your function
 
     const { filename, originalname, mimetype, path } = req.body;
 
@@ -33,7 +31,6 @@ const uploadApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.status(200).json({ message: 'Image uploaded successfully!', image });
 
-    client.close(); // Close the MongoDB connection
   } catch (error) {
     res.status(500).json({ error: 'An error occurred while uploading the image.' });
   }

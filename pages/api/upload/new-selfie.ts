@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import multer from "multer";
 import mongoose from "mongoose";
 import { authenticateToken } from "@/services/auth";
-import { connectToDatabase } from "@/utils/db";
 import { returnMsg } from "@/utils/req";
 
 // Multer storage configuration
@@ -30,7 +29,6 @@ const Image = mongoose.models.Image || mongoose.model("Image", imageSchema);
 
 const uploadApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const { client, db } = await connectToDatabase(); // Connect to the database using your function
 
     const { filename, originalname, mimetype, path } = req.body;
 
@@ -48,7 +46,6 @@ const uploadApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     await image.save();
     
-    client.close(); // Close the MongoDB connection
 
     return res.status(200).json({ message: "Image uploaded successfully!", image });
   } catch (error) {
