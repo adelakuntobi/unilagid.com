@@ -23,7 +23,6 @@ export default async function handler(
       firstLogin: true,
     });
     if (!validate.success) {
-      console.log(validate.error);
       return res.status(400).json(returnMsg(validate.error, false));
     }
     req.body = validate.data.value;

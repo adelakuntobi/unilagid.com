@@ -1,47 +1,67 @@
-import multer from 'multer';
-import { NextApiRequest, NextApiResponse } from 'next';
-import mongoose from 'mongoose';
+import { NextApiRequest, NextApiResponse } from "next";
+import jwt from "jsonwebtoken";
+import { ObjectId } from "mongodb";
+import { Biometrics, User } from "@/lib";
 
-const upload = multer({ dest: 'uploads/' });
-
-const handler = upload.single('image');
-
-const uploadApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-  try {
-
-    const { filename, originalname, mimetype, path } = req.body;
-
-    const imageSchema = new mongoose.Schema({
-      filename: String,
-      originalName: String,
-      mimeType: String,
-      path: String,
-    });
-
-    const Image = mongoose.models.selfies || mongoose.model('selfies', imageSchema);
-
-    const image = new Image({
-      filename,
-      originalName: originalname,
-      mimeType: mimetype,
-      path,
-    });
-
-    await image.save();
-
-    res.status(200).json({ message: 'Image uploaded successfully!', image });
-
-  } catch (error) {
-    res.status(500).json({ error: 'An error occurred while uploading the image.' });
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
   }
-};
+  try {
+    // Get the Authorization header from the request
+    const authorizationHeader = req.headers.authorization;
 
-export default function handlerWrapper(req: NextApiRequest, res: NextApiResponse) {
-  return handler(req, res, (error: any) => {
-    if (error) {
-      res.status(500).json({ error: 'An error occurred while processing the request.' });
-    } else {
-      uploadApiHandler(req, res);
+    // Validate the Authorization header format
+    if (!authorizationHeader || !authorizationHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ error: "Invalid token format" });
     }
-  });
+
+    // Extract the token value by removing the "Bearer " prefix
+    const token = authorizationHeader.substring(7); // 7 is the length of "Bearer "
+
+    // Verify the JWT token
+    try {
+      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+
+      // Access the user ID from the decoded token
+      const userId = decodedToken["userId"];
+      
+      const { selfie, signature } = req.body;
+      const {matricNo} = await User.findOne({
+        _id: new ObjectId(userId),
+      });
+      // Validate the incoming request data
+      if (!selfie || !signature ) {
+        return res
+          .status(400)
+          .json({ message: "Some field(s) are missing", status: "error" });
+      }
+
+
+    // Insert the user document into the MongoDB collection
+    await Biometrics.create({
+      matricNo,
+      ...req.body,
+    });
+
+    return res
+      .status(201)
+      .json({ message: "Biometrics created successfully", status: "success" });
+    } catch (error) {
+      console.log(error)
+      if (error.name === "TokenExpiredError") {
+        return res.status(401).json({
+          message: "Unauthenticated",
+          status: "error",
+        });
+      }
+      return res.status(401).json({ error: "Invalid token" });
+    }
+  } catch (error) {
+    console.error("Error retrieving user:", error);
+    return res.status(500).json({ error: "Error retrieving user" });
+  }
 }

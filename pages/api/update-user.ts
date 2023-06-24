@@ -1,38 +1,55 @@
-import { User } from '@/lib';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { User } from "@/lib";
+import { ObjectId } from "mongodb";
+import { NextApiRequest, NextApiResponse } from "next";
+import jwt from "jsonwebtoken";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   try {
-    const { id, firstName, lastName, age, gender, courseOfStudy } = req.body;
+    // Get the Authorization header from the request
+    const authorizationHeader = req.headers.authorization;
 
-    // Validate the incoming request data
-    if (!id || !firstName || !lastName || !age || !gender || !courseOfStudy) {
-      return res.status(400).json({ error: 'Missing required fields' });
+    // Validate the Authorization header format
+    if (!authorizationHeader || !authorizationHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ error: "Invalid token format" });
     }
 
+    // Extract the token value by removing the "Bearer " prefix
+    const token = authorizationHeader.substring(7); // 7 is the length of "Bearer "
 
-    // Update the user document in the MongoDB collection
-    const result = await User.updateOne(
-      { id },
-      {
-        $set: {
-          firstName,
-          lastName,
-          age,
-          gender,
-          courseOfStudy,
-        },
+    try {
+      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+
+      // Access the user ID from the decoded token
+      const userId = decodedToken["userId"];
+
+      const data = await User.findOne({
+        _id: new ObjectId(userId),
+      });
+      if (!data) {
+        return res.status(404).json({ error: "User not found" });
       }
-    );
 
+      // Update the user document in the MongoDB collection
+      const result = await User.updateOne({
+        matricNo: data.matricNo,
+        ...req.body,
+      });
 
-    if (result.matchedCount === 0) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(200).json({ message: "User updated successfully" });
+    } catch (error) {
+      if (error.name === "TokenExpiredError") {
+        return res.status(401).json({
+          message: "Unauthenticated",
+          status: "error",
+        });
+      }
+      return res.status(500).json({ error: "Server error" });
     }
-
-    return res.status(200).json({ message: 'User updated successfully' });
   } catch (error) {
-    console.error('Error updating user:', error);
-    return res.status(500).json({ error: 'Error updating user' });
+    console.error("Error retrieving user:", error);
+    return res.status(500).json({ error: "Error retrieving user" });
   }
 }

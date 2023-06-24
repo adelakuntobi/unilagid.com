@@ -15,8 +15,10 @@ interface User {
   yearOfAdmission: string;
   matricNo: number;
   firstLogin: boolean;
-  phone: string;
+  phoneNumber: string;
   password: string;
+  address: string;
+  status: string;
 }
 
 const userSchema = new Schema<User>(
@@ -31,7 +33,6 @@ const userSchema = new Schema<User>(
     },
     otherNames: {
       type: String,
-      required: true,
     },
 
     email: {
@@ -40,18 +41,26 @@ const userSchema = new Schema<User>(
       unique: true,
     },
 
-    phone: {
+    phoneNumber: {
       type: String,
       unique: true,
-      sparse: true,
     },
     dateOfBirth: {
+      type: String,
+      required: true,
+    },
+    address: {
       type: String,
       required: true,
     },
     gender: {
       type: String,
       enum: ["male", "female"],
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ["single", "married", "divorced"],
       required: true,
     },
     newStudent: {
@@ -91,7 +100,7 @@ const userSchema = new Schema<User>(
     password: {
       type: String,
       // required: true,
-      },
+    },
   },
   {
     timestamps: true,

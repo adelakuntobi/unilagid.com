@@ -6,32 +6,34 @@ import cogotoast from './toaster';
 import Successful from './success';
 import SignatureCanvas from 'react-signature-canvas'
 import { TbSignature } from "react-icons/tb"
+import { useMutation } from 'react-query';
+import api, { updloadSign } from '@/services/api';
+import { convertImg } from '@/utils/reuseables';
+import CircleLoader from './Loader';
+// import { fileBase64 } from "file-base64";
 
 const Preview = (props: any) => {
   const [fileInfo, setFileInfo] = useState<any>()
-  const [progressBar, setProgressBar] = useState<any>(0)
   const [success, setSuccess] = useState(false)
   const [signature, setSignature] = useState(null)
   const [removePLH, setRemovePLH] = useState(false)
+  const [jambImg, setJambImg] = useState<any>("")
   const signRef = useRef<any>();
-  function handleChange(event) {
-    console.log(`${event}`);
-    console.log(event.target.files[0])
-    console.log(event.target.files[0].size)
-    console.log(event.target.files[0].type)
-    console.log(event.target.files[0].name)
-    setFileInfo(event.target.files[0])
-  }
 
-  function calculateUploadPercentage(uploadedAmount, totalAmount) {
-    console.log("Is running")
-    if (uploadedAmount < 0 || totalAmount <= 0) {
-      throw new Error('Invalid input. Uploaded amount must be non-negative and total amount must be positive.');
-    }
+  useEffect(() => {
+  const baseUrl = process.env.IMAGE_URL
 
-    const percentage = (uploadedAmount / totalAmount) * 100;
-    setProgressBar(percentage.toFixed(2)); // Rounds the percentage to two decimal places
-  }
+    const imgUrl =  "160403048"
+
+convertImg(imgUrl)
+  .then(base64Data => {
+    console.log(base64Data); // Output: Base64 representation of the image
+  })
+  .catch(error => {
+    console.log('Image conversion failed:', error);
+  });
+
+  }, []);
 
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -40,10 +42,39 @@ const Preview = (props: any) => {
       cogotoast("Please select a file first", "error")
     }
     else {
-      setSuccess(true)
-      setInterval(() => calculateUploadPercentage(0, fileInfo?.size), 1000)
+
+      try {
+        UploadDetails();
+      } catch (err) {
+        cogotoast(err.message || "Something went wrong, please try again", "error");
+      }
     }
   }
+  const selfie = sessionStorage.getItem("selfie")
+
+  const {isSuccess, isLoading, mutate: UploadDetails } = useMutation(
+
+    async () => {
+      return await api.post(updloadSign, {
+        selfie,
+        signature,
+        jambImg
+      })
+    },
+    {
+      onSuccess: (response) => {
+        const res = response.data
+        props.nextStep()
+
+      },
+      onError: (res) => {
+        const err = res['response'].data;
+        cogotoast(err?.message || "Something went wrong, please try again.", "error");
+      }
+    }
+  );
+
+
 
   const handleSignatureEnd = () => {
     setSignature(signRef.current?.toDataURL());
@@ -52,16 +83,6 @@ const Preview = (props: any) => {
     signRef?.current?.clear();
     setSignature(null);
   }
-  const isEmptyFunction = () => {
-    console.log(signRef?.current?.isEmpty());
-    // setSignature(null);
-  }
-
-
-  useEffect(() => {
-    isEmptyFunction()
-    console.log(signature);
-  }, [signature]);
 
   return (
     <AuthLayout>
@@ -82,9 +103,9 @@ const Preview = (props: any) => {
                 {
                   !removePLH &&
                   <div onTouchStart={() => setRemovePLH(true)}
-                  onMouseEnter={() => setRemovePLH(true)} 
-                  onMouseLeave={() => (signature ?  setRemovePLH(false) : setRemovePLH(true))}
-                   className='absolute m-auto left-0 right-0 -top-2 bottom-0  items-center justify-center flex-col'>
+                    onMouseEnter={() => setRemovePLH(true)}
+                    onMouseLeave={() => (signature ? setRemovePLH(false) : setRemovePLH(true))}
+                    className='absolute m-auto left-0 right-0 -top-2 bottom-0  items-center justify-center flex-col'>
                     <TbSignature className='text-5xl text-gray-300' />
                     <label className='text-3xl uppercase font-semibold text-gray-200'>Sign here</label>
                   </div>
@@ -98,7 +119,7 @@ const Preview = (props: any) => {
                   // dotSize={10}
                   throttle={0}
                   minDistance={0}
-                  canvasProps={{ height:500, className: 'rounded-lg border-4 border-dotted w-full bg-transparent' }}
+                  canvasProps={{ height: 500, className: 'rounded-lg border-4 border-dotted w-full bg-transparent' }}
                   onEnd={handleSignatureEnd}
                 />
               </div>
@@ -106,7 +127,7 @@ const Preview = (props: any) => {
             </div>
 
             <div>
-              <button type='button' onClick={clearSignature}>Clear</button>
+              <button type='button' className='outlined ' onClick={clearSignature}>Clear</button>
             </div>
 
             {/* <div>
@@ -131,13 +152,17 @@ const Preview = (props: any) => {
                 </span>
               </div>
             </div> */}
-            <button className='h-auto py-3'>Request new ID</button>
+            <button className='h-auto py-3' disabled={isLoading}>
+            {
+              isLoading ? <CircleLoader /> : "Request new ID"
+            }
+          </button>
 
           </form>
         </div>
       </div >
       {
-        success && <Successful />
+        isSuccess && <Successful />
       }
     </AuthLayout >
   );

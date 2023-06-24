@@ -14,6 +14,7 @@ import CircleLoader from '@/components/Loader';
 import cogotoast from '@/components/toaster';
 import withAuth from '@/services/withAuth';
 import { useRouter } from "next/router"
+import { logOutAction } from '@/utils/auth';
 
 export const getOverview = async () => {
   const response = await api.get(overview);
@@ -34,11 +35,10 @@ const Dashboard = () => {
     refetchOnWindowFocus: 'always'
   });
 
-  useEffect(()=> {
-    console.log(error)
+  useEffect(() => {
     if (error) {
-      console.log(error)
       if (error['response'].data.message === "Unauthenticated") {
+        logOutAction()
         cogotoast("Please login to continue", "error");
         router.push('/login')
       }
@@ -113,8 +113,8 @@ const Dashboard = () => {
       }
     }
   );
-
-
+  const baseUrl = process.env.IMAGE_URL
+console.log(baseUrl)
   if (isLoading) return <FullPageLoader />
   return (
     <Layout>
@@ -196,7 +196,7 @@ const Dashboard = () => {
       <section className='bg-gray-50 py-28'>
         <div className='max-w-7xl mx-auto items-center gap-10'>
 
-          <img src={`https://studentportal.unilag.edu.ng/(S(2nuegtmwglih1jpo5ja5dpc0))/StudentPassport.aspx?MatricNo=${user?.matricNo}`} className=' w-56 h-64 rounded-md shadow' alt="" />
+          <img src={baseUrl + user?.matricNo} className=' w-56 h-64 rounded-md shadow' alt="" />
           <div className='flex flex-col gap-4 justify-start items-start'>
             {
               user?.newStudent ? <span className='bg-[#219653] text-white text-xs rounded-sm px-2 py-1 font-bold'>Fresh Student</span> :

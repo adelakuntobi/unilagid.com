@@ -33,14 +33,14 @@ const Login = () => {
     {
       onSuccess: (response) => {
         const res = response.data
-        router.push("/dashboard")
-
+        
         const { firstLogin, firstName, access_token } = res.data;
         api.defaults.headers.Authorization = `Bearer ${access_token}`
         // api.defaults.headers.auth_key= `${process.env.API_AUTHORIZATION_KEY}`
         setWithExpiry('jwtToken', access_token, 18000000)
         if(firstLogin) cogotoast(`Welcome ${firstName}, Update your password to continue `, "success");
         else cogotoast(`Welcome back ${firstName}`, "success")
+        router.push("/dashboard")
       },
       onError: (res) => {
         const err = res['response'].data;

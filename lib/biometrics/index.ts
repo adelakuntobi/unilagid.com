@@ -1,14 +1,12 @@
 import mongoose, { Schema, model } from "mongoose";
 
-
-interface biometrics{
+interface biometrics {
   matricNo: number;
-  selfie: string
-  // fingerprint: string
-  signature: string
-  createdAt: string
-  updatedAt: string
-
+  jambImg: string;
+  selfie: string;
+  signature: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 const biometricsSchema = new Schema<biometrics>(
@@ -17,6 +15,10 @@ const biometricsSchema = new Schema<biometrics>(
       type: Number,
       required: true,
       unique: true,
+    },
+    jambImg: {
+      type: String,
+      // required: true,
     },
     selfie: {
       type: String,
@@ -36,5 +38,5 @@ const biometricsSchema = new Schema<biometrics>(
   }
 );
 
-
-export const Biometrics = mongoose.models.biometrics || model("biometrics", biometricsSchema);
+export const Biometrics =
+  mongoose.models.biometrics || model("biometrics", biometricsSchema);

@@ -20,15 +20,11 @@ export default async function handler(
   const { matricNo, password } = req.body;
 
   try {
-    console.log(matricNo)
-    const user = await User.findOne({ matricNo });
+    const user = await User.findOne({ matricNo: Number(matricNo) });
     const isPasswordValid = password === user?.password;
-    console.log(user)
 
     // if (!user || !(await comparePasswords(password, user.password))) {
     if (!user || !isPasswordValid) {
-      console.log(user)
-      // console.log(is)
       return res
         .status(401)
         .json({

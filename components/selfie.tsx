@@ -66,14 +66,15 @@ export default function Selfie(props: any) {
   const handleSubmit = (e: any) => {
     e.preventDefault()
     if (imgSrc.length < 8) {
-      cogotoast("Please fill all the fields", "error");
+      cogotoast("Please take a picture", "error");
     }
 
     else {
       props.nextStep();
       setFields({
-        selfie: imgSrc[0].image
+        selfie: imgSrc
       })
+      sessionStorage.setItem("selfie", imgSrc )
       // sendSelfieAndId()
     }
   }
@@ -154,7 +155,6 @@ export default function Selfie(props: any) {
     if (webcamRef.current) {
       setTakePicture(true)
       const imageSrc1 = webcamRef?.current?.getScreenshot();
-      // console.log(imageSrc1)
       // setImgSrc((oldArray: any) => [...oldArray, {
       //   "image": removeInitialBase64(imageSrc1),
       //   "image_type_id": 2,

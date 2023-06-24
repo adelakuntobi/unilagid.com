@@ -1,5 +1,7 @@
 // import Footer from "./Footer"
 
+import Head from "next/head"
+
 export const getCurrentYear = () => {
   return new Date().getFullYear()
 }
@@ -18,6 +20,11 @@ export default function AuthLayout(props: { children: any }) {
 
   return (
     <>
+      <Head>
+        <title>Studentify</title>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <div className='z-40 items-center justify-between flex-col px-4 onboard lg:py-10 '>
         {children}
       </div>
@@ -25,9 +32,9 @@ export default function AuthLayout(props: { children: any }) {
         2022, toni
       </div> */}
       {/* <Footer /> */}
-        <footer className="py-6 container  mx-auto">
-          @2023
-        </footer>
+      <footer className="py-6 container  mx-auto">
+        @2023
+      </footer>
     </>
   )
 }

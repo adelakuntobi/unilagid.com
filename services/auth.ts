@@ -20,7 +20,6 @@ export const authenticateToken = async (
     const token = authorizationHeader.substring(7); // 7 is the length of "Bearer "
 
     if (!token) {
-      console.log("token");
       return res.status(401).json({ error: "Unauthorized" });
     }
 
@@ -35,13 +34,10 @@ export const authenticateToken = async (
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-
     // Attach the user object to the request for further processing
     req["user"] = user;
-
     next();
   } catch (error) {
-    console.log(error);
     return res.status(401).json({ error: "Unauthorized" });
   }
 };

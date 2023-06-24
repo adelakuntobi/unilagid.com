@@ -1,15 +1,13 @@
 import Joi from "joi";
 import { UserPayload } from "./types";
 
-
-const JoiInstance = Joi.defaults(schema => {
+const JoiInstance = Joi.defaults((schema) => {
   return schema.options({
     errors: {
       wrap: {
-        // Remove quotes from variable names in error messages
-        label: false
-      }
-    }
+        label: false,
+      },
+    },
   });
 });
 
@@ -28,12 +26,12 @@ export const validateUserPayload = ({
   yearOfAdmission,
   matricNo,
   firstLogin,
-  phone,
+  phoneNumber,
 }: UserPayload) => {
   const schema = JoiInstance.object({
     firstName: Joi.string().required().trim(),
     lastName: Joi.string().required().trim(),
-    otherNames: Joi.string().required().trim(),
+    otherNames: Joi.string().trim(),
     email: Joi.string().email({ minDomainSegments: 2 }).required().trim(),
     dateOfBirth: Joi.string().required().trim(),
     gender: Joi.string().required().trim(),
@@ -45,10 +43,11 @@ export const validateUserPayload = ({
     yearOfAdmission: Joi.string().required().trim(),
     matricNo: Joi.number().required(),
     firstLogin: Joi.boolean().required(),
-    phone: Joi.string()
-      .regex(/^234[789][01]\d{8}$/)
-      .message("Invalid phone number")
-      .trim(),
+    phoneNumber: Joi.string().required(),
+    address: Joi.string().required(),
+    status: Joi.string().required(),
+    // .regex(/^234[789][01]\d{8}$/)
+    // .message("Invalid phone number")
   });
 
   const validation = schema.validate({
@@ -66,7 +65,7 @@ export const validateUserPayload = ({
     yearOfAdmission,
     matricNo,
     firstLogin,
-    phone,
+    phoneNumber,
   });
   if (validation.error)
     return {

@@ -20,7 +20,9 @@ export interface UserPayload {
   yearOfAdmission: string;
   matricNo: number;
   firstLogin: boolean;
-  phone: string;
+  address: string
+  status: string
+  phoneNumber: string;
 }
 
 // Interface to define our Todo model on the frontend

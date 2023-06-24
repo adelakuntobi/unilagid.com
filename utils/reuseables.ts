@@ -1,3 +1,5 @@
+import cogotoast from "@/components/toaster";
+
 export const guidelinesArr = [
   {
     title: "Photo size",
@@ -98,3 +100,25 @@ export const girlsHostels = [
   "Makama-Bida",
   "Queen Moremi",
 ];
+
+export async function convertImg(imageUrl) {
+  // const baseUrl = process.env.IMAGE_URL
+  const baseUrl = 'https://studentportal.unilag.edu.ng/(S(2nuegtmwglih1jpo5ja5dpc0))/StudentPassport.aspx?MatricNo='
+  try {
+    const response = await fetch(baseUrl + imageUrl);
+    const blob = await response.blob();
+
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64Data = reader.result;
+        resolve(base64Data);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  } catch (error) {
+    console.error('Error converting image to base64:', error);
+    throw error;
+  }
+}

@@ -38,7 +38,7 @@ export default async function handler(
       return res.status(200).json({
         message: "Details fetched successfully",
         status: "success",
-        data,
+        data
       });
     } catch (error) {
       if (error.name === "TokenExpiredError") {

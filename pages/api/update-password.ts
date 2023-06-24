@@ -28,17 +28,7 @@ export default async function handler(
 
       // Access the user ID from the decoded token
       const userId = decodedToken["userId"];
-
-      // Find the user document by user ID in the MongoDB collection
-      // const user = await db
-      //   .collection("users")
-      //   .findOne({ _id: new ObjectId(userId) });
-      // if (!user) {
-      //   return res.status(404).json({ error: "User not found" });
-      // }
-
-      // Perform any operations with the found user document
-      // For example, return the user's details
+      
       const { password, confirmPassword } = req.body;
 
       // Validate the incoming request data
