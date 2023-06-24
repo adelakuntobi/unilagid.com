@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { logOutAction } from '../redux/actions/dashboardActions';
-import { Modalstyle } from '../useStyles';
 import useOutsideClick from './useClickOutside';
 import LogoutImg from "@assets/images/logout.svg"
+import { logOutAction } from './auth';
+import { Modalstyle } from '@/styles/useStyles';
 
 
 const LogoutPopup = () => {
