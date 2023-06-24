@@ -42,7 +42,8 @@ export const FormInput = styled.div`
     padding: 0.65rem 1rem;
     box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
     border: 1px solid #D0D5DD;
-    border-radius: 8px;
+    border-radius: 4px;
+    height: 46px;
     font-size: 14px;
     width: 100%;
     background: transparent;
@@ -64,7 +65,7 @@ export const FormInput = styled.div`
 
 
     @media (max-width: 768px) { 
-      padding: 0.65rem 0.5rem;
+      padding: 0.65rem 0.85rem;
     }	
   }
 `;

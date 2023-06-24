@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Editables } from './edit-info';
 import AuthLayout from './NewLayout';
 import { IoMdArrowBack } from 'react-icons/io';
 import cogotoast from './toaster';
 import Successful from './success';
+import SignatureCanvas from 'react-signature-canvas'
+import { TbSignature } from "react-icons/tb"
 
 const Preview = (props: any) => {
   const [fileInfo, setFileInfo] = useState<any>()
   const [progressBar, setProgressBar] = useState<any>(0)
   const [success, setSuccess] = useState(false)
-
+  const [signature, setSignature] = useState(null)
+  const [removePLH, setRemovePLH] = useState(false)
+  const signRef = useRef<any>();
   function handleChange(event) {
     console.log(`${event}`);
     console.log(event.target.files[0])
@@ -40,6 +44,25 @@ const Preview = (props: any) => {
       setInterval(() => calculateUploadPercentage(0, fileInfo?.size), 1000)
     }
   }
+
+  const handleSignatureEnd = () => {
+    setSignature(signRef.current?.toDataURL());
+  }
+  const clearSignature = () => {
+    signRef?.current?.clear();
+    setSignature(null);
+  }
+  const isEmptyFunction = () => {
+    console.log(signRef?.current?.isEmpty());
+    // setSignature(null);
+  }
+
+
+  useEffect(() => {
+    isEmptyFunction()
+    console.log(signature);
+  }, [signature]);
+
   return (
     <AuthLayout>
 
@@ -51,10 +74,42 @@ const Preview = (props: any) => {
               Back
             </p>
             <div className='justify-center flex-col gap-1'>
-              <h2 className='text-3xl text-left'>Upload Signature</h2>
+              <h2 className='text-3xl text-left '>Upload Signature</h2>
               <p className='  text-left mx-auto text-lg text-[#475467]'>You are to provide the documents below to be able to receive a new ID</p>
             </div>
             <div>
+              <div className='relative'>
+                {
+                  !removePLH &&
+                  <div onTouchStart={() => setRemovePLH(true)}
+                  onMouseEnter={() => setRemovePLH(true)} 
+                  onMouseLeave={() => (signature ?  setRemovePLH(false) : setRemovePLH(true))}
+                   className='absolute m-auto left-0 right-0 -top-2 bottom-0  items-center justify-center flex-col'>
+                    <TbSignature className='text-5xl text-gray-300' />
+                    <label className='text-3xl uppercase font-semibold text-gray-200'>Sign here</label>
+                  </div>
+                }
+
+                <SignatureCanvas
+                  ref={signRef}
+                  penColor='black'
+                  // minWidth={2}
+                  // maxWidth={5}
+                  // dotSize={10}
+                  throttle={0}
+                  minDistance={0}
+                  canvasProps={{ height:500, className: 'rounded-lg border-4 border-dotted w-full bg-transparent' }}
+                  onEnd={handleSignatureEnd}
+                />
+              </div>
+              <p className='text-sm text-right mt-2'>Unable to sign? <a className='text-primary' href="http://tobi">Try uploading </a></p>
+            </div>
+
+            <div>
+              <button type='button' onClick={clearSignature}>Clear</button>
+            </div>
+
+            {/* <div>
               <i className='text-xs justify-between items-center'>
                 <span>Uploading</span>
                 <span>{progressBar}%</span>
@@ -75,28 +130,16 @@ const Preview = (props: any) => {
                   }
                 </span>
               </div>
-            </div>
-            {/* <Editables editable className='py-6'>
-            <label htmlFor="email">Affidavit <small>(SVG, JPG or PNG)</small></label>
-            <input type="file" name="matric_no" id="email" placeholder='Enter your Matric No' />
-          </Editables> */}
-
-            {/* <div>
-            <Editables editable>
-              <label htmlFor="">Police report <small>(SVG, JPG or PNG)</small></label>
-              <input type="file" name="password" id="password" />
-            </Editables>
-          </div> */}
-
+            </div> */}
             <button className='h-auto py-3'>Request new ID</button>
 
           </form>
         </div>
-      </div>
+      </div >
       {
-          success && <Successful />
-        }
-    </AuthLayout>
+        success && <Successful />
+      }
+    </AuthLayout >
   );
 };
 

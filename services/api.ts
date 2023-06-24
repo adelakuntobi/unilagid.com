@@ -7,6 +7,7 @@ let urls = {
   production: "https://studentify-xyz.vercel.app",
 };
 export let login = "/api/login";
+export let createStudent = "/api/create-user";
 export let overview = "/api/overview";
 export let updatePassword = "/api/update-password";
 export let filterBy = (type, param) => `super/${type}/filter/${param}`;

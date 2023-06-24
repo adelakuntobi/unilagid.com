@@ -1,10 +1,16 @@
 import { logOutAction } from '@/utils/auth';
 import Logo from './Logo';
 import { IoMdNotificationsOutline } from "react-icons/io"
+import { useQueryClient } from 'react-query';
 
 
 const TopNav = () => {
- 
+  const queryClient = useQueryClient()
+
+const logout = () => {
+  logOutAction()
+  queryClient.clear()
+}
   return (
     <nav className=' py-5 shadow-md ' >
       <section className='max-w-7xl mx-auto items-center justify-between'>
@@ -22,7 +28,7 @@ const TopNav = () => {
           {/* </div> */}
           <p className='text-primary font-semibold text-sm'>Check ID Card Status</p>
 
-          <button onClick={logOutAction} className='rounded px-6 py-2.5 h-auto text-sm tracking-wide'>Logout</button>
+          <button onClick={logout} className='rounded px-6 py-2.5 h-auto text-sm tracking-wide'>Logout</button>
         </div>
       </section>
     </nav>

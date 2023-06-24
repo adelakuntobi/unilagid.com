@@ -2,7 +2,7 @@
 import { useState } from "react";
 import StepWizard from "react-step-wizard";
 import EditInfo from "@/components/edit-info";
-import Preview from "@/components/preview";
+import Preview from "@/components/signature";
 import ProgressNav from "@/components/progress-nav";
 import Selfie from "@/components/selfie";
 import withAuth from "@/services/withAuth";

@@ -78,7 +78,9 @@ const Login = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <div className='h-screen grid place-items-center bg-gray-50'>
-        <form onSubmit={handleSubmit} className='bg-white shadow-md max-w-lg w-full px-6 py-12 rounded-lg flex flex-col gap-8'>
+      <img src='/img/patterns/pattern-2.png' className='z-10 object-cover absolute top-0 right-0 h-full w-full' alt="" />
+
+        <form onSubmit={handleSubmit} className='bg-white relative z-50 shadow-md max-w-lg w-full px-6 py-12 rounded-lg flex flex-col gap-8'>
           <div className="justify-center w-full">
             <Logo />
           </div>
@@ -87,7 +89,7 @@ const Login = () => {
             <p className='  text-center mx-auto text-lg text-[#475467]'>Using your valid school credentials, login to the platform.</p>
           </div>
           <FormInput>
-            <label htmlFor="email">Matric No.</label>
+            <label htmlFor="matricNo">Matric No.</label>
             <input type="number" name="matricNo" id="matricNo" placeholder='Enter your Matric No'
             className={error ? "!border-red-600" : undefined}
               onChange={handleChange} />
