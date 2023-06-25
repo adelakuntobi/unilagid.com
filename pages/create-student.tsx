@@ -35,14 +35,6 @@ const CreateUser = () => {
     {
       onSuccess: (response) => {
         const res = response.data
-        // router.push("/login")
-
-        // const { firstLogin, firstName, access_token } = res.data;
-        // api.defaults.headers.Authorization = `Bearer ${access_token}`
-        // api.defaults.headers.auth_key= `${process.env.API_AUTHORIZATION_KEY}`
-        // setWithExpiry('jwtToken', access_token, 18000000)
-        // if (firstLogin) cogotoast(`Welcome ${firstName}, Update your password to continue `, "success");
-        // else cogotoast(`Welcome back ${firstName}`, "success")
       },
       onError: (res) => {
         const err = res['response'].data;
@@ -59,7 +51,6 @@ const CreateUser = () => {
     setError(false)
 
     if (name === "faculty"){
-      console.log(faculties[`${value}`])
       setFaculty(faculties[`${value}`])
     }
       setFields({
@@ -217,7 +208,7 @@ const CreateUser = () => {
                   <option value="2020/2021">2020/2021</option>
                 </select>
               </FormInput>
-              <FormInput>
+              {/* <FormInput>
                 <label htmlFor="hostel">Status</label>
                 <select name="status" onChange={handleChange}>
                   <option value="">-- Please Select --</option>
@@ -225,7 +216,7 @@ const CreateUser = () => {
                   <option value="married">Married</option>
                   <option value="divorced">Divorced</option>
                 </select>
-              </FormInput>
+              </FormInput> */}
             </div>
             <button className='!w-full mt-6' disabled={isLoading}>
               {

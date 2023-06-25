@@ -27,6 +27,8 @@ export const validateUserPayload = ({
   matricNo,
   firstLogin,
   phoneNumber,
+  address,
+  status,
 }: UserPayload) => {
   const schema = JoiInstance.object({
     firstName: Joi.string().required().trim(),
@@ -66,6 +68,8 @@ export const validateUserPayload = ({
     matricNo,
     firstLogin,
     phoneNumber,
+    address,
+    status,
   });
   if (validation.error)
     return {

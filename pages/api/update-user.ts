@@ -8,21 +8,14 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    // Get the Authorization header from the request
     const authorizationHeader = req.headers.authorization;
-
-    // Validate the Authorization header format
     if (!authorizationHeader || !authorizationHeader.startsWith("Bearer ")) {
       return res.status(401).json({ error: "Invalid token format" });
     }
-
-    // Extract the token value by removing the "Bearer " prefix
     const token = authorizationHeader.substring(7); // 7 is the length of "Bearer "
 
     try {
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-
-      // Access the user ID from the decoded token
       const userId = decodedToken["userId"];
 
       const data = await User.findOne({
@@ -31,8 +24,6 @@ export default async function handler(
       if (!data) {
         return res.status(404).json({ error: "User not found" });
       }
-
-      // Update the user document in the MongoDB collection
       const result = await User.updateOne({
         matricNo: data.matricNo,
         ...req.body,

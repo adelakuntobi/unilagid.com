@@ -1,22 +1,11 @@
 // React
-import { useCallback, useEffect, useRef, useState } from "react"
-
-// Components
-// import AuthLayout from '@components/AuthLayout'
-// import CircleLoader from "@components/circleLoader"
-
-// Styles
-// import { FormInput, colourStyles } from "@src/useStyles"
-
+import { useCallback, useRef, useState } from "react"
 
 // Dependencies
 import Webcam from "react-webcam"
 import { BsArrowLeft } from "react-icons/bs"
 import { RiCheckFill } from "react-icons/ri"
 
-// import apiClient from '../../../utils/req';
-import { useMutation } from 'react-query';
-// import { verification } from "../../../apiConstants"
 import cogotoast from "./toaster"
 import AuthLayout from "./NewLayout";
 import Link from "next/link";
@@ -35,32 +24,17 @@ export const removeInitialPng = (base64: string) => {
   return base64.replace(/^data:image\/png;base64,/, "");
 }
 
-export function setWithExpiry(key: string, val: any, ttl: number) {
-  const now = new Date()
-  const item = {
-    value: val,
-    expiry: now.getTime() + ttl,
-  }
-  sessionStorage.setItem(key, JSON.stringify(item))
-}
 
 export default function Selfie(props: any) {
-  const [idType, setIdType] = useState({ value: '', label: '' },)
   const [consent, setConsent] = useState<any>(false)
   const [camera, setCamera] = useState<any>(false)
   const [takePicture, setTakePicture] = useState<any>(false)
   const webcamRef = useRef<Webcam>(null);
 
   const [imgSrc, setImgSrc] = useState<any | null>(null);
-  const [fields, setFields] = useState({})
   const [step, setStep] = useState("")
 
   const [screenshotQuality, setScreenhotQuality] = useState(1)
-  // useEffect(() => {
-  //   if (imgSrc.length > 8) {
-  //     setCamera(true)
-  //   }
-  // }, [imgSrc])
 
 
   const handleSubmit = (e: any) => {
@@ -70,111 +44,21 @@ export default function Selfie(props: any) {
     }
 
     else {
-      props.nextStep();
-      setFields({
-        selfie: imgSrc
-      })
       sessionStorage.setItem("selfie", imgSrc )
-      // sendSelfieAndId()
+      props.nextStep();
     }
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // function convertToGrayScale(base64:string) {
-  //   const myimage = new Image();
-  //   myimage.src = base64;
-  //   myimage.onload = function () {
-  //     const cnv = document.createElement('canvas');
-  //     cnv.width = myimage.width;
-  //     cnv.height = myimage.height;
-  //     const cnx = cnv?.getContext('2d');
-  //     cnx.drawImage(myimage, 0, 0);
-  //     const width = myimage.width;
-  //     const height = myimage.height;
-  //     const imgPixels = cnx.getImageData(0, 0, width, height);
-
-  //     for (let y = 0; y < height; y++) {
-  //       for (let x = 0; x < width; x++) {
-  //         const i = (y * 4) * width + x * 4;
-  //         const avg = (imgPixels.data[i] + imgPixels.data[i + 1] + imgPixels.data[i + 2]) / 3;
-  //         imgPixels.data[i] = avg;
-  //         imgPixels.data[i + 1] = avg;
-  //         imgPixels.data[i + 2] = avg;
-  //       }
-  //     }
-
-  //     cnx.putImageData(imgPixels, 0, 0);
-  //     setImgSrc(oldArray => [...oldArray, {
-  //       "image": removeInitialPng(cnv.toDataURL()),
-  //       "image_type_id": 6,
-  //     }]);
-  //     // return cnv.toDataURL();
-  //   }
-  // }
-
-  // const { mutate: sendSelfieAndId } = useMutation(
-  //   async () => {
-  //     const user_id = sessionStorage.getItem("user_id")
-  //     return await apiClient.post(verification, {
-  //       user_id,
-  //       id_type: idType.value,
-  //       id_number: fields.id_number,
-  //       selfie: imgSrc,
-  //       first_name: fields.first_name,
-  //       last_name: fields.last_name,
-  //     })
-  //   },
-  //   {
-  //     onSuccess: (response) => {
-  //       setCallModal(false)
-  //       setWithExpiry('step', 3, 600000)
-  //       cogotoast("KYC submitted! We'll notify you once the review is complete (up to 24 hours)", "success");
-  //       props.nextStep()
-  //     },
-  //     onError: (res) => {
-  //       const err = res.response.data;
-  //       setCallModal(false)
-  //       switch (err.message) {
-  //         case "The user id has already been taken.":
-  //           props.nextStep()
-  //           setWithExpiry('step', 3, 600000)
-  //           break;
-  //         case "The id number has already been taken.":
-  //           setIdError("ID Number has been registered with Makecards.")
-  //           break;
-
-  //         default:
-  //           cogotoast(err.message || "Error. Cannot proceed with verification", "error");
-  //           break;
-  //       }
-  //     }
-  //   }
-  // );
 
   const capture = useCallback(() => {
     if (webcamRef.current) {
       setTakePicture(true)
       const imageSrc1 = webcamRef?.current?.getScreenshot();
-      // setImgSrc((oldArray: any) => [...oldArray, {
-      //   "image": removeInitialBase64(imageSrc1),
-      //   "image_type_id": 2,
-      // }]);
+      
       setTimeout(() => {
         setCamera(true)
         setImgSrc(imageSrc1);
       }, 3000);
-
-      // for (let x = 0; x < 8; x++) {
-      //   setScreenhotQuality(0.6)
-      //   setTimeout(function () {
-      //     const imageSrc = webcamRef?.current?.getScreenshot();
-      //     // convertToGrayScale(imageSrc)
-      //     setImgSrc((oldArray: any) => [...oldArray, {
-      //       "image": removeInitialBase64(imageSrc1),
-      //       "image_type_id": 2,
-      //     }]);
-      //   }, x * 400, x);
-      // }
     }
   }, [])
 
@@ -232,7 +116,6 @@ export default function Selfie(props: any) {
                     width={1280}
                     videoConstraints={videoConstraints}
                     mirrored={true}
-                    // screenshotQuality={1}
                     forceScreenshotSourceSize={true}
                     screenshotQuality={screenshotQuality}
                     className={`${!camera ? "block" : "hidden"}`}

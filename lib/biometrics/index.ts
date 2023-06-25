@@ -18,16 +18,11 @@ const biometricsSchema = new Schema<biometrics>(
     },
     jambImg: {
       type: String,
-      // required: true,
     },
     selfie: {
       type: String,
       required: true,
     },
-    // fingerprint: {
-    //   type: String,
-    //   required: true,
-    // },
     signature: {
       type: String,
       required: true,

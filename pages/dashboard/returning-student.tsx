@@ -8,17 +8,11 @@ import styled from 'styled-components';
 
 
 const ReturningStudent = () => {
-  const [ success, setSuccess] = useState(false)
+  const [success, setSuccess] = useState(false)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setSuccess(true)
-    // if (fileInfo === "") {
-    //   cogotoast("Please select a file first", "error")
-    // }
-    // else {
-    //   setInterval(() => calculateUploadPercentage(0, fileInfo?.size), 1000)
-    // }
   }
 
 

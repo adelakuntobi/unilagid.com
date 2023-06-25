@@ -10,13 +10,9 @@ import FullPageLoader from './FullpageLoader';
 
 const EditInfo = (props: any) => {
   const [error, setError] = useState(false)
-  const [fields, setFields] = useState({
-    title: "tobi",
+  const [fields, setFields] = useState({})
 
-  })
-
-
-  const { data: overviewRes, error: fetchError, isLoading:isInitial, isSuccess: isSuccessful } = useQuery('overviewData', getOverview, {
+  const { data: overviewRes, error: fetchError, isLoading: isInitial, isSuccess: isSuccessful } = useQuery('overviewData', getOverview, {
     staleTime: Infinity,
     refetchOnWindowFocus: 'always'
   });
@@ -35,12 +31,10 @@ const EditInfo = (props: any) => {
     { title: user?.title },
     { email: user?.email, editable: true },
     { gender: user?.gender },
-    { phoneNumber: user?.phoneNumber, label:"Phone number", editable: true },
+    { phoneNumber: user?.phoneNumber, label: "Phone number", editable: true },
     { department: user?.department },
     { faculty: user?.faculty },
     { address: user?.address, editable: true, width: "full" },
-    // { yearOfStudy: "2", editable: false, label: "Year of Study", },
-    // { religion: "Christianity", label: "Religion", },
     { dateOfBirth: user?.dateOfBirth, label: "Date of Birth", },
     { status: user?.status, label: "Marital status", }
   ]
@@ -53,7 +47,6 @@ const EditInfo = (props: any) => {
       onSuccess: (response) => {
         const res = response.data
         props.nextStep()
-
       },
       onError: (res) => {
         const err = res['response'].data;
@@ -80,8 +73,9 @@ const EditInfo = (props: any) => {
     } catch (err) {
       cogotoast(err.message || "Something went wrong, please try again", "error");
     }
-
   }
+
+
   if (isInitial) {
     return <FullPageLoader />
   }
@@ -89,7 +83,6 @@ const EditInfo = (props: any) => {
     return (
       <AuthLayout>
         <div className="relative items-center justify-center w-full">
-          {/* <div className={`container rounded-md bg-white py-10 selfie-card block show`}> */}
           <div className={`rounded-md bg-white py-6 md:max-w-2xl w-full shadow-lg px-4 lg:px-8 selfie-card block show`}>
             <h1 className='text-3xl '>{`${user?.lastName} ${user?.firstName} ${user?.otherNames}`}</h1>
             <h4 className='text-xl font-semibold'>{user?.matricNo}</h4>
@@ -100,7 +93,6 @@ const EditInfo = (props: any) => {
                   theSapa.map((item, index) => {
                     const key = Object.keys(item)[0]
                     const value = item[key]
-                    // setFields({overview})
                     return (
                       <Editables className={item.width ? "col-span-2" : undefined} key={key} editable={item.editable}>
                         <label className='capitalize' htmlFor="key">{item.label ?? key}</label>
@@ -115,7 +107,6 @@ const EditInfo = (props: any) => {
                 }
               </div>
               {
-                // how to check if object is empty?
                 Object.keys(fields).length === 0 ?
                   <button type='button' onClick={() => props.nextStep()} className='w-full mt-6 outlined'>Continue </button> :
                   <button type='submit' className='w-full mt-6'>Update Information</button>
@@ -135,11 +126,9 @@ export const Editables = styled(FormInput) <FormProps>`
     border-radius: 4px;
     font-weight: 600;
     /* color: #667085;  */
-    /* check for props editable to toggle background */
     background-color: ${(props) => props.editable ? '#fff' : '#f3f4f699'};
     cursor: ${(props) => props.editable ? 'text' : 'not-allowed'};
   }
-
 `
 
 export default EditInfo;

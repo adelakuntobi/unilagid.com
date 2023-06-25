@@ -114,9 +114,6 @@ convertImg(imgUrl)
                 <SignatureCanvas
                   ref={signRef}
                   penColor='black'
-                  // minWidth={2}
-                  // maxWidth={5}
-                  // dotSize={10}
                   throttle={0}
                   minDistance={0}
                   canvasProps={{ height: 500, className: 'rounded-lg border-4 border-dotted w-full bg-transparent' }}
