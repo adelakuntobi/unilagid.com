@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
-import { Biometrics, User } from "@/lib";
+import { Biometrics, User } from "@/lib/models";
 
 export default async function handler(
   req: NextApiRequest,

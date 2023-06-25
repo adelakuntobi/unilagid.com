@@ -12,7 +12,11 @@ export let overview = "/api/overview";
 export let updatePassword = "/api/update-password";
 export let updateUser = "/api/update-user";
 export let updloadSign = "/api/upload/signature";
-export let filterBy = (type, param) => `super/${type}/filter/${param}`;
+
+export let adminLogin = "/api/admin/login";
+
+
+// export let filterBy = (type, param) => `super/${type}/filter/${param}`;
 
 const token = getWithExpiry("jwtToken");
 const bearerToken = "Bearer " + token;

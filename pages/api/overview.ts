@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
-import { User } from "@/lib";
+import { User } from "@/lib/models";
 
 export default async function handler(
   req: NextApiRequest,

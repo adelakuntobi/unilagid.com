@@ -1,4 +1,4 @@
-import { User } from "@/lib";
+import { User } from "@/lib/models";
 import { ObjectId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";

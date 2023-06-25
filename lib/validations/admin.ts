@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { UserPayload } from "./types";
+import { UserPayload } from "../types";
 
 const JoiInstance = Joi.defaults((schema) => {
   return schema.options({

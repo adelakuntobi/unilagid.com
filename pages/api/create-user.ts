@@ -1,9 +1,9 @@
-import { User } from "@/lib";
 import { returnMsg } from "@/utils/req";
 import { boysHostels, girlsHostels } from "@/utils/reuseables";
 import sendEmail from "@/utils/sendmail";
-import { validateUserPayload } from "@/utils/validations";
+import { validateUserPayload } from "@/lib/validations/user";
 import { NextApiRequest, NextApiResponse } from "next";
+import { User } from "@/lib/models";
 
 export default async function handler(
   req: NextApiRequest,
