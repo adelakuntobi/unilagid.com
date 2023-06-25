@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
-import { User } from "@/lib";
+import { User } from "@/lib/models";
 
 
 export const authenticateToken = async (
