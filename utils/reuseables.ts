@@ -1,4 +1,5 @@
-import cogotoast from "@/components/toaster";
+import AWS from "aws-sdk";
+import fs from "fs";
 
 export const guidelinesArr = [
   {
@@ -107,7 +108,6 @@ export function numberWithCommas(x) {
   return parts.join(".");
 }
 
-
 export const convertDate = (date) => {
   const newDate = new Date(date);
   const day = newDate.getDate();
@@ -117,17 +117,21 @@ export const convertDate = (date) => {
   const minutes = newDate.getMinutes();
   var hour;
   if (hours > 12) {
-    hour = hours - 12
+    hour = hours - 12;
   } else {
-    hour = hours
+    hour = hours;
   }
-  return `${day < 10 ? `0${day}` : day}/${month < 10 ? `0${month}` : month}/${year} ${hour < 10 ? `0${hour}` : hour}:${minutes < 10 ? `0${minutes}` : minutes} ${hours > 12 ? `PM` : `AM`}`;
+  return `${day < 10 ? `0${day}` : day}/${
+    month < 10 ? `0${month}` : month
+  }/${year} ${hour < 10 ? `0${hour}` : hour}:${
+    minutes < 10 ? `0${minutes}` : minutes
+  } ${hours > 12 ? `PM` : `AM`}`;
 };
-
 
 export async function convertImg(imageUrl) {
   // const baseUrl = process.env.IMAGE_URL
-  const baseUrl = 'https://studentportal.unilag.edu.ng/(S(2nuegtmwglih1jpo5ja5dpc0))/StudentPassport.aspx?MatricNo='
+  const baseUrl =
+    "https://studentportal.unilag.edu.ng/(S(2nuegtmwglih1jpo5ja5dpc0))/StudentPassport.aspx?MatricNo=";
   try {
     const response = await fetch(baseUrl + imageUrl);
     const blob = await response.blob();
@@ -142,7 +146,87 @@ export async function convertImg(imageUrl) {
       reader.readAsDataURL(blob);
     });
   } catch (error) {
-    console.error('Error converting image to base64:', error);
+    console.error("Error converting image to base64:", error);
     throw error;
+  }
+}
+
+export const facialRecogntion = (img1, img2) => {
+  // Set up AWS credentials and region
+  AWS.config.update({ region: "YOUR_AWS_REGION" });
+
+  // Create an instance of the Rekognition service
+  const rekognition = new AWS.Rekognition();
+
+  // Base64-encoded images
+  const image1Base64 = img1;
+  const image2Base64 = img2;
+
+  // Helper function to convert base64 to binary data
+  const base64ToBuffer = (base64String) => {
+    const binaryString = Buffer.from(base64String, "base64");
+    return binaryString;
+  };
+  // Convert base64 images to binary data
+  const image1Buffer = base64ToBuffer(image1Base64);
+  const image2Buffer = base64ToBuffer(image2Base64);
+  // Perform facial comparison
+  // const compareFaces = () => {
+  const params = {
+    SimilarityThreshold: 90,
+    SourceImage: {
+      Bytes: image1Buffer,
+    },
+    TargetImage: {
+      Bytes: image2Buffer,
+    },
+  };
+
+  return new Promise((resolve, reject) => {
+    rekognition.compareFaces(params, (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+  // };
+};
+export const imageToBase64 = (URL) => {
+  let image;
+  image = new Image();
+  image.crossOrigin = 'Anonymous';
+  image.addEventListener('load', function() {
+    console.log()
+      let canvas = document.createElement('canvas');
+      let context = canvas.getContext('2d');
+      canvas.width = image.width;
+      canvas.height = image.height;
+      context.drawImage(image, 0, 0);
+      try {
+        console.log(canvas.toDataURL('image/png'))
+          localStorage.setItem('saved-image-example', canvas.toDataURL('image/png'));
+      } catch (err) {
+          console.error(err)
+      }
+  });
+  image.src = URL;
+};
+
+
+export function imageTo64(
+  url: string, 
+  callback: (path64: string | ArrayBuffer) => void
+): void {
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', url);
+  xhr.responseType = 'blob';
+  xhr.send();
+
+  xhr.onload = (): void => {
+    const reader = new FileReader();
+    reader.readAsDataURL(xhr.response);
+    reader.onloadend = (): void => callback(reader.result);
   }
 }

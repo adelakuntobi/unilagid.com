@@ -7,10 +7,11 @@ import Successful from './success';
 import SignatureCanvas from 'react-signature-canvas'
 import { TbSignature } from "react-icons/tb"
 import { useMutation } from 'react-query';
-import api, { updloadSign } from '@/services/api';
-import { convertImg } from '@/utils/reuseables';
+import api, { uploadSign } from '@/services/api';
+import { imageTo64, imageToBase64 } from '@/utils/reuseables';
 import CircleLoader from './Loader';
 // import { fileBase64 } from "file-base64";
+// import {i2b} from "imageurl-base64";
 
 const Preview = (props: any) => {
   const [fileInfo, setFileInfo] = useState<any>()
@@ -21,18 +22,15 @@ const Preview = (props: any) => {
   const signRef = useRef<any>();
 
   useEffect(() => {
-  const baseUrl = process.env.IMAGE_URL
+    const baseUrl = 'https://studentportal.unilag.edu.ng/(S(2nuegtmwglih1jpo5ja5dpc0))/StudentPassport.aspx?MatricNo='
 
-    const imgUrl =  "160403048"
+    const imgUrl = baseUrl + "160403048"
 
-convertImg(imgUrl)
-  .then(base64Data => {
-    console.log(base64Data); // Output: Base64 representation of the image
-  })
-  .catch(error => {
-    console.log('Image conversion failed:', error);
-  });
-
+    console.log("it's running")
+    imageToBase64(imgUrl)
+    imageTo64(imgUrl, function (myBase64) {
+      console.log(myBase64); // myBase64 is the base64 string
+    });
   }, []);
 
 
@@ -52,10 +50,10 @@ convertImg(imgUrl)
   }
   const selfie = sessionStorage.getItem("selfie")
 
-  const {isSuccess, isLoading, mutate: UploadDetails } = useMutation(
+  const { isSuccess, isLoading, mutate: UploadDetails } = useMutation(
 
     async () => {
-      return await api.post(updloadSign, {
+      return await api.post(uploadSign, {
         selfie,
         signature,
         jambImg
@@ -150,10 +148,10 @@ convertImg(imgUrl)
               </div>
             </div> */}
             <button className='h-auto py-3' disabled={isLoading}>
-            {
-              isLoading ? <CircleLoader /> : "Request new ID"
-            }
-          </button>
+              {
+                isLoading ? <CircleLoader /> : "Request new ID"
+              }
+            </button>
 
           </form>
         </div>

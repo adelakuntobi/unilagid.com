@@ -89,3 +89,33 @@ button,
 ::-webkit-scrollbar-thumb:hover {
   background: #86888c
 }
+
+
+
+table{
+  width: 100%;
+  td{
+    padding: 18px 22px;
+    font-size: 13px;
+    color: #667085;
+  }
+  th{
+    padding: 16px 22px;
+  }
+  td,th{
+    border-bottom: 1px solid #EAECF0;
+    text-align: left;
+    &:last-of-type  {
+      text-align: right;
+    }
+  }
+  thead{
+    th{
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 18px;
+      color: #000;
+      text-transform: capitalize;
+    }
+  }
+}

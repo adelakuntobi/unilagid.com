@@ -11,10 +11,12 @@ export let createStudent = "/api/create-user";
 export let overview = "/api/overview";
 export let updatePassword = "/api/update-password";
 export let updateUser = "/api/update-user";
-export let updloadSign = "/api/upload/signature";
+export let uploadSign = "/api/upload/signature";
+export let uploadDocs = "/api/upload/docs";
 
 export let adminLogin = "/api/admin/login";
 export let adminOverview = "/api/admin/overview";
+export let adminStudents = "/api/admin/all-students";
 
 
 // export let filterBy = (type, param) => `super/${type}/filter/${param}`;

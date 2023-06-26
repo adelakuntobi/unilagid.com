@@ -1,9 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
-import { Biometrics, User } from "@/lib/models";
-// import { createClient } from "aws-sdk";
-import { facialRecogntion } from "@/utils/reuseables";
+import { Documents, User } from "@/lib/models";
+import formidable from "formidable";
 
 export default async function handler(
   req: NextApiRequest,
@@ -31,36 +30,35 @@ export default async function handler(
       // Access the user ID from the decoded token
       const userId = decodedToken["userId"];
 
-      const { jambImg, selfie, signature } = req.body;
+      const { policeReport, affidavit } = req.body;
       const { matricNo } = await User.findOne({
         _id: new ObjectId(userId),
       });
+
       // Validate the incoming request data
-      if (!selfie || !signature) {
-        return res
-          .status(400)
-          .json({ message: "Some field(s) are missing", status: "error" });
-      }
+      // if (!affidavit || !policeReport) {
+      //   return res
+      //     .status(400)
+      //     .json({ message: "Some field(s) are missing", status: "error" });
+      // }
 
-      // Perform facial comparison
-      facialRecogntion(jambImg, selfie)
-        .then((result) => {
-          console.log(result);
-          // console.log("Similarity:", result?.FaceMatches[0].Similarity);
-          // console.log("Face matches:", result.FaceMatches.length);
-        })
-        .catch((err) => {
-          console.error("Error:", err);
+      const form = new formidable.IncomingForm();
+
+      form.parse(req, async (err, fields, files) => {
+        if (err) {
+          res.status(500).json({ error: "Error parsing the file" });
+          return;
+        }
+        // Insert the user document into the MongoDB collection
+        await Documents.create({
+          matricNo,
+          ...req.body,
         });
-      // Insert the user document into the MongoDB collection
-      await Biometrics.create({
-        matricNo,
-        ...req.body,
-      });
 
-      return res.status(201).json({
-        message: "Biometrics created successfully",
-        status: "success",
+        return res.status(201).json({
+          message: "Documents successfully added",
+          status: "success",
+        });
       });
     } catch (error) {
       console.log(error);

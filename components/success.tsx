@@ -2,7 +2,7 @@
 import { Modalstyle } from '@/styles/useStyles';
 import { useState, useEffect } from 'react';
 import FullPageLoader from './FullpageLoader';
-import { HOMEPAGE } from '@/utils/pageUrl';
+import { DASHBOARD } from '@/utils/pageUrl';
 import Link from 'next/link';
 
 const Successful = () => {
@@ -31,7 +31,7 @@ const Successful = () => {
             <p className="text-gray-500 text-center">Your submission was successful and would be reviewed. You will be notified when the review is complete!</p>
           </div>
           <div className="flex justify-center items-center">
-            <Link href={HOMEPAGE}>
+            <Link href={DASHBOARD}>
               <button className="bg-green-500 text-white px-20 py-2 rounded-md mt-4">Back to Homepage</button>
             </Link>
           </div>

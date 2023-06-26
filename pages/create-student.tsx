@@ -189,7 +189,7 @@ const CreateUser = () => {
               </FormInput>
               <FormInput>
                 <label htmlFor="hostel">Status</label>
-                <select name="hostel" onChange={handleChange}>
+                <select name="status" onChange={handleChange}>
                   <option value="">-- Please Select --</option>
                   <option value="single">Single</option>
                   <option value="married">Married</option>

@@ -12,6 +12,7 @@ import PreLoadingBox from '@/components/PreloadingBox'
 import { AllSection } from '@/styles/useStyles'
 import api, { adminOverview } from '@/services/api'
 import { numberWithCommas } from '@/utils/reuseables';
+import BarChart from '@/components/Barchart';
 
 
 export const getOverview = async () => {
@@ -33,6 +34,7 @@ const AdminDashboard: NextPage = () => {
   const [transactionFilterBy, setTransactionFilterBy] = useState({ value: '0', label: 'Today' },);
   const [isFetching, setIsFetching] = useState(false)
   const [isTransFetching, setIsTransFetching] = useState(false)
+  const [isSuccessful, setIsSuccessful] = useState(false)
   const [usersCount, setUsersCount] = useState({
     all_users: '',
     registered_user: '',
@@ -53,83 +55,33 @@ const AdminDashboard: NextPage = () => {
   })
 
 
-  const { data: overviewRes, error, isSuccess: isSuccessful, isLoading } = useQuery('overviewData', getOverview);
-  const overviewData = overviewRes?.data?.data
-
   useEffect(() => {
-    setUsersCount(overviewData?.users_count)
-    setTransactionsCount(overviewData?.transactions)
+    setTimeout(() => {
+      setIsSuccessful(true)
+    }, 3000);
+    // setUsersCount(overviewData?.users_count)
+    // setTransactionsCount(overviewData?.transactions)
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccessful])
 
   const verificationCount = [
     {
       name: "Total count",
-      value: overviewData?.dollar_details.available_balance,
+      value: 12,
       icon: RiWalletLine
     },
     {
       name: "New students",
-      value: overviewData?.dollar_details.cards_balance,
+      value: 9,
       icon: RiWalletLine
     },
     {
       name: "Returning students",
-      value: overviewData?.dollar_details.total_usd_funded,
+      value: 3,
       icon: RiWalletLine
     },
   ]
 
-  // const overviewList = [
-  //   {
-  //     name: "All Users",
-  //     value: usersCount?.all_users,
-  //   },
-  //   {
-  //     name: "Verified Users",
-  //     value: usersCount?.verified_users,
-  //   },
-  //   {
-  //     name: "Active Users",
-  //     value: usersCount?.active_users,
-  //   },
-  //   {
-  //     name: "Inactive Users",
-  //     value: usersCount?.inactive_users,
-  //   },
-  //   {
-  //     name: "Dropoff Users",
-  //     value: usersCount?.drop_offs,
-  //   },
-  //   {
-  //     name: "Blocked Users",
-  //     value: usersCount?.blocked_users,
-  //   },
-  //   {
-  //     name: "Pending Verifications",
-  //     value: usersCount?.pending_users,
-  //   },
-  //   {
-  //     name: "Failed Verifications",
-  //     value: usersCount?.failed_users,
-  //   },
-  // ]
-
-
-  // const handleTransChange = (e) => {
-  //   setTransactionFilterBy(e)
-  //   setIsTransFetching(true)
-  //   getCount("transactions", e.value)
-  //     .then(res => {
-  //       if (res.data.status === "success") {
-  //         setTransactionsCount(res?.data?.data?.transactions)
-  //       }
-  //       // console.log(res.data.data)
-  //       setIsTransFetching(false)
-  //     })
-  //     .catch(error => console.log('error', error));
-  // }
 
   return (
     <AdminLayout title="Overview">
@@ -145,9 +97,9 @@ const AdminDashboard: NextPage = () => {
                   <div key={index} className="bg-white flex flex-col w-full px-6 py-6 border-[#eff2f6] shadow rounded relative">
                     <div className="items-center gap-2 ">
                       {/* <item.icon size={24} className="opacity-100" /> */}
-                      <label htmlFor="" className="  text-[#364a63] tracking-tight">{item.name}</label>
+                      <label htmlFor="" className="text-[#364a63] tracking-tight">{item.name}</label>
                     </div>
-                    <h3 className="text-2xl font-semibold pt-10 text-[#364a63]">$ {numberWithCommas(item.value)}</h3>
+                    <h3 className="text-2xl font-semibold pt-10 text-[#364a63]">{numberWithCommas(item.value)}</h3>
                   </div>
                   :
                   <PreLoadingBox key={index} />
@@ -158,11 +110,16 @@ const AdminDashboard: NextPage = () => {
 
         <section>
           <h2>Registration chart</h2>
-
-          <div className='grid gap-8 grid-cols-2'>
-<div></div>
-<div></div>
+          <div className=' w-4/5 '>
+            <BarChart />
           </div>
+
+          {/* <div className='grid gap-8 grid-cols-2'>
+            <div>
+
+            </div>
+            <div></div>
+          </div> */}
         </section>
 
 
