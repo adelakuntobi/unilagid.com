@@ -6,7 +6,7 @@ Chart.register(LinearScale, CategoryScale, BarElement);
 
 const BarChart = () => {
   // Generate random data
-  const max = 10000
+  const max = 12
   const labels = ['Arts', 'Education', 'Engineering', 'Management Science', 'Science','Law', 'Environmental Science' ,'Social Sciences'];
   const data = [Math.random() * max,Math.random() * max,Math.random() * max,Math.random() * max,Math.random() * max,Math.random() * max,Math.random() * max,Math.random() * max,];
 
@@ -37,13 +37,10 @@ const BarChart = () => {
         beginAtZero: true,
       },
     },
-  };
+  };  
 
   return (
-    <div>
-      <h2>Bar Chart</h2>
       <Bar data={chartData} options={chartOptions} />
-    </div>
   );
 };
 

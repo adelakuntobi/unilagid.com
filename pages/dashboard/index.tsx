@@ -105,7 +105,7 @@ const Dashboard = () => {
       onSuccess: (response) => {
         const res = response.data
         cogotoast(response.data.message, response.data.status);
-        getOverview()
+        location.reload()
       },
       onError: (res) => {
         const err = res['response'].data;
