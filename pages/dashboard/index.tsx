@@ -113,7 +113,8 @@ const Dashboard = () => {
       }
     }
   );
-  const baseUrl = process.env.IMAGE_URL
+  // const baseUrl = process.env.IMAGE_URL
+  const baseUrl = 'https://studentportal.unilag.edu.ng/(S(2nuegtmwglih1jpo5ja5dpc0))/StudentPassport.aspx?MatricNo='
 console.log(baseUrl)
   if (isLoading) return <FullPageLoader />
   return (

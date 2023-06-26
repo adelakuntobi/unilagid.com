@@ -30,7 +30,7 @@ const ReturningStudent = () => {
             <Logo />
           </div>
           <div className='justify-center flex-col gap-1 mb-10'>
-            <h2 className='text-3xl text-center'>Stolen ID Card</h2>
+            <h2 className='text-3xl text-center'>Replacement of ID Card</h2>
             <p className='  text-center mx-auto text-lg text-[#475467]'>You are to provide the documents below to be able to receive a new ID</p>
           </div>
           <FormInput>

@@ -19,7 +19,6 @@ import { setWithExpiry } from '@/utils/req';
 
 const Login = () => {
   const [fields, setFields] = useState({
-    matricNo: '',
     password: ''
   })
   const [isOpen, setIsOpen] = useState(false)
@@ -33,13 +32,13 @@ const Login = () => {
     {
       onSuccess: (response) => {
         const res = response.data
-
-        const { firstLogin, firstName, access_token } = res.data;
+        console.log(res)
+        const { access_token } = res.data;
+        console.log(access_token)
+        setWithExpiry('jwtToken', access_token, 18000000)
         api.defaults.headers.Authorization = `Bearer ${access_token}`
         // api.defaults.headers.auth_key= `${process.env.API_AUTHORIZATION_KEY}`
-        setWithExpiry('jwtToken', access_token, 18000000)
-        if (firstLogin) cogotoast(`Welcome ${firstName}, Update your password to continue `, "success");
-        else cogotoast(`Welcome back ${firstName}`, "success")
+         cogotoast(`Welcome back`, "success")
         router.push("/admin")
       },
       onError: (res) => {
@@ -93,7 +92,7 @@ const Login = () => {
                 className={error ? "!border-red-600" : undefined}
                 onChange={handleChange} />
 
-              <small className=' block text-red-600 font-semibold'>{error && "Your Matric No/Password doesn't match. Please try again."}</small>
+              <small className=' block text-red-600 font-semibold'>{error && "Your Email/Password doesn't match. Please try again."}</small>
             </FormInput>
 
             <FormInput className="">

@@ -101,6 +101,30 @@ export const girlsHostels = [
   "Queen Moremi",
 ];
 
+export function numberWithCommas(x) {
+  var parts = x?.toString()?.split(".");
+  parts[0] = parts[0]?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+}
+
+
+export const convertDate = (date) => {
+  const newDate = new Date(date);
+  const day = newDate.getDate();
+  const month = newDate.getMonth() + 1;
+  const year = newDate.getFullYear();
+  const hours = newDate.getHours();
+  const minutes = newDate.getMinutes();
+  var hour;
+  if (hours > 12) {
+    hour = hours - 12
+  } else {
+    hour = hours
+  }
+  return `${day < 10 ? `0${day}` : day}/${month < 10 ? `0${month}` : month}/${year} ${hour < 10 ? `0${hour}` : hour}:${minutes < 10 ? `0${minutes}` : minutes} ${hours > 12 ? `PM` : `AM`}`;
+};
+
+
 export async function convertImg(imageUrl) {
   // const baseUrl = process.env.IMAGE_URL
   const baseUrl = 'https://studentportal.unilag.edu.ng/(S(2nuegtmwglih1jpo5ja5dpc0))/StudentPassport.aspx?MatricNo='

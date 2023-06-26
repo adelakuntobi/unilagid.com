@@ -1,5 +1,4 @@
 import { returnMsg } from "@/utils/req";
-import { boysHostels, girlsHostels } from "@/utils/reuseables";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Admins } from "@/lib/models";
 

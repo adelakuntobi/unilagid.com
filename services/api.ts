@@ -14,6 +14,7 @@ export let updateUser = "/api/update-user";
 export let updloadSign = "/api/upload/signature";
 
 export let adminLogin = "/api/admin/login";
+export let adminOverview = "/api/admin/overview";
 
 
 // export let filterBy = (type, param) => `super/${type}/filter/${param}`;

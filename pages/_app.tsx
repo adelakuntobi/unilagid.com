@@ -1,4 +1,5 @@
 import '@/styles/globals.scss'
+import '@/styles/sidebar.scss'
 import '@/styles/app.scss'
 import "@/styles/selfie.scss"
 import { QueryClient, QueryClientProvider } from "react-query";

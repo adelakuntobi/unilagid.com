@@ -27,12 +27,16 @@ export default async function handler(
     }
 
     const userId = (user._id as ObjectId).toString(); // Convert ObjectId to string
-    const accessToken = generateToken(userId);
+    const access_token = generateToken(userId);
 
-    return res.status(200).json(returnMsg("Login successful", true, {
-      accessToken,
-      data: user
-    }));
+    return res.status(200).json(returnMsg("Login successful", true, 
+    {
+      access_token,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName
+    }
+    ));
   } catch (error) {
     console.log(error);
     return res.status(500).json(returnMsg("Internal server error", false));

@@ -1,0 +1,63 @@
+$icon-bg-color: transparent;
+$sidebar-width: 280px !default;
+$icon-size: 20px;
+$highlight-color: #eff6ff;
+$submenu-bg-color: #f6f6fa;
+$submenu-bg-color-collapsed: #eff6ff;
+$breakpoint-xs: 480px !default;
+$breakpoint-sm: 640px !default;
+$breakpoint-md: 768px !default;
+$breakpoint-lg: 1024px !default;
+$breakpoint-xl: 1280px !default;
+
+.pro-sidebar {
+  &.toggled{
+    z-index: 190 !important;
+  }
+  z-index: 0 !important;
+  color: #FFFFFF !important;
+}
+.pro-sidebar .pro-menu a {
+  color: #FFFFFF !important;
+}
+.pro-sidebar > .pro-sidebar-inner > .pro-sidebar-layout .pro-sidebar-header{
+  border: none !important;
+}
+.pro-sidebar .pro-menu .pro-menu-item > .pro-inner-item > .pro-icon-wrapper {
+  font-size: 30px !important;
+  font-weight: 700;
+}
+
+.pro-sidebar > .pro-sidebar-inner > .pro-sidebar-layout {
+  height: calc(100% - 16px) !important;
+  width: 100% !important;
+  max-width: 280px;
+  position: fixed !important;
+  border-radius: 16px;
+  background: #1C9B88 !important;
+}
+.pro-sidebar *{
+  font-family: "Satoshi", sans-serif !important;
+}
+
+.pro-sidebar .pro-menu .pro-menu-item {
+  margin-bottom: 0.5rem;
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+  .pro-inner-item{
+    padding: 15px 15px 15px 15px !important;
+  }
+  &:hover,&.active {
+    background: #20A793;
+    border-radius: 6px;
+    font-weight: 500;
+    color: black;
+  }
+  &:hover{
+    background: #51c7b6;
+  
+  }
+}
+
+  @import "~react-pro-sidebar/dist/scss/styles.scss";
