@@ -14,7 +14,7 @@ import {
   AccordionItemButton,
   AccordionItemPanel,
 } from 'react-accessible-accordion';
-
+import { motion } from "framer-motion"
 import 'react-accessible-accordion/dist/fancy-example.css';
 import styled from 'styled-components'
 
@@ -43,7 +43,13 @@ export default function Home() {
       heading: "Review Credentials and Submit",
       desc: "Upon completed of all necessary steps, review to ensure that all the information is accurate and complete."
     },
-  ]
+  ];
+  const visible = { opacity: 1, y: 0, transition: { duration: 0.5 } };
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible
+  };
+
   return (
     <div>
       <Head>
@@ -73,22 +79,80 @@ export default function Home() {
         </nav>
         <div className='items-center justify-center px-4  text-center gap-8 mx-auto z-[10] relative max-w-5xl' style={{ height: "calc(100vh - 192px)" }}>
           <div>
-            <img src='/img/student1.png' alt="" />
+            <motion.img
+              initial={{ y: -10 }}
+              animate={{ y: 10 }}
+              transition={{
+                type: "smooth",
+                repeatType: "mirror",
+                duration: 2,
+                repeat: Infinity,
+              }}
+              src='/img/student1.png' alt="" />
             <img className='relative -left-11 my-5' src='/img/arrow.svg' alt="" />
-            <img className='relative left-11 my-5' src='/img/student2.png' alt="" />
+            <motion.img
+              initial={{ y: 10 }}
+              animate={{ y: -10 }}
+              transition={{
+                type: "linear",
+                repeatType: "mirror",
+                duration: 2,
+                repeat: Infinity,
+              }}
+              className='relative left-11 my-5' src='/img/student2.png' alt="" />
           </div>
-          <div className='items-center justify-center flex-col px-4 max-w-5xl text-center gap-4 mx-auto z-[10] relative'>
-            <h1 className='other-font text-6xl font-medium text-center text-[#101828]'>Studying at <span className='bg-[#FFBE00] rounded-full px-3'>Unilag?</span> <br />
-              Create your Student ID</h1>
-            <p className='text-[#333333] text-xl'>No more waiting for hours in the school office or standing long queues. Simply upload your photo and fill out your information</p>
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            exit={{ opacity: 0, transition: { duration: 1 } }}
+            variants={{ visible: { transition: { staggerChildren: 0.3 } } }}
+
+            className='items-center justify-center flex-col px-4 max-w-5xl text-center gap-4 mx-auto z-[10] relative'>
+            <motion.h1
+              variants={{
+                hidden: { opacity: 0, y: -20 },
+                visible
+              }}
+              className='other-font text-6xl font-medium text-center text-[#101828]'>
+              Studying at <span className='bg-[#FFBE00] rounded-full px-3'>Unilag?</span> <br />
+              Create your Student ID</motion.h1>
+            <motion.p variants={itemVariants} className='text-[#333333] text-xl'>No more waiting for hours in the school office or standing long queues. Simply upload your photo and fill out your information</motion.p>
             <Link href="/login">
-              <button className='px-20'>Get Started</button>
+              <motion.button variants={itemVariants}
+              // initial={{ opacity: 0.6 }}
+              whileHover={{
+                scale: 1.1,
+                transition: { duration: 0.6 },
+              }}
+              whileTap={{ scale: 0.9 }}
+              // whileInView={{ opacity: 1 }}
+               className='px-20'>Get Started</motion.button>
             </Link>
-          </div>
+          </motion.div>
+
+
           <div className=''>
-            <img src='/img/student3.png' alt="" />
+            <motion.img
+               initial={{ y: -10 }}
+              animate={{ y: 10 }}
+              transition={{
+                type: "smooth",
+                repeatType: "mirror",
+                duration: 2,
+                repeat: Infinity,
+              }}
+            src='/img/student3.png' alt="" />
             <img className='relative -right-11 my-8' src='/img/arrow2.svg' alt="" />
-            <img className='relative -left-11 my-5' src='/img/student4.png' alt="" />
+            <motion.img
+               initial={{ y: 10 }}
+              animate={{ y: -10 }}
+              transition={{
+                type: "smooth",
+                repeatType: "mirror",
+                duration: 2,
+                repeat: Infinity,
+              }}
+            className='relative -left-11 my-5' src='/img/student4.png' alt="" />
           </div>
         </div>
       </header>
@@ -221,7 +285,7 @@ export default function Home() {
             <div>
               <FooterUls>
                 <li>For enquiries</li>
-              <li> <a href="mailto:hello@unilag.edu.ng">hello@unilag.edu.ng</a></li>
+                <li> <a href="mailto:hello@unilag.edu.ng">hello@unilag.edu.ng</a></li>
                 <li><a href="tel:+234 507 364 616">+234 507 364 616</a></li>
               </FooterUls>
             </div>
@@ -230,9 +294,9 @@ export default function Home() {
             <small>&copy; 2023 UNILAG. All rights reserved</small>
             <div className='items-center gap-8'>
 
-            <small>Terms and conditions</small>
-            <small>Privacy Policy</small>
-            <small>Cookie policy</small>
+              <small>Terms and conditions</small>
+              <small>Privacy Policy</small>
+              <small>Cookie policy</small>
             </div>
           </div>
         </div>

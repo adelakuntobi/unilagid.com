@@ -6,8 +6,15 @@ Chart.register(LinearScale, CategoryScale, BarElement);
 
 const BarChart = () => {
   // Generate random data
-  const max = 12
-  const labels = ['Arts', 'Education', 'Engineering', 'Management Science', 'Science','Law', 'Environmental Science' ,'Social Sciences'];
+  const max = 1000
+  const labels = [  "Chemical Engineering",
+  "Civil & Environmental",
+  "Electrical & Electronics",
+  "Mechanical Engineering",
+  "Metallurgical & Materials",
+  "Petroleum and Gas",
+  "Surveying & Geo-Informatics",
+  "Systems Engineering"];
   const data = [Math.random() * max,Math.random() * max,Math.random() * max,Math.random() * max,Math.random() * max,Math.random() * max,Math.random() * max,Math.random() * max,];
 
   const chartData = {

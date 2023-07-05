@@ -73,7 +73,7 @@ const Users = () => {
     refetchOnWindowFocus: 'always'
   });
 
-  const baseUrl = 'https://studentportal.unilag.edu.ng/(S(2nuegtmwglih1jpo5ja5dpc0))/StudentPassport.aspx?MatricNo='
+  const baseUrl = 'https://studentportalbeta.unilag.edu.ng/(S(2nuegtmwglih1jpo5ja5dpc0))/StudentPassport.aspx?MatricNo='
 
   return (
     <AdminLayout title="New students">

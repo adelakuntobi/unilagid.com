@@ -22,12 +22,12 @@ const documentsSchema = new Schema<documents>(
       unique: true,
     },
     affidavit: {
-      type: String,
-      required: true,
+      data: Buffer,
+      contentType: String,
     },
     policeReport: {
-      type: String,
-      required: true,
+      data: Buffer,
+      contentType: String,
     },
     status: {
       type: String,

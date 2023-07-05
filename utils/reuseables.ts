@@ -131,7 +131,7 @@ export const convertDate = (date) => {
 export async function convertImg(imageUrl) {
   // const baseUrl = process.env.IMAGE_URL
   const baseUrl =
-    "https://studentportal.unilag.edu.ng/(S(2nuegtmwglih1jpo5ja5dpc0))/StudentPassport.aspx?MatricNo=";
+    "https://studentportalbeta.unilag.edu.ng/(S(2nuegtmwglih1jpo5ja5dpc0))/StudentPassport.aspx?MatricNo=";
   try {
     const response = await fetch(baseUrl + imageUrl);
     const blob = await response.blob();

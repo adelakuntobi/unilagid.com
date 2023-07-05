@@ -22,7 +22,7 @@ const Preview = (props: any) => {
   const signRef = useRef<any>();
 
   useEffect(() => {
-    const baseUrl = 'https://studentportal.unilag.edu.ng/(S(2nuegtmwglih1jpo5ja5dpc0))/StudentPassport.aspx?MatricNo='
+    const baseUrl = 'https://studentportalbeta.unilag.edu.ng/(S(2nuegtmwglih1jpo5ja5dpc0))/StudentPassport.aspx?MatricNo='
 
     const imgUrl = baseUrl + "160403048"
 

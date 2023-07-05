@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import { Documents, User } from "@/lib/models";
 import {formidable} from "formidable";
+import multer from "multer"
 
 export default async function handler(
   req: NextApiRequest,
@@ -34,39 +35,52 @@ export default async function handler(
         _id: new ObjectId(userId),
       });
 
-      const form = new formidable.IncomingForm();
-
-      form.parse(req, async (err, fields, files) => {
-        if (err) {
-          res.status(500).json({ error: "Error parsing the file" });
-          return;
-        }
-
-        // Access the PDF file
-        const pdfFile = files.pdf;
-
-        // Validate the incoming request data
-        if (!pdfFile) {
-          return res
-            .status(400)
-            .json({ message: "PDF file is missing", status: "error" });
-        }
-
-        // Insert the user document into the MongoDB collection
-        await Documents.create({
-          matricNo,
-          pdf: {
-            name: pdfFile.name,
-            data: pdfFile.path,
-          },
-          ...fields,
-        });
-
-        return res.status(201).json({
-          message: "Documents successfully added",
-          status: "success",
-        });
+      // Storage
+      const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+          cb(null, "./public/uploads"); 
+        },
+        filename: function (req, file, cb) {
+          cb(null, file.originalname);
+        },
       });
+
+      // Upload
+      const upload = multer({ storage: storage }).fields([  
+        { name: "affidavit", maxCount: 1 },
+        { name: "policeReport", maxCount: 1 },
+      ]);
+
+      upload(req, res, async function (err) {
+        if (err instanceof multer.MulterError) {
+          return res.status(500).json(err);
+        }
+        if (err) {
+          return res.status(500).json(err);
+        }
+        try{
+          const { affidavit, policeReport } = req['files'];
+          const affidavitPath = affidavit[0].path;
+          const policeReportPath = policeReport[0].path;
+          const documents = await Documents.findOneAndUpdate(
+            { matricNo: matricNo },
+            {
+              affidavit: affidavitPath,
+              policeReport: policeReportPath,
+              status: "pending",
+            },
+            { upsert: true, new: true }
+          );
+          return res.status(200).json({
+            message: "Documents uploaded successfully",
+            status: "success",
+            data: documents,
+          });
+          }catch(e){
+            console.log(e)
+          }
+      });
+     
     } catch (error) {
       console.log(error);
       if (error.name === "TokenExpiredError") {
