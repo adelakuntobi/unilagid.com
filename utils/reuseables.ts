@@ -127,6 +127,18 @@ export const convertDate = (date) => {
     minutes < 10 ? `0${minutes}` : minutes
   } ${hours > 12 ? `PM` : `AM`}`;
 };
+function convertToBase64(file){
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      resolve(fileReader.result)
+    };
+    fileReader.onerror = (error) => {
+      reject(error)
+    }
+  })
+}
 
 export async function convertImg(imageUrl) {
   // const baseUrl = process.env.IMAGE_URL

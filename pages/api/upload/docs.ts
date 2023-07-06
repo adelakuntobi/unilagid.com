@@ -2,9 +2,17 @@ import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import { Documents, User } from "@/lib/models";
-import {formidable} from "formidable";
-import multer from "multer"
+import multer from "multer";
+import { v4 as uuidv4 } from "uuid";
+import path from "path";
+import fs from "fs";
+import { returnMsg } from "@/utils/req";
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -35,52 +43,68 @@ export default async function handler(
         _id: new ObjectId(userId),
       });
 
-      // Storage
       const storage = multer.diskStorage({
-        destination: function (req, file, cb) {
-          cb(null, "./public/uploads"); 
-        },
-        filename: function (req, file, cb) {
-          cb(null, file.originalname);
-        },
-      });
-
-      // Upload
-      const upload = multer({ storage: storage }).fields([  
-        { name: "affidavit", maxCount: 1 },
-        { name: "policeReport", maxCount: 1 },
-      ]);
-
-      upload(req, res, async function (err) {
-        if (err instanceof multer.MulterError) {
-          return res.status(500).json(err);
-        }
-        if (err) {
-          return res.status(500).json(err);
-        }
-        try{
-          const { affidavit, policeReport } = req['files'];
-          const affidavitPath = affidavit[0].path;
-          const policeReportPath = policeReport[0].path;
-          const documents = await Documents.findOneAndUpdate(
-            { matricNo: matricNo },
-            {
-              affidavit: affidavitPath,
-              policeReport: policeReportPath,
-              status: "pending",
-            },
-            { upsert: true, new: true }
+        destination: (req, file, cb) => {
+          // const matricNumber = req.body.matricNumber;
+          const destinationPath = path.join(
+            process.cwd(),
+            "uploads",
+            String(matricNo)
           );
-          return res.status(200).json({
-            message: "Documents uploaded successfully",
-            status: "success",
-            data: documents,
-          });
-          }catch(e){
-            console.log(e)
-          }
+          fs.mkdirSync(destinationPath, { recursive: true });
+
+          cb(null, destinationPath);
+        },
+        filename: (req, file, cb) => {
+          const uniqueSuffix = uuidv4();
+          const extension = path.extname(file.originalname);
+          const fileName =
+            file.fieldname === "affidavit" ? "affidavit" : "policereport";
+          cb(null, `${fileName}_${uniqueSuffix}${extension}`);
+        },
       });
-     
+      const upload = multer({ storage });
+
+      try {
+        await upload.fields([
+          { name: "affidavit", maxCount: 1 },
+          { name: "policereport", maxCount: 1 },
+        ])(req, res, async (error) => {
+          try {
+            if (error) {
+              console.error(error);
+              return res.status(500).json({ message: "File upload failed" });
+            }
+  
+            const { affidavit, policereport } = req['files'];
+  
+            const file = new Documents({
+              matricNo,
+              affidavit: affidavit[0].filename,
+              policereport: policereport[0].filename,
+              status: "pending",
+              reason: "",
+            });
+  
+            try {
+              await file.save();
+              return res.status(200).json({ message: "File upload successful" });
+            } catch (error) {
+              if (error.name === "MongoServerError" && error.code === 11000) {
+                return res.status(400).json(returnMsg("Documents already uploaded", false));
+              }
+              console.error(error);
+              return res.status(500).json({ message: "File upload failed" });
+            }
+          } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "File upload failed" });
+          }
+        });
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "File upload failed" });
+      }
     } catch (error) {
       console.log(error);
       if (error.name === "TokenExpiredError") {

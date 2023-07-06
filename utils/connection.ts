@@ -11,7 +11,7 @@ if (!MONGODB_URI) {
 const connectDB = async () => {
   try {
     const connection = await connect(MONGODB_URI, {});
-    // console.log('database connected')
+    console.log('database connected')
     return connection;
   } catch (error) {
     console.log(error);

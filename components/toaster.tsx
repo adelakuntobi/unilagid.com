@@ -11,7 +11,7 @@ export const options = {
 }
 
 
-export default function cogotoast(message:any, type:any) {
+export default function cogotoast(message:any, type:string) {
   switch (type) {
     case "success":
       cogoToast.success(

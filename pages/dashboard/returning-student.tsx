@@ -28,9 +28,9 @@ const ReturningStudent = () => {
     e.preventDefault()
     if (policeReport && affidavit) {
       setIsLoading(true)
-      
+
       // setTimeout(() => {
-        
+
       //   setIsLoading(false)
       //   setSuccess(true)
       // }, 3000);
@@ -42,22 +42,40 @@ const ReturningStudent = () => {
       formData.append('affidavit', affidavit);
       const token = getWithExpiry("jwtToken")
       try {
-        const response = await fetch(uploadDocs, {
-          method: 'POST',
-          headers: {
-            'Authorization': "Bearer " + token,
-          },
-          body: formData,
-        });
 
-        const data = await response.json();
+
+
+        const formData = new FormData();
+        const headers = new Headers();
+        // formData.append('matricNumber', matricNumber);
+        formData.append('affidavit', affidavit);
+        formData.append('policereport', policeReport);
+
+        headers.append("Authorization", `Bearer ${token}`)
+
+        const response = await fetch('/api/upload/docs', {
+          method: 'POST',
+          body: formData,
+          headers
+        });
+        const res = await response.json()
         setIsLoading(false)
-        if (data) {
+
+
+        if (response.ok) {
+          cogotoast("Documents successfully uploaded", "success")
+          setAffidavit("")
+          setPoliceReport("")
+        } else {
+          cogotoast("You have already uploaded documents", "error")
         }
-        console.log(data);
+
+
+
       } catch (error) {
         setIsLoading(false)
-        console.error('Error uploading PDF:', error);
+        // cogotoast(err/)
+        cogotoast('Error uploading document, try again', "error");
       }
     }
     else {
@@ -102,7 +120,7 @@ const ReturningStudent = () => {
       </Head>
       <div className='h-screen grid place-items-center bg-gray-50'>
         <form onSubmit={handleSubmit} className='bg-white shadow-md max-w-lg w-full px-6 py-6 rounded-lg flex flex-col gap-10'>
-        Back
+          Back
 
           <div className="justify-center w-full">
             <Logo />

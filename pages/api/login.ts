@@ -3,7 +3,6 @@ import { comparePasswords, generateToken } from "../../utils/auth";
 import { ObjectId } from "mongodb";
 import sendEmail from "@/utils/sendmail";
 import { returnMsg } from "@/utils/req";
-import { data } from "autoprefixer";
 import { User } from "@/lib/models";
 
 export default async function handler(

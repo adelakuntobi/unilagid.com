@@ -5,3 +5,5 @@ module.exports = {
     optimizeFonts: false,
   },
 }
+// const withImages = require('next-images');
+// module.exports = withImages();
