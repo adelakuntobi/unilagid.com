@@ -51,6 +51,11 @@ export default async function handler(
             "uploads",
             String(matricNo)
           );
+          const uploadDirectory = '/var/task/uploads';
+
+          if (!fs.existsSync(uploadDirectory)) {
+            fs.mkdirSync(uploadDirectory);
+          }
           fs.mkdirSync(destinationPath, { recursive: true });
 
           cb(null, destinationPath);

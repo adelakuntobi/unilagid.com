@@ -10,6 +10,7 @@ import Head from 'next/head';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
 import styled from 'styled-components';
+import { logOutAction } from '@/utils/auth';
 
 
 const ReturningStudent = () => {
@@ -63,11 +64,17 @@ const ReturningStudent = () => {
 
 
         if (response.ok) {
+          // setSuccess(true)
           cogotoast("Documents successfully uploaded", "success")
           setAffidavit("")
           setPoliceReport("")
         } else {
-          cogotoast("You have already uploaded documents", "error")
+          if(res.message === "Unauthenticated"){
+            logOutAction()
+          }
+          else{
+            cogotoast("You have already uploaded documents", "error")
+          }
         }
 
 
