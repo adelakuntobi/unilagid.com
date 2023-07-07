@@ -13,7 +13,7 @@ import { useQuery } from 'react-query';
 import PreLoader from '@/components/preloader';
 
 import { BsPatchCheckFill, BsPatchExclamationFill } from 'react-icons/bs';
-import { HiArrowNarrowRight } from 'react-icons/hi';
+import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import Link from 'next/link';
 import { Document } from 'react-pdf';
 import PDFPreview from '@/components/pdfviewer';
@@ -31,6 +31,9 @@ const Users = () => {
   const { matricNumber } = router.query
 
 
+  const goBack = () => {
+    router.back();
+  };
   const handleRadioChange = (event) => {
     const selectedOption = event.target.value;
     setReason(selectedOption);
@@ -107,6 +110,9 @@ const Users = () => {
     <AdminLayout title={String(matricNumber)}>
       <AllSection>
         <section>
+          <div onClick={goBack} className='text-lg items-center mb-6 gap-3 hover:text-primary cursor-pointer'>
+            <MdOutlineKeyboardBackspace className='text-2xl' /> Back
+          </div>
           <div className='items-center justify-between gap-4 mb-2'>
             <div>
               {
@@ -292,17 +298,21 @@ const Users = () => {
                   </div>
 
               }
+              {
+                userdata?.document?.status === "pending"
+                &&
+                <div className="items-center w-full justify-end gap-6 mt-10 pt-10 border-t">
+                  <button className={`text-sm  !py-3 h-auto bg-[#FEE4E2] text-[#510404] border-[#510404] hover:bg-red-100 px-6 w-fit`}
+                    onClick={() => setChangeStatus("rejected")} disabled={isLoading}>
+                    Reject application
+                  </button>
+                  <button className={`text-sm h-auto !py-3 px-6 w-fit bg-[#510404] border-[#510404] text-white`}
+                    onClick={() => setChangeStatus("approved")} disabled={isLoading}>
+                    Approve application
+                  </button>
+                </div>
+              }
 
-              <div className="items-center w-full justify-end gap-6 mt-10 pt-10 border-t">
-                <button className={`text-sm  !py-3 h-auto bg-[#FEE4E2] text-[#510404] border-[#510404] hover:bg-red-100 px-6 w-fit`}
-                  onClick={() => setChangeStatus("rejected")} disabled={isLoading}>
-                  Reject application
-                </button>
-                <button className={`text-sm h-auto !py-3 px-6 w-fit bg-[#510404] border-[#510404] text-white`}
-                  onClick={() => setChangeStatus("approved")} disabled={isLoading}>
-                  Approve application
-                </button>
-              </div>
             </div>
           </div>
         </section>

@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import withAuth from '../../../services/withAuth';
 import CircleLoader from '@/components/Loader';
 import AdminLayout from '@/components/adminLayout';
-import { convertDate, numberWithCommas } from '@/utils/reuseables';
+import { convertDate, getColor, numberWithCommas } from '@/utils/reuseables';
 import { useQuery } from 'react-query';
 import PreLoadingBox from '@/components/PreloadingBox';
 
@@ -47,13 +47,13 @@ const Users = () => {
 
 
   const filterBy = (status) => {
-    if(overviewRes?.data !== undefined){
+    if (overviewRes?.data !== undefined) {
       const filteredArray = overviewRes?.data?.data.filter(item => item.status === status);
       console.log(filteredArray.length)
       // return filteredArray.length
       return filteredArray.length;
     }
-    else{
+    else {
       return 0
     }
   }
@@ -62,7 +62,7 @@ const Users = () => {
   const verificationCount = [
     {
       name: "Total applications",
-      value:  overviewRes?.data?.data.length
+      value: overviewRes?.data?.data.length
     },
     {
       name: "Approved applications",
@@ -156,6 +156,7 @@ const Users = () => {
                     <th>Faculty</th>
                     <th>Year of Admission</th>
                     <th>Date Created</th>
+                    <th>Status</th>
                     <th><MdOutlineArrowForwardIos className="text text-[#9CA1A5] block ml-auto mr-0" /></th>
                   </tr>
                 </thead>
@@ -175,6 +176,20 @@ const Users = () => {
                           </td>
                           <td className='!text-left capitalize'>{item.faculty}</td>
                           <td>{item.yearOfAdmission}</td>
+                          <td>
+                            <div className="items-center font-medium text-sm justify-end gap-2 !inline-flex py-[6px] px-5 tracking-wide rounded-full capitalize"
+                              style={{
+                                backgroundColor: getColor(item.status).bg,
+                                color: getColor(item.status).text
+                              }}
+                            >
+                              <span className="w-2 h-2 rounded-full"
+                                style={{
+                                  backgroundColor: getColor(item.status).text
+                                }}></span>
+                              {item.status}
+                            </div>
+                          </td>
                           <td>{convertDate(item.createdAt)}</td>
                           <td><MdOutlineArrowForwardIos className="text text-[#9CA1A5] block ml-auto mr-0" /></td>
                         </tr>
@@ -188,7 +203,7 @@ const Users = () => {
         </section>
       </AllSection>
 
-    
+
     </AdminLayout>
   );
 };

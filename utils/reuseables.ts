@@ -242,3 +242,36 @@ export function imageTo64(
     reader.onloadend = (): void => callback(reader.result);
   }
 }
+
+
+export const getColor = (status) => {
+  var statusNew = status.toLowerCase()
+  switch (statusNew) {
+    case "approved":
+      return {
+        bg: "#ECFDF3",
+        text: "#027A48"
+      }
+
+    case "pending":
+      return {
+        bg: "#FFF8E2",
+        text: "#F79009",
+      }
+    case "rejected":
+      return {
+        bg: "#FFECEF",
+        text: "#DD6262"
+      }
+    case "reversed":
+      return {
+        bg: "#EEEEEE",
+        text: "#000000"
+      }
+    default:
+      return {
+        bg: "#FEFEFE",
+        text: "#000000"
+      }
+  }
+}

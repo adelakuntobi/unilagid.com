@@ -18,7 +18,7 @@ export default async function handler(
     // const token = authorizationHeader.substring(7);
 
     try {
-      const {matricNo,  reason, status } = req.body;
+      const {matricNo,  reason, status } = JSON.parse(req.body);
       
       console.log(req.body['matricNo']);
       if (isNaN(matricNo)) {
