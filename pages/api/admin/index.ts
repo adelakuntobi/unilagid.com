@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
-import { Biometrics, User } from "@/lib/models";
+import { Biometrics, Documents } from "@/lib/models";
 
 export default async function handler(
   req: NextApiRequest,
@@ -25,27 +25,17 @@ export default async function handler(
     try {
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
-      // Access the user ID from the decoded token
-      const userId = decodedToken["userId"];
-
-      const biometricsData = await Biometrics.find({});
-      const arr = [];
-
-      for (const element of biometricsData) {
-        const userData = await User.findOne({ matricNo: Number(element.matricNo) });
-        if (userData) {
-          const user = {
-            biometrics: element,
-            user: userData,
-          };
-          arr.push(user);
-        }
-      }
+      const returning = (await Documents.find({})).length;
+      const newStudents = (await Biometrics.find({})).length;
 
       return res.status(200).json({
         message: "Details fetched successfully",
         status: "success",
-        data: arr,
+        data: {
+          total: newStudents + returning,
+          newStudents,
+          returning,
+        },
       });
     } catch (error) {
       if (error.name === "TokenExpiredError") {

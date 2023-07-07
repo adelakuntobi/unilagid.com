@@ -4,7 +4,6 @@ import { RiWalletLine } from "react-icons/ri"
 import { GrTransaction } from "react-icons/gr"
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 import { useState, useEffect } from 'react'
-import Select from 'react-select'
 import AdminLayout from '@/components/adminLayout'
 import PreLoader from '@/components/preloader'
 import withAuth from '@/services/withAuth'
@@ -13,12 +12,13 @@ import { AllSection } from '@/styles/useStyles'
 import api, { adminOverview } from '@/services/api'
 import { numberWithCommas } from '@/utils/reuseables';
 import BarChart from '@/components/Barchart';
+import Link from 'next/link';
 
 
-export const getOverview = async () => {
-  const response = await api.get(adminOverview);
-  return response
-}
+// export const getOverview = async () => {
+//   const response = await api.get(adminOverview);
+//   return response
+// }
 
 const options = [
   { value: '0', label: 'Today' },
@@ -30,58 +30,56 @@ const options = [
 ];
 
 const AdminDashboard: NextPage = () => {
-  const [userFilterBy, setUserFilterBy] = useState({ value: '0', label: 'Today' });
-  const [transactionFilterBy, setTransactionFilterBy] = useState({ value: '0', label: 'Today' },);
-  const [isFetching, setIsFetching] = useState(false)
-  const [isTransFetching, setIsTransFetching] = useState(false)
-  const [isSuccessful, setIsSuccessful] = useState(false)
-  const [usersCount, setUsersCount] = useState({
-    all_users: '',
-    registered_user: '',
-    active_users: '',
-    inactive_users: '',
-    drop_offs: '',
-    verified_users: '',
-    pending_users: '',
-    failed_users: '',
-    blocked_users: ''
-  })
-  const [transactionsCount, setTransactionsCount] = useState({
-    successful_transaction_amount: "",
-    successful_transaction_count: "",
-    failed_transaction_count: "",
-    settlement_amount: "",
-    pending_count: ""
-  })
+  // const [userFilterBy, setUserFilterBy] = useState({ value: '0', label: 'Today' });
+  // const [transactionFilterBy, setTransactionFilterBy] = useState({ value: '0', label: 'Today' },);
+  const [isLoading, setIsLoading] = useState(false)
+  const [userdata, setUserdata] = useState<any>({})
 
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsSuccessful(true)
-    }, 3000);
-    // setUsersCount(overviewData?.users_count)
-    // setTransactionsCount(overviewData?.transactions)
-
-  }, [isSuccessful])
 
   const verificationCount = [
     {
       name: "Total count",
-      value: 12,
-      icon: RiWalletLine
+      value: Number(userdata?.total),
+      icon: RiWalletLine,
+      route: "/admin"
     },
     {
       name: "New students",
-      value: 9,
-      icon: RiWalletLine
+      value: Number(userdata?.newStudents),
+      icon: RiWalletLine,
+      route: "/admin/new-students"
     },
     {
       name: "Returning students",
-      value: 3,
-      icon: RiWalletLine
+      value: Number(userdata?.returning),
+      icon: RiWalletLine,
+      route: "/admin/returning-students"
     },
   ]
 
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true)
+      try {
+        const response = await api.get("/api/admin");
+        const res = await response.data;
+        console.log(res)
+        if (res?.['message'] === "Details fetched successfully") {
+          const data = res.data
+          setIsLoading(false)
+          console.log(data);
+          setUserdata(data)
+        }
+      } catch (error) {
+        setIsLoading(false)
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData()
+  }, [])
 
   return (
     <AdminLayout title="Overview">
@@ -93,14 +91,13 @@ const AdminDashboard: NextPage = () => {
           <div className="cards three">
             {
               verificationCount.map((item, index) => (
-                isSuccessful ?
-                  <div key={index} className="bg-white flex flex-col w-full px-6 py-6 border-[#eff2f6] shadow rounded relative">
+                (Object.keys(userdata).length !== 0) ?
+                  <Link href={item.route} key={index} className="bg-white flex flex-col w-full px-6 py-6 border-[#eff2f6] shadow rounded relative">
                     <div className="items-center gap-2 ">
-                      {/* <item.icon size={24} className="opacity-100" /> */}
                       <label htmlFor="" className="text-[#364a63] tracking-tight">{item.name}</label>
                     </div>
                     <h3 className="text-2xl font-semibold pt-10 text-[#364a63]">{numberWithCommas(item.value)}</h3>
-                  </div>
+                  </Link>
                   :
                   <PreLoadingBox key={index} />
               ))

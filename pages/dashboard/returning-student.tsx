@@ -2,14 +2,11 @@ import CircleLoader from '@/components/Loader';
 import Logo from '@/components/Logo';
 import Successful from '@/components/success';
 import cogotoast from '@/components/toaster';
-import api, { uploadDocs } from '@/services/api';
 import withAuth from '@/services/withAuth';
 import { FormInput } from '@/styles/useStyles';
 import { getWithExpiry } from '@/utils/req';
 import Head from 'next/head';
 import { useState } from 'react';
-import { useMutation } from 'react-query';
-import styled from 'styled-components';
 import { logOutAction } from '@/utils/auth';
 
 
@@ -48,7 +45,6 @@ const ReturningStudent = () => {
 
         const formData = new FormData();
         const headers = new Headers();
-        // formData.append('matricNumber', matricNumber);
         formData.append('affidavit', affidavit);
         formData.append('policereport', policeReport);
 
@@ -144,7 +140,7 @@ const ReturningStudent = () => {
           <div>
             <FormInput>
               <label htmlFor="">Police report <small>(JPG, JPEG,PNG or PDF)</small></label>
-              <input onChange={handlePoliceReport} type="file" name="password" id="password" accept=".pdf,.jpeg,.jpg,.png" />
+              <input value={policeReport} onChange={handlePoliceReport} type="file" name="password" id="password" accept=".pdf,.jpeg,.jpg,.png" />
             </FormInput>
           </div>
 

@@ -47,6 +47,7 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",
     "react-nprogress": "^0.1.6",
+    "react-pdf": "^7.1.2",
     "react-pro-sidebar": "0.7.1",
     "react-query": "^3.39.3",
     "react-scroll": "^1.8.9",

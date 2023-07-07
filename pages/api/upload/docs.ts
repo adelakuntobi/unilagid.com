@@ -39,24 +39,30 @@ export default async function handler(
       // Access the user ID from the decoded token
       const userId = decodedToken["userId"];
 
-      const { matricNo } = await User.findOne({
+      const {
+        firstName,
+        otherNames,
+        lastName,
+        faculty,
+        yearOfAdmission,
+        matricNo,
+      } = await User.findOne({
         _id: new ObjectId(userId),
       });
 
       const storage = multer.diskStorage({
         destination: (req, file, cb) => {
-          // const matricNumber = req.body.matricNumber;
           const destinationPath = path.join(
             process.cwd(),
-            "uploads",
+            "public/uploads",
             String(matricNo)
           );
-          const uploadDirectory = '/var/task/uploads';
+          // const uploadDirectory = '/var/task/uploads';
 
-          if (!fs.existsSync(uploadDirectory)) {
-            fs.mkdirSync(uploadDirectory);
+          if (!fs.existsSync(destinationPath)) {
+            // fs.mkdirSync(uploadDirectory);
+            fs.mkdirSync(destinationPath, { recursive: true });
           }
-          fs.mkdirSync(destinationPath, { recursive: true });
 
           cb(null, destinationPath);
         },
@@ -80,23 +86,35 @@ export default async function handler(
               console.error(error);
               return res.status(500).json({ message: "File upload failed" });
             }
-  
-            const { affidavit, policereport } = req['files'];
-  
-            const file = new Documents({
+
+            const { affidavit, policereport } = req["files"];
+
+            const file = {
               matricNo,
+              firstName,
+              otherNames,
+              lastName,
+              faculty,
+              yearOfAdmission,
               affidavit: affidavit[0].filename,
               policereport: policereport[0].filename,
               status: "pending",
               reason: "",
-            });
-  
+            };
+
             try {
-              await file.save();
-              return res.status(200).json({ message: "File upload successful" });
+              // await file.create();
+              await Documents.create(file);
+
+              return res
+                .status(200)
+                .json({ message: "File upload successful" });
             } catch (error) {
               if (error.name === "MongoServerError" && error.code === 11000) {
-                return res.status(400).json(returnMsg("Documents already uploaded", false));
+                console.log(error)
+                return res
+                  .status(400)
+                  .json(returnMsg("Documents already uploaded", false));
               }
               console.error(error);
               return res.status(500).json({ message: "File upload failed" });

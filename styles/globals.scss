@@ -95,12 +95,9 @@ button,
 table{
   width: 100%;
   td{
-    padding: 18px 22px;
-    font-size: 13px;
+    padding: 24px 22px;
+    font-size: 15px;
     color: #667085;
-  }
-  th{
-    padding: 16px 22px;
   }
   td,th{
     border-bottom: 1px solid #EAECF0;
@@ -111,11 +108,12 @@ table{
   }
   thead{
     th{
-      font-weight: 500;
-      font-size: 14px;
+      font-weight: 700;
       line-height: 18px;
-      color: #000;
-      text-transform: capitalize;
+      padding: 16px 22px;
+      text-transform: uppercase;
+      font-size: 13px;
+      color: #8094ae;
     }
   }
 }

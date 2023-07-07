@@ -17,6 +17,8 @@ export let uploadDocs = "/api/upload/docs";
 export let adminLogin = "/api/admin/login";
 export let adminOverview = "/api/admin/overview";
 export let adminStudents = "/api/admin/all-students";
+export let allReturningStudents = "/api/admin/all-returning-students";
+// export let eachStudent = "/api/admin/student";
 
 
 // export let filterBy = (type, param) => `super/${type}/filter/${param}`;
