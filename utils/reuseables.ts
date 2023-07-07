@@ -161,14 +161,11 @@ export async function convertImage(imageUrl, callback) {
 }
 export const facialRecogntion = async (matricNo, img1, img2) => {
   console.log("Its running");
-  // Configure the AWS SDK with your credentials and region
   AWS.config.update({
     accessKeyId: "AKIAVCM6G4YYOEZ3STUY",
     secretAccessKey: "Ljk/KelnrrSyxWYD7UVtb1nU1cG5zZLrL1xfSqMg",
     region: "us-east-2",
   });
-
-  // Create an instance of the Amazon Rekognition service
   const rekognition = new AWS.Rekognition();
 
   // Function to convert base64 image to binary data
@@ -191,7 +188,6 @@ export const facialRecogntion = async (matricNo, img1, img2) => {
       Bytes: imageBinary1,
     },
   };
-
   // Define the parameters for the face detection request for Image 2
   const params2 = {
     Image: {
@@ -200,68 +196,58 @@ export const facialRecogntion = async (matricNo, img1, img2) => {
   };
 
   // Perform the face detection request for Image 1
-  rekognition.detectFaces(params1, (err1, data1) => {
-    if (err1) {
-      console.error("Error detecting faces for Image 1:", err1);
-    } else {
-      const detectedFaces1 = data1.FaceDetails;
-      console.log("Detected faces for Image 1:", detectedFaces1);
+  const detectedFaces1 = await rekognition.detectFaces(params1).promise();
+  console.log("Detected faces for Image 1:", detectedFaces1.FaceDetails);
 
-      // Perform the face detection request for Image 2
-      rekognition.detectFaces(params2, (err2, data2) => {
-        if (err2) {
-          console.error("Error detecting faces for Image 2:", err2);
+  // Perform the face detection request for Image 2
+  const detectedFaces2 = await rekognition.detectFaces(params2).promise();
+  console.log("Detected faces for Image 2:", detectedFaces2.FaceDetails);
+
+  // Perform face comparison if at least one face is detected in both images
+  if (
+    detectedFaces1.FaceDetails.length > 0 &&
+    detectedFaces2.FaceDetails.length > 0
+  ) {
+    const compareParams = {
+      SourceImage: {
+        Bytes: imageBinary1,
+      },
+      TargetImage: {
+        Bytes: imageBinary2,
+      },
+      SimilarityThreshold: 80, // Adjust the similarity threshold as needed
+    };
+
+    // Perform the face comparison request
+    const faceComparisonResult = await rekognition
+      .compareFaces(compareParams)
+      .promise();
+    console.log("Face comparison result:", faceComparisonResult.FaceMatches);
+
+    // Process the face comparison result
+    if (faceComparisonResult.FaceMatches.length > 0) {
+      const similarity = faceComparisonResult.FaceMatches[0].Similarity;
+      console.log("Similarity:", similarity);
+      try {
+        // Update the document in the Biometrics collection with the similarity value
+        
+        if (similarity >= 80) {
+          // await Biometrics.updateOne({ matricNo }, { confidence: similarity });
+          console.log("Faces match!");
         } else {
-          const detectedFaces2 = data2.FaceDetails;
-          console.log("Detected faces for Image 2:", detectedFaces2);
-
-          // Perform face comparison if at least one face is detected in both images
-          if (detectedFaces1.length > 0 && detectedFaces2.length > 0) {
-            const faceId1 = detectedFaces1[0]["FaceId"];
-            const faceId2 = detectedFaces2[0]["FaceId"];
-
-            const compareParams = {
-              SourceImage: {
-                Bytes: imageBinary1,
-              },
-              TargetImage: {
-                Bytes: imageBinary2,
-              },
-              SimilarityThreshold: 80, // Adjust the similarity threshold as needed
-            };
-
-            // Perform the face comparison request
-            rekognition.compareFaces(compareParams, async (err3, data3) => {
-              if (err3) {
-                console.error("Error comparing faces:", err3);
-              } else {
-                const faceMatches = data3.FaceMatches;
-                console.log("Face comparison result:", faceMatches);
-
-                // Process the face comparison result
-                if (faceMatches.length > 0) {
-                  const similarity = faceMatches[0].Similarity;
-                  console.log("Similarity:", similarity);
-
-                  // Perform further operations based on the similarity score
-                  if (similarity >= 80) {
-                    console.log("Faces match!");
-                  } else {
-                    console.log("Faces do not match!");
-                  }
-                  return similarity;
-                } else {
-                  return 0;
-
-                  console.log("No face matches found.");
-                }
-              }
-            });
-          }
+          console.log("Faces do not match!");
         }
-      });
+      } catch (error) {
+        console.error(
+          "Error updating document in Biometrics collection:",
+          error
+        );
+      }
+    } else {
+      console.log("No face matches found.");
+      return 0;
     }
-  });
+  }
 };
 export const imageToBase64 = (URL) => {
   let image;

@@ -52,9 +52,9 @@ export default async function handler(
         if (base64String) {
           // jambImg = base64String;
           const { selfie, signature } = req.body;
-          const confidence = await facialRecogntion(matricNo, base64String, selfie);
+          facialRecogntion(matricNo, base64String, selfie)
 
-
+// if()
 
           // Validate the incoming request data
           if (!selfie || !signature) {
@@ -65,7 +65,7 @@ export default async function handler(
     
            Biometrics.create({
             matricNo,
-            confidence,
+            confidence: 0,
             jambImg: base64String,
             ...req.body,
           });
