@@ -27,18 +27,6 @@ const ReturningStudent = () => {
     e.preventDefault()
     if (policeReport && affidavit) {
       setIsLoading(true)
-
-      // setTimeout(() => {
-
-      //   setIsLoading(false)
-      //   setSuccess(true)
-      // }, 3000);
-
-
-
-      const formData = new FormData();
-      formData.append('policeReport', policeReport);
-      formData.append('affidavit', affidavit);
       const token = getWithExpiry("jwtToken")
       try {
 
@@ -146,7 +134,7 @@ const ReturningStudent = () => {
           <div>
             <FormInput>
               <label htmlFor="">Police report <small>(JPG, JPEG,PNG or PDF)</small></label>
-              <input value={policeReport} onChange={handlePoliceReport} type="file" name="password" id="password" accept=".pdf,.jpeg,.jpg,.png" />
+              <input onChange={handlePoliceReport} type="file" name="password" id="password" accept=".pdf,.jpeg,.jpg,.png" />
             </FormInput>
           </div>
 

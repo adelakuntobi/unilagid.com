@@ -260,14 +260,16 @@ const Users = () => {
                               <label>Affidavit</label>
                               {
                                 isLoading ? <PreLoader width="w-44 " /> :
-                                  <a target='_blank' className='text-primary underline font-semibold w-full cursor-pointer ' style={{ overflowWrap: "break-word" }}>{`https://unilagid.com/documents/student/160403048/` + userdata?.documents?.affidavit}</a>
+                                  <a target='_blank' className='text-primary underline font-semibold w-full cursor-pointer ' style={{ overflowWrap: "break-word" }}
+                                  href={`http://localhost:3000/uploads/` +matricNumber+"/"+ userdata?.documents?.affidavit}>{`https://unilagid.com/documents/student/${matricNumber}/` + userdata?.documents?.affidavit}</a>
                               }
                             </ShortDetails>
                             <ShortDetails>
                               <label>Police report</label>
                               {
                                 isLoading ? <PreLoader width="w-44 " /> :
-                                  <a target='_blank' className='text-primary underline font-semibold w-full cursor-pointer ' style={{ overflowWrap: "break-word" }}>{`https://unilagid.com/documents/student/160403048/` + userdata?.documents?.policereport}</a>
+                                  <a target='_blank' className='text-primary underline font-semibold w-full cursor-pointer ' style={{ overflowWrap: "break-word" }} 
+                                  href={`http://localhost:3000/uploads/` +matricNumber+"/"+ userdata?.documents?.policereport}>{`https://unilagid.com/documents/student/${matricNumber}/` + userdata?.documents?.policereport}</a>
                               }
                             </ShortDetails>
                           </>
