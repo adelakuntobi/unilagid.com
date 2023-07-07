@@ -9,6 +9,7 @@ import { RiCheckFill } from "react-icons/ri"
 import cogotoast from "./toaster"
 import AuthLayout from "./NewLayout";
 import Link from "next/link";
+import ImageUploader from "./ImgUploader"
 
 
 export const videoConstraints = {
@@ -30,7 +31,7 @@ export default function Selfie(props: any) {
   const [camera, setCamera] = useState<any>(false)
   const [takePicture, setTakePicture] = useState<any>(false)
   const webcamRef = useRef<Webcam>(null);
-
+  const [upload, setUpload] = useState(false)
   const [imgSrc, setImgSrc] = useState<any | null>(null);
   const [step, setStep] = useState("")
 
@@ -44,7 +45,7 @@ export default function Selfie(props: any) {
     }
 
     else {
-      sessionStorage.setItem("selfie", imgSrc )
+      sessionStorage.setItem("selfie", removeInitialBase64(imgSrc))
       props.nextStep();
     }
   }
@@ -54,7 +55,7 @@ export default function Selfie(props: any) {
     if (webcamRef.current) {
       setTakePicture(true)
       const imageSrc1 = webcamRef?.current?.getScreenshot();
-      
+
       setTimeout(() => {
         setCamera(true)
         setImgSrc(imageSrc1);
@@ -101,7 +102,7 @@ export default function Selfie(props: any) {
               <path fill="#1C9B88" d="M33.7,-28.9C44.9,-22.4,56.1,-11.2,57.2,1C58.2,13.3,49.1,26.6,37.8,33.2C26.6,39.8,13.3,39.7,2.1,37.6C-9.2,35.6,-18.4,31.6,-27,25C-35.6,18.4,-43.6,9.2,-50.5,-6.9C-57.4,-22.9,-63.1,-45.9,-54.5,-52.4C-45.9,-58.9,-22.9,-49,-5.9,-43.1C11.2,-37.3,22.4,-35.5,33.7,-28.9Z" transform="translate(100 100)" />
             </svg>
 
-            <h2 className="font-bold text-2xl mb-3">Liveliness verification</h2>
+            <h2 className="font-bold text-2xl mb-3">Selfie verification</h2>
             <div className="relative mb-8">
               <div className="SelfieCheckAnimation_animate SelfieCheckAnimation_container ">
                 <div className={`SelfieCheckAnimation_completedOverlay ${takePicture ? "show-text" : null}`}></div>
@@ -290,7 +291,8 @@ export default function Selfie(props: any) {
 
                   <button disabled={takePicture} className="w-full mt-12 py-3 transform"
                     onClick={capture}>Take Picture</button>
-                  <label className="font-medium mt-3 block opacity-70 text-center">Having difficulties taking pictures? <b className="text-black opacity-100 hover:text-primary hover:underline cursor-pointer">Try uploading</b></label>
+                  <label className="font-medium mt-3 block opacity-70 text-center">Having difficulties taking pictures? <b className="text-black opacity-100 hover:text-primary hover:underline cursor-pointer" onClick={() => setUpload(true)}>Try uploading</b></label>
+
                 </div>
                 :
                 <button onClick={handleSubmit} className="w-full py-3 transform"
@@ -300,6 +302,10 @@ export default function Selfie(props: any) {
           </div>
         }
       </div>
+
+      {
+        upload && <ImageUploader nextStep={props.nextStep} upload={upload} setUpload={setUpload} />
+      }
     </AuthLayout >
   )
 }

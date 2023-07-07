@@ -24,10 +24,11 @@ export default async function handler(
       if (!data) {
         return res.status(404).json({ error: "User not found" });
       }
-      const result = await User.updateOne({
-        matricNo: data.matricNo,
-        ...req.body,
-      });
+      const result = await User.updateOne(
+        
+        { _id: new ObjectId(userId) },
+        { $set: { ...req.body } },
+      );
 
       return res.status(200).json({ message: "User updated successfully" });
     } catch (error) {
@@ -37,6 +38,7 @@ export default async function handler(
           status: "error",
         });
       }
+      console.log(error)
       return res.status(500).json({ error: "Server error" });
     }
   } catch (error) {

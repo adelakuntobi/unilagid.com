@@ -157,10 +157,10 @@ const CreateUser = () => {
                   <option value="education">Education</option>
                   <option value="science">Sciences</option>
                   <option value="law">Law</option>
-                  <option value="bizAdd">Management Sciences</option>
-                  <option value="socialSciences">Social Sciences</option>
+                  <option value="management_sciences">Management Sciences</option>
+                  <option value="social_sciences">Social Sciences</option>
                   <option value="engineering">Engineering</option>
-                  <option value="environmental">Environmental Sciences</option>
+                  <option value="environmental_science">Environmental Sciences</option>
                 </select>
               </FormInput>
               <FormInput>
@@ -208,15 +208,14 @@ const CreateUser = () => {
                   <option value="2020/2021">2020/2021</option>
                 </select>
               </FormInput>
-              {/* <FormInput>
-                <label htmlFor="hostel">Status</label>
-                <select name="status" onChange={handleChange}>
+              <FormInput>
+                <label htmlFor="hostel">New Student</label>
+                <select name="newStudent" onChange={handleChange}>
                   <option value="">-- Please Select --</option>
-                  <option value="single">Single</option>
-                  <option value="married">Married</option>
-                  <option value="divorced">Divorced</option>
+                  <option value={"true"}>True</option>
+                  <option value={"false"}>False</option>
                 </select>
-              </FormInput> */}
+              </FormInput>
             </div>
             <button className='!w-full mt-6' disabled={isLoading}>
               {

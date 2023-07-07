@@ -1,5 +1,8 @@
+import { Biometrics } from "@/lib/models";
 import AWS from "aws-sdk";
 import fs from "fs";
+import { ObjectId } from "mongodb";
+import { connectDB } from "./connection";
 
 export const guidelinesArr = [
   {
@@ -127,151 +130,207 @@ export const convertDate = (date) => {
     minutes < 10 ? `0${minutes}` : minutes
   } ${hours > 12 ? `PM` : `AM`}`;
 };
-function convertToBase64(file){
+function convertToBase64(file) {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
     fileReader.readAsDataURL(file);
     fileReader.onload = () => {
-      resolve(fileReader.result)
+      resolve(fileReader.result);
     };
     fileReader.onerror = (error) => {
-      reject(error)
-    }
-  })
+      reject(error);
+    };
+  });
 }
 
-export async function convertImg(imageUrl) {
-  // const baseUrl = process.env.IMAGE_URL
-  const baseUrl =
-    "https://studentportalbeta.unilag.edu.ng/(S(2nuegtmwglih1jpo5ja5dpc0))/StudentPassport.aspx?MatricNo=";
-  try {
-    const response = await fetch(baseUrl + imageUrl);
-    const blob = await response.blob();
-
-    return new Promise((resolve, reject) => {
+export async function convertImage(imageUrl, callback) {
+  fetch(imageUrl)
+    .then((response) => response.blob())
+    .then((blob) => {
       const reader = new FileReader();
       reader.onloadend = () => {
-        const base64Data = reader.result;
-        resolve(base64Data);
+        const base64String = reader.result;
+        callback(base64String);
       };
-      reader.onerror = reject;
       reader.readAsDataURL(blob);
+    })
+    .catch((error) => {
+      console.error("Error converting image to base64:", error);
+      callback(null);
     });
-  } catch (error) {
-    console.error("Error converting image to base64:", error);
-    throw error;
-  }
 }
+export const facialRecogntion = async (matricNo, img1, img2) => {
+  console.log("Its running");
+  // Configure the AWS SDK with your credentials and region
+  AWS.config.update({
+    accessKeyId: "AKIAVCM6G4YYOEZ3STUY",
+    secretAccessKey: "Ljk/KelnrrSyxWYD7UVtb1nU1cG5zZLrL1xfSqMg",
+    region: "us-east-2",
+  });
 
-export const facialRecogntion = (img1, img2) => {
-  // Set up AWS credentials and region
-  AWS.config.update({ region: "YOUR_AWS_REGION" });
-
-  // Create an instance of the Rekognition service
+  // Create an instance of the Amazon Rekognition service
   const rekognition = new AWS.Rekognition();
 
-  // Base64-encoded images
-  const image1Base64 = img1;
-  const image2Base64 = img2;
+  // Function to convert base64 image to binary data
+  function convertBase64ToBinary(base64String) {
+    const binaryData = Buffer.from(base64String, "base64");
+    return binaryData;
+  }
 
-  // Helper function to convert base64 to binary data
-  const base64ToBuffer = (base64String) => {
-    const binaryString = Buffer.from(base64String, "base64");
-    return binaryString;
-  };
+  // Base64 image data
+  const base64Image1 = img1;
+  const base64Image2 = img2;
+
   // Convert base64 images to binary data
-  const image1Buffer = base64ToBuffer(image1Base64);
-  const image2Buffer = base64ToBuffer(image2Base64);
-  // Perform facial comparison
-  // const compareFaces = () => {
-  const params = {
-    SimilarityThreshold: 90,
-    SourceImage: {
-      Bytes: image1Buffer,
-    },
-    TargetImage: {
-      Bytes: image2Buffer,
+  const imageBinary1 = convertBase64ToBinary(base64Image1);
+  const imageBinary2 = convertBase64ToBinary(base64Image2);
+
+  // Define the parameters for the face detection request for Image 1
+  const params1 = {
+    Image: {
+      Bytes: imageBinary1,
     },
   };
 
-  return new Promise((resolve, reject) => {
-    rekognition.compareFaces(params, (err, data) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(data);
-      }
-    });
+  // Define the parameters for the face detection request for Image 2
+  const params2 = {
+    Image: {
+      Bytes: imageBinary2,
+    },
+  };
+
+  // Perform the face detection request for Image 1
+  rekognition.detectFaces(params1, (err1, data1) => {
+    if (err1) {
+      console.error("Error detecting faces for Image 1:", err1);
+    } else {
+      const detectedFaces1 = data1.FaceDetails;
+      console.log("Detected faces for Image 1:", detectedFaces1);
+
+      // Perform the face detection request for Image 2
+      rekognition.detectFaces(params2, (err2, data2) => {
+        if (err2) {
+          console.error("Error detecting faces for Image 2:", err2);
+        } else {
+          const detectedFaces2 = data2.FaceDetails;
+          console.log("Detected faces for Image 2:", detectedFaces2);
+
+          // Perform face comparison if at least one face is detected in both images
+          if (detectedFaces1.length > 0 && detectedFaces2.length > 0) {
+            const faceId1 = detectedFaces1[0]["FaceId"];
+            const faceId2 = detectedFaces2[0]["FaceId"];
+
+            const compareParams = {
+              SourceImage: {
+                Bytes: imageBinary1,
+              },
+              TargetImage: {
+                Bytes: imageBinary2,
+              },
+              SimilarityThreshold: 80, // Adjust the similarity threshold as needed
+            };
+
+            // Perform the face comparison request
+            rekognition.compareFaces(compareParams, async (err3, data3) => {
+              if (err3) {
+                console.error("Error comparing faces:", err3);
+              } else {
+                const faceMatches = data3.FaceMatches;
+                console.log("Face comparison result:", faceMatches);
+
+                // Process the face comparison result
+                if (faceMatches.length > 0) {
+                  const similarity = faceMatches[0].Similarity;
+                  console.log("Similarity:", similarity);
+
+                  // Perform further operations based on the similarity score
+                  if (similarity >= 80) {
+                    console.log("Faces match!");
+                  } else {
+                    console.log("Faces do not match!");
+                  }
+                  return similarity;
+                } else {
+                  return 0;
+
+                  console.log("No face matches found.");
+                }
+              }
+            });
+          }
+        }
+      });
+    }
   });
-  // };
 };
 export const imageToBase64 = (URL) => {
   let image;
   image = new Image();
-  image.crossOrigin = 'Anonymous';
-  image.addEventListener('load', function() {
-    console.log()
-      let canvas = document.createElement('canvas');
-      let context = canvas.getContext('2d');
-      canvas.width = image.width;
-      canvas.height = image.height;
-      context.drawImage(image, 0, 0);
-      try {
-        console.log(canvas.toDataURL('image/png'))
-          localStorage.setItem('saved-image-example', canvas.toDataURL('image/png'));
-      } catch (err) {
-          console.error(err)
-      }
+  image.crossOrigin = "Anonymous";
+  image.addEventListener("load", function () {
+    console.log();
+    let canvas = document.createElement("canvas");
+    let context = canvas.getContext("2d");
+    canvas.width = image.width;
+    canvas.height = image.height;
+    context.drawImage(image, 0, 0);
+    try {
+      console.log(canvas.toDataURL("image/png"));
+      localStorage.setItem(
+        "saved-image-example",
+        canvas.toDataURL("image/png")
+      );
+    } catch (err) {
+      console.error(err);
+    }
   });
   image.src = URL;
 };
 
-
 export function imageTo64(
-  url: string, 
+  url: string,
   callback: (path64: string | ArrayBuffer) => void
 ): void {
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', url);
-  xhr.responseType = 'blob';
+  xhr.open("GET", url);
+  xhr.responseType = "blob";
   xhr.send();
 
   xhr.onload = (): void => {
     const reader = new FileReader();
     reader.readAsDataURL(xhr.response);
     reader.onloadend = (): void => callback(reader.result);
-  }
+  };
 }
 
-
 export const getColor = (status) => {
-  var statusNew = status.toLowerCase()
+  var statusNew = status.toLowerCase();
   switch (statusNew) {
     case "approved":
       return {
         bg: "#ECFDF3",
-        text: "#027A48"
-      }
+        text: "#027A48",
+      };
 
     case "pending":
       return {
         bg: "#FFF8E2",
         text: "#F79009",
-      }
+      };
     case "rejected":
       return {
         bg: "#FFECEF",
-        text: "#DD6262"
-      }
+        text: "#DD6262",
+      };
     case "reversed":
       return {
         bg: "#EEEEEE",
-        text: "#000000"
-      }
+        text: "#000000",
+      };
     default:
       return {
         bg: "#FEFEFE",
-        text: "#000000"
-      }
+        text: "#000000",
+      };
   }
-}
+};

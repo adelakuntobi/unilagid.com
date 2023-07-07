@@ -4,7 +4,18 @@ import { ObjectId } from "mongodb";
 import { Biometrics, User } from "@/lib/models";
 // import { createClient } from "aws-sdk";
 import { facialRecogntion } from "@/utils/reuseables";
-
+import axios from "axios";
+async function convertImageUrlToBase64(imageUrl) {
+  try {
+    const response = await axios.get(imageUrl, { responseType: "arraybuffer" });
+    const imageBuffer = Buffer.from(response.data, "binary");
+    const base64String = imageBuffer.toString("base64");
+    return base64String;
+  } catch (error) {
+    console.error("Error converting image to base64:", error);
+    return null;
+  }
+}
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -30,38 +41,46 @@ export default async function handler(
 
       // Access the user ID from the decoded token
       const userId = decodedToken["userId"];
-
-      const { jambImg, selfie, signature } = req.body;
       const { matricNo } = await User.findOne({
         _id: new ObjectId(userId),
       });
-      // Validate the incoming request data
-      if (!selfie || !signature) {
-        return res
-          .status(400)
-          .json({ message: "Some field(s) are missing", status: "error" });
-      }
+      const baseUrl =
+        "https://studentportalbeta.unilag.edu.ng/(S(2nuegtmwglih1jpo5ja5dpc0))/StudentPassport.aspx?MatricNo=";
 
-      // Perform facial comparison
-      facialRecogntion(jambImg, selfie)
-        .then((result) => {
-          console.log(result);
-          // console.log("Similarity:", result?.FaceMatches[0].Similarity);
-          // console.log("Face matches:", result.FaceMatches.length);
-        })
-        .catch((err) => {
-          console.error("Error:", err);
-        });
-      // Insert the user document into the MongoDB collection
-      await Biometrics.create({
-        matricNo,
-        ...req.body,
-      });
+      const imgUrl = baseUrl + matricNo;
+      convertImageUrlToBase64(imgUrl).then(async (base64String) => {
+        if (base64String) {
+          // jambImg = base64String;
+          const { selfie, signature } = req.body;
+          const confidence = await facialRecogntion(matricNo, base64String, selfie);
 
-      return res.status(201).json({
-        message: "Biometrics created successfully",
-        status: "success",
+
+
+          // Validate the incoming request data
+          if (!selfie || !signature) {
+            return res
+              .status(400)
+              .json({ message: "Some field(s) are missing", status: "error" });
+          }
+    
+           Biometrics.create({
+            matricNo,
+            confidence,
+            jambImg: base64String,
+            ...req.body,
+          });
+    
+          return res.status(201).json({
+            message: "Biometrics created successfully",
+            status: "success",
+          });
+
+
+        } else {
+          console.log("Failed to convert image to base64");
+        }
       });
+     
     } catch (error) {
       console.log(error);
       if (error.name === "TokenExpiredError") {
@@ -70,7 +89,10 @@ export default async function handler(
           status: "error",
         });
       }
-      return res.status(401).json({ error: "Invalid token" });
+      console.log(error);
+      return res.status(401).json({
+        error: "Invalid token",
+      });
     }
   } catch (error) {
     console.error("Error retrieving user:", error);

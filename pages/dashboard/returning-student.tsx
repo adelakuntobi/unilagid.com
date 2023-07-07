@@ -8,14 +8,15 @@ import { getWithExpiry } from '@/utils/req';
 import Head from 'next/head';
 import { useState } from 'react';
 import { logOutAction } from '@/utils/auth';
-
+import { MdOutlineKeyboardBackspace } from "react-icons/md"
+import { useRouter } from 'next/router';
 
 const ReturningStudent = () => {
   const [success, setSuccess] = useState(false)
   const [policeReport, setPoliceReport] = useState("")
   const [affidavit, setAffidavit] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-
+  const router = useRouter()
   const handlePoliceReport = (event) => {
     setPoliceReport(event.target.files[0]);
   };
@@ -65,10 +66,10 @@ const ReturningStudent = () => {
           setAffidavit("")
           setPoliceReport("")
         } else {
-          if(res.message === "Unauthenticated"){
+          if (res.message === "Unauthenticated") {
             logOutAction()
           }
-          else{
+          else {
             cogotoast("You have already uploaded documents", "error")
           }
         }
@@ -88,6 +89,9 @@ const ReturningStudent = () => {
 
   }
 
+  const goBack = () => {
+    router.back();
+  };
   // const { isSuccess, isLoading, mutate: UploadDetails } = useMutation(
 
   //   async () => {
@@ -123,7 +127,9 @@ const ReturningStudent = () => {
       </Head>
       <div className='h-screen grid place-items-center bg-gray-50'>
         <form onSubmit={handleSubmit} className='bg-white shadow-md max-w-lg w-full px-6 py-6 rounded-lg flex flex-col gap-10'>
-          Back
+          <div onClick={goBack} className='text-lg items-center mb-6 gap-3 hover:text-primary cursor-pointer'>
+            <MdOutlineKeyboardBackspace className='text-2xl' /> Back
+          </div>
 
           <div className="justify-center w-full">
             <Logo />

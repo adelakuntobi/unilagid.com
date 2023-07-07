@@ -6,7 +6,7 @@ export const faculties = {
     "Linguistics African Asian Studies",
     "Philosophy",
   ],
-  medicalSciences: [
+  medical_sciences: [
     "Anatomic & Molecular Pathology",
     "Biochemistry",
     "Medical Microbiology & Parasitology",
@@ -31,14 +31,14 @@ export const faculties = {
     "Systems Engineering",
   ],
   law: ["Law"],
-  environmental: [
+  environmental_science: [
     "Architecture",
     "Building",
     "Estate",
     "Quantity Surveying",
     "Urban & Regional Planning",
   ],
-  bizAdd: [
+  management_sciences: [
     "Accounting",
     "Actuarial Science & Insurance",
     "Banking & Finance",
@@ -58,7 +58,7 @@ export const faculties = {
     "Physics",
     "Zoology",
   ],
-  socialScience: [
+  social_sciences: [
     "Economics",
     "Geography",
     "Mass Communication",
@@ -68,44 +68,70 @@ export const faculties = {
   ],
 };
 
-export const newStudents = [
-  {
-    matricNo: 160403048,
-    full_name: "Adelakun Oluwatobiloba Ayomipo",
-    department: "Electrical & Electronics ",
-    faculty: "Engineering",
-    email: "adelakuntobiloba@gmail.com",
-    country_code: "234",
-    phone_number: "08168527167",
-    gender: "Male",
-    dob: "2000-04-03",
-    address: "No 2, Oke Ola Street, Ibadan",
-    created_at: "2023-06-25T03:35:14.336+00:00",
-  },
-  {
-    matricNo: 180807002,
-    full_name: "Ogunmilade Busayo Temilola",
-    department: "Microbiology",
-    faculty: "Sciecne",
-    email: "adelakuntobiloba@gmail.com",
-    country_code: "234",
-    phone_number: "08168527167",
-    gender: "Male",
-    dob: "2000-04-03",
-    address: "No 2, Oke Ola Street, Ibadan",
-    created_at: "2023-06-25T03:35:14.336+00:00",
-  },
-  {
-    matricNo: 160403048,
-    full_name: "Adelakun Oluwatobiloba Ayomipo",
-    department: "Electrical & Electronics ",
-    faculty: "Engineering",
-    email: "adelakuntobiloba@gmail.com",
-    country_code: "234",
-    phone_number: "08168527167",
-    gender: "Male",
-    dob: "2000-04-03",
-    address: "No 2, Oke Ola Street, Ibadan",
-    created_at: "2023-06-25T03:35:14.336+00:00",
-  },
+export const arts = [
+  "English",
+  "European Languages & Integration Studies",
+  "History & Strategic Studies",
+  "Linguistics African Asian Studies",
+  "Philosophy",
+];
+export const medical_sciences = [
+  "Anatomic & Molecular Pathology",
+  "Biochemistry",
+  "Medical Microbiology & Parasitology",
+  "Medical Laboratory Science",
+  "Physiology",
+];
+export const education = [
+  "Arts & Social Science",
+  "Human Kinetics & Health",
+  "Education Administration",
+  "Educational Foundations",
+  "Science & Tech.",
+];
+export const engineering = [
+  "Chemical Engineering",
+  "Civil & Environmental",
+  "Electrical & Electronics",
+  "Mechanical Engineering",
+  "Metallurgical & Materials",
+  "Petroleum and Gas",
+  "Surveying & Geo-Informatics",
+  "Systems Engineering",
+];
+export const law = ["law"];
+export const environmental_science = [
+  "Architecture",
+  "Building",
+  "Estate",
+  "Quantity Surveying",
+  "Urban & Regional Planning",
+];
+export const management_sciences = [
+  "Accounting",
+  "Actuarial Science & Insurance",
+  "Banking & Finance",
+  "Business Administration",
+  "Industrial Relations & Personnel Management",
+];
+export const science = [
+  "Biochemistry",
+  "Botany",
+  "Cell Biology & Genetics",
+  "Chemistry",
+  "Computer Sciences",
+  "Geosciences",
+  "Mathematics",
+  "Marine Science",
+  "Microbiology",
+  "Physics",
+  "Zoology",
+];
+export const social_sciences = [
+  "Economics",
+  "Geography",
+  "Mass Communication",
+  "Psychology",
+  "Political Science",
+  "Sociology",
 ];

@@ -10,7 +10,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const { gender, lastName, matricNo, email } = req.body;
+    const { gender, lastName, matricNo, email, newStudent } = req.body;
     var hall = boysHostels;
     if (gender === "female") hall = girlsHostels;
     const hostel = hall[Math.floor(Math.random() * hall.length)];
@@ -19,7 +19,7 @@ export default async function handler(
     const validate = validateUserPayload({
       ...req.body,
       hostel,
-      newStudent: true,
+      newStudent: Boolean(newStudent),
       firstLogin: true,
     });
     if (!validate.success) {

@@ -168,7 +168,7 @@ const Users = () => {
                       {
                         userdata?.user?.newStudent &&
                         <div>
-                          <img className="w-full h-96 lg:h-64 object-cover rounded" src={userdata?.biometrics?.selfie}
+                          <img className="w-full h-96 lg:h-64 object-cover rounded" src={"data:image/jpeg;base64,"+userdata?.biometrics?.selfie}
                             alt="" />
                           <label className="text-sm font-medium mt-4 text-center block">Selfie Registered</label>
                         </div>

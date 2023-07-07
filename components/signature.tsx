@@ -8,8 +8,8 @@ import SignatureCanvas from 'react-signature-canvas'
 import { TbSignature } from "react-icons/tb"
 import { useMutation } from 'react-query';
 import api, { uploadSign } from '@/services/api';
-import { imageTo64, imageToBase64 } from '@/utils/reuseables';
 import CircleLoader from './Loader';
+import SignUploader from './SignUploader';
 // import { fileBase64 } from "file-base64";
 // import {i2b} from "imageurl-base64";
 
@@ -20,19 +20,7 @@ const Preview = (props: any) => {
   const [removePLH, setRemovePLH] = useState(false)
   const [jambImg, setJambImg] = useState<any>("")
   const signRef = useRef<any>();
-
-  useEffect(() => {
-    const baseUrl = 'https://studentportalbeta.unilag.edu.ng/(S(2nuegtmwglih1jpo5ja5dpc0))/StudentPassport.aspx?MatricNo='
-
-    const imgUrl = baseUrl + "160403048"
-
-    console.log("it's running")
-    imageToBase64(imgUrl)
-    imageTo64(imgUrl, function (myBase64) {
-      console.log(myBase64); // myBase64 is the base64 string
-    });
-  }, []);
-
+  const [upload, setUpload] = useState(false)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -56,7 +44,7 @@ const Preview = (props: any) => {
       return await api.post(uploadSign, {
         selfie,
         signature,
-        jambImg
+        // jambImg
       })
     },
     {
@@ -118,7 +106,7 @@ const Preview = (props: any) => {
                   onEnd={handleSignatureEnd}
                 />
               </div>
-              <p className='text-sm text-right mt-2'>Unable to sign? <a className='text-primary' href="http://tobi">Try uploading </a></p>
+              <p className='text-sm text-right mt-2'>Unable to sign? <a className='text-primarym cursor-pointer hover:underline' onClick={() => setUpload(true)}>Try uploading </a></p>
             </div>
 
             <div>
@@ -158,6 +146,14 @@ const Preview = (props: any) => {
       </div >
       {
         isSuccess && <Successful />
+      }
+
+      {
+        upload && <SignUploader nextStep={props.nextStep}
+          upload={upload} setUpload={setUpload} signature={signature}
+          setSignature={setSignature}
+          handleSubmit={handleSubmit}
+        />
       }
     </AuthLayout >
   );

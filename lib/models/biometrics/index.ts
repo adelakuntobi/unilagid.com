@@ -7,6 +7,7 @@ interface biometrics {
   signature: string;
   createdAt: string;
   updatedAt: string;
+  confidence: number;
 }
 
 const biometricsSchema = new Schema<biometrics>(
@@ -27,6 +28,8 @@ const biometricsSchema = new Schema<biometrics>(
       type: String,
       required: true,
     },
+    confidence: {type: Number},
+
   },
   {
     timestamps: true,

@@ -20,6 +20,10 @@ export const getOverview = async () => {
   const response = await api.get(overview);
   return response
 }
+
+export function convertString(input) {
+  return input.replace('_', ' ');
+}
 const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [isConfirmOpen, setIsConfirmOpen] = useState(false)
@@ -209,7 +213,7 @@ const Dashboard = () => {
             <div className='flex flex-wrap gap-x-8 gap-y-1.5 max-w-xl'>
               <HeaderProfile>
                 <label>Faculty:</label>
-                <p>{user?.faculty}</p>
+                <p>{convertString(user?.faculty)}</p>
               </HeaderProfile>
               <HeaderProfile>
                 <label>Department:</label>
