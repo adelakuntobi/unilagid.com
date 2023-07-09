@@ -161,10 +161,14 @@ export async function convertImage(imageUrl, callback) {
 }
 export const facialRecogntion = async (matricNo, img1, img2) => {
   console.log("Its running");
+  const apiKey = process.env.AWS_ACCESS_KEY_ID;
+  const awsSecret = process.env.AWS_SECRET_ACCESS_KEY;
+  const apiRegion = process.env.AWS_REGION;
+
   AWS.config.update({
-    accessKeyId: "AKIAVCM6G4YYOEZ3STUY",
-    secretAccessKey: "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",
-    region: "us-east-2",
+    accessKeyId: apiKey,
+    secretAccessKey: awsSecret,
+    region: apiRegion,
   });
   const rekognition = new AWS.Rekognition();
 
@@ -230,7 +234,7 @@ export const facialRecogntion = async (matricNo, img1, img2) => {
       console.log("Similarity:", similarity);
       try {
         // Update the document in the Biometrics collection with the similarity value
-        
+
         if (similarity >= 80) {
           // await Biometrics.updateOne({ matricNo }, { confidence: similarity });
           console.log("Faces match!");

@@ -307,7 +307,7 @@ const Users = () => {
 
               }
               {
-                userdata?.document?.status === "pending"
+                userdata?.documents?.status === "pending"
                 &&
                 <div className="items-center w-full justify-end gap-6 mt-10 pt-10 border-t">
                   <button className={`text-sm  !py-3 h-auto bg-[#FEE4E2] text-[#510404] border-[#510404] hover:bg-red-100 px-6 w-fit`}
