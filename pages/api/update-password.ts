@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import { User } from "@/lib/models";
+import sendEmail from "@/utils/sendmail";
 
 export default async function handler(
   req: NextApiRequest,
@@ -47,6 +48,16 @@ export default async function handler(
 
       // Update the user details with password and firstLogin in the MongoDB collection?
 
+      // const successText = `Hello ${user.firstName},
+      // You have successfully logged in to your account.
+      //   If it wasn't you, kindly contact support@unilagid.com 
+      //   `;
+      // await sendEmail({
+      //   to: user.email,
+      //   subject: "Successful Login",
+      //   text: successText,
+      //   html: "",
+      // });
       const result = await User.updateMany(
         { _id: new ObjectId(userId) },
         { $set: { password: confirmPassword, firstLogin: false } }

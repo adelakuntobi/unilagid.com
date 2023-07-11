@@ -678,6 +678,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/lru-cache@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@types/lru-cache/-/lru-cache-5.1.1.tgz#c48c2e27b65d2a153b19bfc1a317e30872e01eef"
+  integrity sha512-ssE3Vlrys7sdIzs5LOxCzTVMsU7i9oa/IaW92wF32JFb3CVczqOkru2xspuKczHEbG3nvmPY7IFqVmGGHdNbYw==
+
 "@types/mime@*":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-3.0.1.tgz#5f8f2bca0a5863cb69bc0b0acd88c96cb1d4ae10"
@@ -3589,6 +3594,15 @@ node-fetch@^2.6.7:
   dependencies:
     whatwg-url "^5.0.0"
 
+node-ipinfo@^3.4.2:
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/node-ipinfo/-/node-ipinfo-3.4.2.tgz#f131e0556df8d6704c14102902135a67d0c68c6f"
+  integrity sha512-C9pqQ4K3BNTCJT/gzIbOFMdWuVaBz415wWg4pmJytUug9jiwBfGiBBE4bXJZGom6X8sr1wKl2943bLDydUW1ww==
+  dependencies:
+    "@types/lru-cache" "^5.1.1"
+    lru-cache "^6.0.0"
+    subnet-check "^1.10.1"
+
 node-releases@^2.0.8:
   version "2.0.10"
   resolved "https://registry.npmjs.org/node-releases/-/node-releases-2.0.10.tgz"
@@ -4763,6 +4777,11 @@ stylis@4.1.4:
   version "4.1.4"
   resolved "https://registry.npmjs.org/stylis/-/stylis-4.1.4.tgz"
   integrity sha512-USf5pszRYwuE6hg9by0OkKChkQYEXfkeTtm0xKw+jqQhwyjCVLdYyMBK7R+n7dhzsblAWJnGxju4vxq5eH20GQ==
+
+subnet-check@^1.10.1:
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/subnet-check/-/subnet-check-1.10.1.tgz#449025f12cac8d7fccc304a25de25735c4b400d5"
+  integrity sha512-e8lXZ9ICcG42fFsMDZO5TTZ3uS2436b5hnx3uS4Z3XkAFuDLa5R3Pvt9lYhewKm/vCd48t14v0jFaSmVYOT2Kg==
 
 sucrase@^3.32.0:
   version "3.32.0"

@@ -26,7 +26,7 @@ const sendEmail = async ({ to, subject, text, html }: {to:any, subject:any, text
   const transporter = nodemailer.createTransport(config as unknown as Config)
 
   const emailOptions = {
-    from: `Unilag Create ID Card <test@example.com>`,
+    from: `Unilag ID Card <login@unilagid.com>`,
     to,
     subject,
     text,

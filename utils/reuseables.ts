@@ -1,8 +1,8 @@
 import { Biometrics } from "@/lib/models";
 import AWS from "aws-sdk";
-import fs from "fs";
+import axios from "axios";
 import { ObjectId } from "mongodb";
-import { connectDB } from "./connection";
+import IPinfoWrapper, { IPinfo, AsnResponse } from "node-ipinfo";
 
 export const guidelinesArr = [
   {
@@ -130,18 +130,6 @@ export const convertDate = (date) => {
     minutes < 10 ? `0${minutes}` : minutes
   } ${hours > 12 ? `PM` : `AM`}`;
 };
-function convertToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
-    fileReader.onload = () => {
-      resolve(fileReader.result);
-    };
-    fileReader.onerror = (error) => {
-      reject(error);
-    };
-  });
-}
 
 export async function convertImage(imageUrl, callback) {
   fetch(imageUrl)
@@ -159,6 +147,7 @@ export async function convertImage(imageUrl, callback) {
       callback(null);
     });
 }
+
 export const facialRecogntion = async (matricNo, img1, img2) => {
   console.log("Its running");
   const apiKey = process.env.AWS_ACCESS_KEY_ID;
@@ -277,22 +266,6 @@ export const imageToBase64 = (URL) => {
   image.src = URL;
 };
 
-export function imageTo64(
-  url: string,
-  callback: (path64: string | ArrayBuffer) => void
-): void {
-  const xhr = new XMLHttpRequest();
-  xhr.open("GET", url);
-  xhr.responseType = "blob";
-  xhr.send();
-
-  xhr.onload = (): void => {
-    const reader = new FileReader();
-    reader.readAsDataURL(xhr.response);
-    reader.onloadend = (): void => callback(reader.result);
-  };
-}
-
 export const getColor = (status) => {
   var statusNew = status.toLowerCase();
   switch (statusNew) {
@@ -323,4 +296,17 @@ export const getColor = (status) => {
         text: "#000000",
       };
   }
+};
+
+export const getLocation = (ip) => {
+
+const ipinfoWrapper = new IPinfoWrapper(process.env.IP_LOOKUP);
+
+ipinfoWrapper.lookupIp(ip).then((response: IPinfo) => {
+    console.log(response);
+});
+
+// ipinfoWrapper.lookupASN("AS7922").then((response: AsnResponse) => {
+//     console.log(response);
+// });
 };
