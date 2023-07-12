@@ -242,29 +242,6 @@ export const facialRecogntion = async (matricNo, img1, img2) => {
     }
   }
 };
-export const imageToBase64 = (URL) => {
-  let image;
-  image = new Image();
-  image.crossOrigin = "Anonymous";
-  image.addEventListener("load", function () {
-    console.log();
-    let canvas = document.createElement("canvas");
-    let context = canvas.getContext("2d");
-    canvas.width = image.width;
-    canvas.height = image.height;
-    context.drawImage(image, 0, 0);
-    try {
-      console.log(canvas.toDataURL("image/png"));
-      localStorage.setItem(
-        "saved-image-example",
-        canvas.toDataURL("image/png")
-      );
-    } catch (err) {
-      console.error(err);
-    }
-  });
-  image.src = URL;
-};
 
 export const getColor = (status) => {
   var statusNew = status.toLowerCase();
@@ -299,14 +276,13 @@ export const getColor = (status) => {
 };
 
 export const getLocation = (ip) => {
+  const ipinfoWrapper = new IPinfoWrapper(process.env.IP_LOOKUP);
 
-const ipinfoWrapper = new IPinfoWrapper(process.env.IP_LOOKUP);
-
-ipinfoWrapper.lookupIp(ip).then((response: IPinfo) => {
+  ipinfoWrapper.lookupIp(ip).then((response: IPinfo) => {
     console.log(response);
-});
+  });
 
-// ipinfoWrapper.lookupASN("AS7922").then((response: AsnResponse) => {
-//     console.log(response);
-// });
+  // ipinfoWrapper.lookupASN("AS7922").then((response: AsnResponse) => {
+  //     console.log(response);
+  // });
 };

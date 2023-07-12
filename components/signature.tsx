@@ -28,7 +28,6 @@ const Preview = (props: any) => {
       cogotoast("Please select a file first", "error")
     }
     else {
-
       try {
         UploadDetails();
       } catch (err) {
@@ -50,7 +49,7 @@ const Preview = (props: any) => {
     {
       onSuccess: (response) => {
         const res = response.data
-        props.nextStep()
+        sessionStorage.removeItem("selfie")
 
       },
       onError: (res) => {

@@ -177,11 +177,11 @@ const Users = () => {
                 }
               </div>
 
-              <button className={`${userdata?.biometrics?.confidence >= 80 ? "!bg-red-500 !border-red-500": ""}`}>
+              {/* <button className={`${userdata?.biometrics?.confidence >= 80 ? "!bg-red-500 !border-red-500": ""}`}>
                 {
                   userdata?.biometrics?.confidence >= 80 ? "Verified" : "Rejected"
                 }
-              </button>
+              </button> */}
             </div>
             <div className='border-l'></div>
             <div className={`w-full bg-white py-6 rounded-xl gap-5 flex flex-col`}>

@@ -5,6 +5,7 @@ interface biometrics {
   jambImg: string;
   selfie: string;
   signature: string;
+  status: string;
   createdAt: string;
   updatedAt: string;
   confidence: number;
@@ -29,7 +30,10 @@ const biometricsSchema = new Schema<biometrics>(
       required: true,
     },
     confidence: {type: Number},
-
+    status: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+    },
   },
   {
     timestamps: true,
