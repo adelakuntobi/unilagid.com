@@ -12,7 +12,7 @@ export default async function handler(
     if (!authorizationHeader || !authorizationHeader.startsWith("Bearer ")) {
       return res.status(401).json({ error: "Invalid token format" });
     }
-    const token = authorizationHeader.substring(7); // 7 is the length of "Bearer "
+    const token = authorizationHeader.substring(7); 
 
     try {
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);

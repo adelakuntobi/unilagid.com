@@ -144,7 +144,7 @@ const Preview = (props: any) => {
         </div>
       </div >
       {
-        isSuccess && <Successful />
+        isSuccess && <Successful msg="Your submission was successful and would be reviewed. You will be notified when the review is complete!" />
       }
 
       {

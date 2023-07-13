@@ -17,7 +17,7 @@ export const authenticateToken = async (
       return res.status(401).json({ error: "Invalid token format" });
     }
     // Get the token from the request header
-    const token = authorizationHeader.substring(7); // 7 is the length of "Bearer "
+    const token = authorizationHeader.substring(7); 
 
     if (!token) {
       return res.status(401).json({ error: "Unauthorized" });

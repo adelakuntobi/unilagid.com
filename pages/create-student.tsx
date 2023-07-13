@@ -229,7 +229,7 @@ const CreateUser = () => {
       </div>
 
       {
-      isSuccess && <Successful />
+      isSuccess && <Successful msg="Student successfully created, try loggin in now!" />
       }
     </>
   );

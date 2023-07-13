@@ -12,7 +12,7 @@ export default async function handler(
     return res.status(405).json({ error: "Method not allowed" });
   }
   try {
-    // Get the Authorization header from the request
+    
     const authorizationHeader = req.headers.authorization;
 
     // Validate the Authorization header format
@@ -21,7 +21,7 @@ export default async function handler(
     }
 
     // Extract the token value by removing the "Bearer " prefix
-    const token = authorizationHeader.substring(7); // 7 is the length of "Bearer "
+    const token = authorizationHeader.substring(7); 
 
     // Verify the JWT token
     try {

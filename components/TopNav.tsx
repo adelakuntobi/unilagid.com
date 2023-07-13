@@ -26,7 +26,7 @@ const logout = () => {
           {/* <div className='h-10 w-12 rounded-md grid place-items-center'> */}
             {/* <IoMdNotificationsOutline className='text-gray-400 text-2xl' /> */}
           {/* </div> */}
-          <p className='text-primary font-semibold text-sm'>Check ID Card Status</p>
+          {/* <p className='text-primary font-semibold text-sm'>Check ID Card Status</p> */}
 
           <button onClick={logout} className='rounded px-6 py-2.5 h-auto text-sm tracking-wide'>Logout</button>
         </div>

@@ -127,13 +127,13 @@ const ReturningStudent = () => {
             <p className='  text-center mx-auto text-lg text-[#475467]'>You are to provide the documents below to be able to receive a new ID</p>
           </div>
           <FormInput>
-            <label htmlFor="email">Affidavit <small>(JPG, JPEG,PNG or PDF)</small></label>
+            <label htmlFor="email">Affidavit <small>(JPG, JPEG, PNG or PDF)</small></label>
             <input onChange={handleAffidavit} type="file" name="matric_no" id='affidavit' accept=".pdf,.jpeg,.jpg,.png" />
           </FormInput>
 
           <div>
             <FormInput>
-              <label htmlFor="">Police report <small>(JPG, JPEG,PNG or PDF)</small></label>
+              <label htmlFor="">Police report <small>(JPG, JPEG, PNG or PDF)</small></label>
               <input onChange={handlePoliceReport} type="file" name="password" id="password" accept=".pdf,.jpeg,.jpg,.png" />
             </FormInput>
           </div>
@@ -146,7 +146,7 @@ const ReturningStudent = () => {
         </form>
       </div>
       {
-        success && <Successful />
+        success && <Successful msg="Your documents have been submitted for review. You would be notified via your email when your verification is complete" />
       }
     </>
   );

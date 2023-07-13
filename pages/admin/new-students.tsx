@@ -42,8 +42,9 @@ const Users = () => {
   
   const filterBy = (status) => {
     if(overviewRes?.data !== undefined){
-      const filteredArray = overviewRes?.data?.data?.filter(item => item.user.status === status);
-      console.log(filteredArray.length)
+      console.log(overviewRes?.data?.data)
+      const filteredArray = overviewRes?.data?.data?.filter(item => item.biometrics.status === status);
+      // console.log(filteredArray.length)
       // return filteredArray.length
       return filteredArray.length;
     }

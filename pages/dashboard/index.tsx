@@ -6,7 +6,7 @@ import { FormInput, Modalstyle } from '@/styles/useStyles';
 import { NEW_STUDENT, RETURNING_STUDENT } from '@/utils/pageUrl';
 import { guidelines2, guidelinesArr } from '@/utils/reuseables';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import styled from 'styled-components';
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa"
@@ -15,6 +15,11 @@ import cogotoast from '@/components/toaster';
 import withAuth from '@/services/withAuth';
 import { useRouter } from "next/router"
 import { logOutAction } from '@/utils/auth';
+import IdCard from './idcard';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import Successful from '@/components/success';
+import IsError from '@/components/error';
 
 export const getOverview = async () => {
   const response = await api.get(overview);
@@ -40,6 +45,7 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
+    console.log(error, overviewRes)
     if (error) {
       if (error['response'].data.message === "Unauthenticated") {
         logOutAction()
@@ -47,7 +53,8 @@ const Dashboard = () => {
         router.push('/login')
       }
     }
-  }, [error, router])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error])
 
   const user = overviewRes?.data?.data
 
@@ -117,9 +124,17 @@ const Dashboard = () => {
       }
     }
   );
-  // const baseUrl = process.env.IMAGE_URL
-  const baseUrl = 'https://studentportalbeta.unilag.edu.ng/(S(2nuegtmwglih1jpo5ja5dpc0))/StudentPassport.aspx?MatricNo='
-  console.log(baseUrl)
+  const baseUrl = process.env.IMAGE_URL
+  const handlePrint = () => {
+
+    html2canvas(document.querySelector("#capture"), { scale: 15 }).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF();
+      pdf.addImage(imgData, 'PNG', 0, 0, 204, 322);
+      pdf.save("StudentCopyIDcard" + user?.lastName + " " + user?.firstName+".pdf");
+    });
+
+  }
   if (isLoading) return <FullPageLoader />
   return (
     <Layout>
@@ -184,6 +199,8 @@ const Dashboard = () => {
           </div>
         </Modalstyle>
       }
+      <IdCard />
+      {/* <IsError /> */}
 
       {/* <section>
         <div className='bg-[#219653] text-white  px-10 py-12  relative overflow-hidden'>
@@ -234,7 +251,7 @@ const Dashboard = () => {
             </div>
             {
               !user?.newStudent &&
-              <button className=' px-6 py-2.5 rounded-full text-sm h-auto mt-2'>
+              <button onClick={handlePrint} className=' px-6 py-2.5 rounded-full text-sm h-auto mt-2'>
                 Download Virtual Card
               </button>
             }
