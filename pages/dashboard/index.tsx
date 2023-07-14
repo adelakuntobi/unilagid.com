@@ -39,14 +39,14 @@ const Dashboard = () => {
   })
 
   const router = useRouter()
-  const { data: overviewRes, error, isSuccess: isSuccessful, isLoading } = useQuery('overviewData', getOverview, {
+  const { data: overviewRes, error, isSuccess: isSuccessful, isError, isLoading } = useQuery('overviewData', getOverview, {
     staleTime: Infinity,
     refetchOnWindowFocus: 'always'
   });
-
+console.log(isError, overviewRes, error)
   useEffect(() => {
-    console.log(error, overviewRes)
-    if (error) {
+    if (isError) {
+      console.log(isError, overviewRes)
       if (error['response'].data.message === "Unauthenticated") {
         logOutAction()
         cogotoast("Please login to continue", "error");
@@ -54,7 +54,7 @@ const Dashboard = () => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error])
+  }, [isError])
 
   const user = overviewRes?.data?.data
 
@@ -135,7 +135,7 @@ const Dashboard = () => {
     });
 
   }
-  if (isLoading) return <FullPageLoader />
+  if (isLoading && isError) return <FullPageLoader />
   return (
     <Layout>
       {

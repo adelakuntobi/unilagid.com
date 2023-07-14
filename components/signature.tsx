@@ -10,6 +10,7 @@ import { useMutation } from 'react-query';
 import api, { uploadSign } from '@/services/api';
 import CircleLoader from './Loader';
 import SignUploader from './SignUploader';
+import IsError from './error';
 // import { fileBase64 } from "file-base64";
 // import {i2b} from "imageurl-base64";
 
@@ -37,7 +38,7 @@ const Preview = (props: any) => {
   }
   const selfie = sessionStorage.getItem("selfie")
 
-  const { isSuccess, isLoading, mutate: UploadDetails } = useMutation(
+  const { isSuccess, isLoading, mutate: UploadDetails, isError } = useMutation(
 
     async () => {
       return await api.post(uploadSign, {
@@ -144,9 +145,11 @@ const Preview = (props: any) => {
         </div>
       </div >
       {
-        isSuccess && <Successful msg="Your submission was successful and would be reviewed. You will be notified when the review is complete!" />
+        isSuccess && <Successful msg="" />
       }
-
+{
+  isError && <IsError />
+}
       {
         upload && <SignUploader nextStep={props.nextStep}
           upload={upload} setUpload={setUpload} signature={signature}

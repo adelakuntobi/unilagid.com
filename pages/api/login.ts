@@ -37,15 +37,13 @@ export default async function handler(
     const time = currentDate.toTimeString();
 
     const networkInterfaces = os.networkInterfaces();
-    console.log(networkInterfaces)
-    const ipAddress = networkInterfaces["Wi-Fi"][0].address;
+    // const ipAddress = networkInterfaces["Wi-Fi"][0].address;
 
-    console.log("IP Address:", ipAddress);
+    // ${ (await getLocation(ipAddress), ipAddress)}
     const successText = `Hello ${user.firstName},
 
-    We are pleased to inform you that a successful login was detected on your email account. Your account was accessed from ${
-      (await getLocation(ipAddress), ipAddress)
-    } at ${date + ", " + time}.
+    We are pleased to inform you that a successful login was detected on your email account. Your account was accessed 
+       at ${date + ", " + time}.
     
     If you initiated this login, no further action is required. However, if you did not authorize this login or believe it to be suspicious, please take immediate action to secure your account.
     
