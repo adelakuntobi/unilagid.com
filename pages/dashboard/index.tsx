@@ -18,8 +18,9 @@ import { logOutAction } from '@/utils/auth';
 import IdCard from './idcard';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import Successful from '@/components/success';
-import IsError from '@/components/error';
+import MyPDFDocument from '@/components/DownloadIDcard';
+import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer';
+import ComponentToPDF from '@/components/DownloadIDcard';
 
 export const getOverview = async () => {
   const response = await api.get(overview);
@@ -53,6 +54,7 @@ const Dashboard = () => {
   }, [isError])
 
   const user = overviewRes?.data?.data
+  const bio = overviewRes?.data?.biometrics
 
   function validatePassword(password) {
     const uppercasePattern = /[A-Z]/;
@@ -119,14 +121,57 @@ const Dashboard = () => {
   const baseUrl = process.env.IMAGE_URL
   const handlePrint = () => {
 
-    html2canvas(document.querySelector("#capture"), { scale: 15 }).then(canvas => {
-      const imgData = canvas.toDataURL('image/png');
+    // html2canvas(document.querySelector("#capture"), { scale: 15 }).then(canvas => {
+    //   const imgData = canvas.toDataURL('image/png');
+    //   const pdf = new jsPDF();
+    //   pdf.addImage(imgData, 'PNG', 0, 0, 200, 400);
+    // });
+    
+    // const divElement = divRef.current;
+    const hideElements = document.getElementsByClassName('content');
+    
+    html2canvas(document.querySelector("#capture"), { scale: 2 }).then((canvas) => {
+      for (let i = 0; i < hideElements.length; i++) {
+        const element = hideElements[i] as HTMLElement;
+        // element.style.display = '';
+        element.classList.remove('hidden');
+      }
+      const imgData = canvas.toDataURL('image/jpeg');
       const pdf = new jsPDF();
-      pdf.addImage(imgData, 'PNG', 0, 0, 204, 322);
-      pdf.save("StudentCopyIDcard" + user?.lastName + " " + user?.firstName + ".pdf");
+      pdf.addImage(imgData, 'JPEG', 0, 0,  200, 400);
+      pdf.save("StudentCopyIDcard " + user?.lastName + " " + user?.firstName + ".pdf");
+          
+      for (let i = 0; i < hideElements.length; i++) {
+        const element = hideElements[i] as HTMLElement;
+        // element.style.display = '';
+        element.classList.add('hidden');
+      }
     });
 
   }
+
+  const downloadPDF = () => {
+    const hideElements = document.getElementsByClassName('content');
+    // for (let i = 0; i < hideElements.length; i++) {
+    //   const element = hideElements[i] as HTMLElement;
+    //   element.style.display = 'none';
+    // }
+  
+    const doc = new jsPDF();
+    doc.html(document.getElementById('content'), {
+      callback: function (pdf) {
+        for (let i = 0; i < hideElements.length; i++) {
+          const element = hideElements[i] as HTMLElement;
+          // element.style.display = '';
+          element.classList.remove('hidden');
+        }
+        pdf.save('example.pdf');
+      },
+    });
+  };
+  
+
+
   if (isLoading || error) return <FullPageLoader />
   return (
     <Layout>
@@ -191,7 +236,12 @@ const Dashboard = () => {
           </div>
         </Modalstyle>
       }
-      <IdCard />
+      {/* <IdCard /> */}
+      {/* <PDFDownloadLink document={<ComponentToPDF />} fileName="document.pdf">
+        {({ blob, url, loading, error }) =>
+          loading ? 'Generating PDF...' : 'Download PDF'
+        }
+      </PDFDownloadLink> */}
       {/* <IsError /> */}
 
       {/* <section>
@@ -242,7 +292,7 @@ const Dashboard = () => {
               </HeaderProfile>
             </div>
             {
-              !user?.newStudent &&
+              user?.newStudent && bio?.status === "approved" &&
               <button onClick={handlePrint} className=' px-6 py-2.5 rounded-full text-sm h-auto mt-2'>
                 Download Virtual Card
               </button>

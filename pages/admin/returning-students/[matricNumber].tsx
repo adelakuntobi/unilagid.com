@@ -86,8 +86,10 @@ const EachUser = () => {
           });
           const res = await response.json();
           if (res.message === "Student information updated successfully") {
+            cogotoast("Student information successfully updated", "success")
             const data = res.data
             setChangeStatus("")
+            window.location.reload()
           }
           setIsLoading(false)
         } catch (error) {
@@ -158,7 +160,7 @@ const EachUser = () => {
                       {
                         userdata?.user?.newStudent &&
                         <div>
-                          <img className="w-full h-96 lg:h-64 object-cover rounded" src={"data:image/jpeg;base64,"+userdata?.biometrics?.selfie}
+                          <img className="w-full h-96 lg:h-64 object-cover rounded" src={"data:image/jpeg;base64," + userdata?.biometrics?.selfie}
                             alt="" />
                           <label className="text-sm font-medium mt-4 text-center block">Selfie Registered</label>
                         </div>
@@ -167,11 +169,26 @@ const EachUser = () => {
                 }
               </div>
 
-              {/* <button className={`${userdata?.biometrics?.confidence >= 80 ? "!bg-red-500 !border-red-500": ""}`}>
-                {
-                  userdata?.biometrics?.confidence >= 80 ? "Verified" : "Rejected"
-                }
-              </button> */}
+              {
+                isLoading ?
+                  <span className='block p-6 bg-gray-200 animate-pulse rounded w-48 '></span> :
+
+                  userdata['user']?.newStudent ?
+
+                    <button className={`capitalize ${userdata?.biometrics?.status !== "approved" ? "!bg-red-500 !border-red-500" : ""}`}>
+                      {
+                        userdata?.biometrics?.status
+                      }
+                    </button> :
+
+                    <button className={`capitalize ${userdata?.documents?.status === "rejected" ? "!bg-red-500 !border-red-500" : ""}
+                    ${userdata?.documents?.status === "pending" ? "!bg-orange-400 !border-orange-400" : ""}`}>
+                      {
+                        userdata?.documents?.status
+                      }
+                    </button>
+              }
+
             </div>
             <div className='border-l'></div>
             <div className={`w-full bg-white py-6 rounded-xl gap-5 flex flex-col`}>
@@ -257,15 +274,15 @@ const EachUser = () => {
                               {
                                 isLoading ? <PreLoader width="w-44 " /> :
                                   <a target='_blank' className='text-primary underline font-semibold w-full cursor-pointer ' style={{ overflowWrap: "break-word" }}
-                                  href={`http://localhost:3000/uploads/` +matricNumber+"/"+ userdata?.documents?.affidavit}>{`https://unilagid.com/documents/student/${matricNumber}/` + userdata?.documents?.affidavit}</a>
+                                    href={`http://localhost:3000/uploads/` + matricNumber + "/" + userdata?.documents?.affidavit}>{`https://unilagid.com/documents/student/${matricNumber}/` + userdata?.documents?.affidavit}</a>
                               }
                             </ShortDetails>
                             <ShortDetails>
                               <label>Police report</label>
                               {
                                 isLoading ? <PreLoader width="w-44 " /> :
-                                  <a target='_blank' className='text-primary underline font-semibold w-full cursor-pointer ' style={{ overflowWrap: "break-word" }} 
-                                  href={`http://localhost:3000/uploads/` +matricNumber+"/"+ userdata?.documents?.policereport}>{`https://unilagid.com/documents/student/${matricNumber}/` + userdata?.documents?.policereport}</a>
+                                  <a target='_blank' className='text-primary underline font-semibold w-full cursor-pointer ' style={{ overflowWrap: "break-word" }}
+                                    href={`http://localhost:3000/uploads/` + matricNumber + "/" + userdata?.documents?.policereport}>{`https://unilagid.com/documents/student/${matricNumber}/` + userdata?.documents?.policereport}</a>
                               }
                             </ShortDetails>
                           </>

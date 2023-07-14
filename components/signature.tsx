@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Editables } from './edit-info';
 import AuthLayout from './NewLayout';
 import { IoMdArrowBack } from 'react-icons/io';
 import cogotoast from './toaster';
-import Successful from './success';
 import SignatureCanvas from 'react-signature-canvas'
 import { TbSignature } from "react-icons/tb"
 import { useMutation } from 'react-query';
@@ -11,15 +9,12 @@ import api, { uploadSign } from '@/services/api';
 import CircleLoader from './Loader';
 import SignUploader from './SignUploader';
 import IsError from './error';
-// import { fileBase64 } from "file-base64";
-// import {i2b} from "imageurl-base64";
+import UploadSuccess from './uploadSucess';
 
 const Preview = (props: any) => {
   const [fileInfo, setFileInfo] = useState<any>()
-  const [success, setSuccess] = useState(false)
   const [signature, setSignature] = useState(null)
   const [removePLH, setRemovePLH] = useState(false)
-  const [jambImg, setJambImg] = useState<any>("")
   const signRef = useRef<any>();
   const [upload, setUpload] = useState(false)
 
@@ -145,11 +140,11 @@ const Preview = (props: any) => {
         </div>
       </div >
       {
-        isSuccess && <Successful msg="" />
+        isSuccess && <UploadSuccess msg="" />
       }
-{
-  isError && <IsError />
-}
+      {
+        isError && <IsError />
+      }
       {
         upload && <SignUploader nextStep={props.nextStep}
           upload={upload} setUpload={setUpload} signature={signature}

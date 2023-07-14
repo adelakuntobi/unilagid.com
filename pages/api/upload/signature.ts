@@ -83,8 +83,8 @@ export default async function handler(
                 { selfie, jambImg, confidence, status, signature }
               );
               return res.status(201).json({
-                message: "Biometrics created successfully",
-                status: "success",
+                message: "Facial recognition failed",
+                status: "error",
                 data: {
                   matricNo,
                   confidence,
@@ -105,6 +105,18 @@ export default async function handler(
               signature,
               selfie,
             });
+            if(status === "rejected"){
+              return res.status(401).json({
+                message: "Facial recognition failed",
+                status: "error",
+                data: {
+                  matricNo,
+                  confidence,
+                  status,
+                },
+              });
+            }
+            
             return res.status(201).json({
               message: "Biometrics created successfully",
               status: "success",

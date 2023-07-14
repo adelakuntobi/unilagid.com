@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
-import { User } from "@/lib/models";
+import { Biometrics, User } from "@/lib/models";
 
 export default async function handler(
   req: NextApiRequest,
@@ -31,6 +31,7 @@ export default async function handler(
       const data = await User.findOne({
         _id: new ObjectId(userId),
       });
+      const biometrics = await Biometrics.findOne({matricNo: data['matricNo']});
       if (!data) {
         return res.status(404).json({ error: "User not found" });
       }
@@ -38,7 +39,8 @@ export default async function handler(
       return res.status(200).json({
         message: "Details fetched successfully",
         status: "success",
-        data
+        data,
+        biometrics
       });
     } catch (error) {
       if (error.name === "TokenExpiredError") {

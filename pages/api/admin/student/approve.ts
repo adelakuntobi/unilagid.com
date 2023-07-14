@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
 import { Biometrics, Documents, User } from "@/lib/models";
+import sendEmail from "@/utils/sendmail";
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,9 +19,8 @@ export default async function handler(
     // const token = authorizationHeader.substring(7);
 
     try {
-      const {matricNo,  reason, status } = JSON.parse(req.body);
-      
-      console.log(req.body['matricNo']);
+      const { matricNo, reason, status } = JSON.parse(req.body);
+
       if (isNaN(matricNo)) {
         console.log(matricNo);
         return res.status(400).json({ error: "Invalid matric number" });
@@ -30,8 +30,21 @@ export default async function handler(
         { matricNo },
         { $set: { reason, status } }
       );
-      console.log(result);
-      // const data = await Documents.find({})
+      const user = await User.findOne({ matricNo: Number(matricNo) });
+
+      const successText = `Hello ${user.firstName},
+          Your request for a new ID card has been rejected, because ${reason}, please login and try again
+
+
+    Univerisity of Lagos, 
+    Centre for Technology
+      `;
+      await sendEmail({
+        to: user.email,
+        subject: "Documents Rejected",
+        text: successText,
+        html: "",
+      });
       return res.status(200).json({
         message: "Student information updated successfully",
         status: "success",
