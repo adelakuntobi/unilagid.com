@@ -24,7 +24,6 @@ const ReturningStudents = () => {
 
 
   const goToUser = (id) => {
-    // console.log("go to user")
     router.push(`/admin/returning-students/${id}`)
   }
   const { data: overviewRes, isLoading } = useQuery('allReturningStudents', getReturningStudents, {
@@ -101,7 +100,6 @@ const ReturningStudents = () => {
                   onChange={(e) => {
                     const currValue = e.target.value;
                     setSearch(currValue);
-                    console.log(currValue)
                     // const filteredData = data.filter((entry) => entry.gateway_reference_details.toLowerCase().includes(currValue));
                     // setDataSource(filteredData);
                   }}

@@ -32,10 +32,7 @@ const AllNewStudents = () => {
   
   const filterBy = (status) => {
     if(overviewRes?.data !== undefined){
-      console.log(overviewRes?.data?.data)
       const filteredArray = overviewRes?.data?.data?.filter(item => item.biometrics.status === status);
-      // console.log(filteredArray.length)
-      // return filteredArray.length
       return filteredArray.length;
     }
     else{
@@ -65,7 +62,7 @@ const AllNewStudents = () => {
 
 
 
-  const baseUrl = 'https://studentportalbeta.unilag.edu.ng/(S(2nuegtmwglih1jpo5ja5dpc0))/StudentPassport.aspx?MatricNo='
+  const baseUrl = process.env.IMAGE_URL
 
   return (
     <AdminLayout title="New students">
@@ -101,7 +98,6 @@ const AllNewStudents = () => {
                   onChange={(e) => {
                     const currValue = e.target.value;
                     setSearch(currValue);
-                    console.log(currValue)
                     // const filteredData = data.filter((entry) => entry.gateway_reference_details.toLowerCase().includes(currValue));
                     // setDataSource(filteredData);
                   }}

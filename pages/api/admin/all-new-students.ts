@@ -19,7 +19,6 @@ export default async function handler(
     try {
       // const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     const data = await Biometrics.find({});
-      console.log(data);
       return res.status(200).json({
         message: "Details fetched successfully",
         status: "success",

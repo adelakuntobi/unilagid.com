@@ -35,14 +35,12 @@ const IdCard = () => {
     "__v": 0
   }
   const baseUrl = process.env.IMAGE_URL
-  console.log(baseUrl)
-  // console.log(user)
-const replaceWithSpace = (text) => {
-  var newStr = text.replace(/_/g, ' ');
-  var capitalizedStr = newStr.charAt(0).toUpperCase() + newStr.slice(1);
-  return capitalizedStr
+  const replaceWithSpace = (text) => {
+    var newStr = text.replace(/_/g, ' ');
+    var capitalizedStr = newStr.charAt(0).toUpperCase() + newStr.slice(1);
+    return capitalizedStr
 
-}
+  }
   if (baseUrl) {
     return (
       <div className='w-[204px] h-[322px] relative' id='capture'>
@@ -68,20 +66,20 @@ const replaceWithSpace = (text) => {
         </svg>
 
 
-          <p className='absolute -rotate-45 opacity-20 text-primary-600 text-lg uppercase top-12  right-0 left-0 m-auto'>not for offical use</p>
-          <p className='absolute -rotate-45 opacity-20 text-primary-600 text-lg uppercase top-32  right-0 left-2 m-auto'>not for offical use</p>
-          {/* <p className='absolute -rotate-45 opacity-30 text-primary-600 text-xl uppercase top-48  right-0 left-0 m-auto'>not for offical use</p> */}
-          <p className='absolute -rotate-45 opacity-20 text-primary-600 text-lg uppercase top-52  right-0 left-4 m-auto'>not for offical use</p>
+        <p className='absolute -rotate-45 opacity-20 text-primary-600 text-lg uppercase top-12  right-0 left-0 m-auto'>not for offical use</p>
+        <p className='absolute -rotate-45 opacity-20 text-primary-600 text-lg uppercase top-32  right-0 left-2 m-auto'>not for offical use</p>
+        {/* <p className='absolute -rotate-45 opacity-30 text-primary-600 text-xl uppercase top-48  right-0 left-0 m-auto'>not for offical use</p> */}
+        <p className='absolute -rotate-45 opacity-20 text-primary-600 text-lg uppercase top-52  right-0 left-4 m-auto'>not for offical use</p>
         <div className=''>
           <img src={baseUrl + testUser.matricNo} alt=""
             className='absolute left-0 right-0 mx-auto top-[61px] w-[98px] h-[98px] object-cover rounded-full' />
-            <div>
-              <ul className='text-[9px] absolute bottom-16 left-2 font-medium'>
-                <li className='leading-loose'>NAME: <b className='uppercase'>{testUser?.lastName} </b> {`${testUser?.firstName} ${testUser?.otherNames}`}</li>
-                <li className='leading-loose'>MATRIC NO: <b>{testUser?.matricNo}</b></li>
-                <li className='leading-loose capitalize'>FACULTY: {replaceWithSpace(testUser?.faculty)}</li>
-                <li className='leading-loose'>DEPARTMENT: {testUser?.department}</li>
-                {/* <li className='grid grid-cols-2 gap-4'>
+          <div>
+            <ul className='text-[9px] absolute bottom-16 left-2 font-medium'>
+              <li className='leading-loose'>NAME: <b className='uppercase'>{testUser?.lastName} </b> {`${testUser?.firstName} ${testUser?.otherNames}`}</li>
+              <li className='leading-loose'>MATRIC NO: <b>{testUser?.matricNo}</b></li>
+              <li className='leading-loose capitalize'>FACULTY: {replaceWithSpace(testUser?.faculty)}</li>
+              <li className='leading-loose'>DEPARTMENT: {testUser?.department}</li>
+              {/* <li className='grid grid-cols-2 gap-4'>
                   <div>
                     Gender: {user?.department}
                   </div>
@@ -89,12 +87,12 @@ const replaceWithSpace = (text) => {
                     Hostel: {user?.hostel}
                   </div>
                 </li> */}
-              </ul>
-            </div>
-            <div className='text-[6px] absolute bottom-6 right-5'>
-              <div className='bg-gray-50 w-[60px] h-6 rounded'>tobi</div>
-              <label className='text-center'>Holder&#39;s Signature</label>
-            </div>
+            </ul>
+          </div>
+          <div className='text-[6px] absolute bottom-6 right-5'>
+            <div className='bg-gray-50 w-[60px] h-6 rounded'>tobi</div>
+            <label className='text-center'>Holder&#39;s Signature</label>
+          </div>
         </div>
 
       </div>

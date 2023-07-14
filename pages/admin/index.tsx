@@ -65,11 +65,9 @@ const AdminDashboard: NextPage = () => {
       try {
         const response = await api.get("/api/admin");
         const res = await response.data;
-        console.log(res)
         if (res?.['message'] === "Details fetched successfully") {
           const data = res.data
           setIsLoading(false)
-          console.log(data);
           setUserdata(data)
         }
       } catch (error) {

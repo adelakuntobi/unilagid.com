@@ -45,9 +45,7 @@ export default async function handler(
       const { matricNo } = await User.findOne({
         _id: new ObjectId(userId),
       });
-      const baseUrl =
-        "https://studentportalbeta.unilag.edu.ng/(S(2nuegtmwglih1jpo5ja5dpc0))/StudentPassport.aspx?MatricNo=";
-
+      const baseUrl = process.env.IMAGE_URL
       const imgUrl = baseUrl + matricNo;
       // const { status } = await Biometrics.findOne({ matricNo });
       const user = await Biometrics.findOne({ matricNo });

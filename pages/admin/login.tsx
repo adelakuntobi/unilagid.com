@@ -32,9 +32,7 @@ const Login = () => {
     {
       onSuccess: (response) => {
         const res = response.data
-        console.log(res)
         const { access_token } = res.data;
-        console.log(access_token)
         setWithExpiry('jwtToken', access_token, 18000000)
         api.defaults.headers.Authorization = `Bearer ${access_token}`
         // api.defaults.headers.auth_key= `${process.env.API_AUTHORIZATION_KEY}`

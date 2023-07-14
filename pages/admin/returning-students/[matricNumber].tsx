@@ -55,7 +55,7 @@ const EachUser = () => {
 
     if (matricNumber !== undefined) fetchData();
   }, [matricNumber])
-  const baseUrl = 'https://studentportalbeta.unilag.edu.ng/(S(2nuegtmwglih1jpo5ja5dpc0))/StudentPassport.aspx?MatricNo='
+  const baseUrl = process.env.IMAGE_URL
 
   const close = () => {
     setChangeStatus("")
