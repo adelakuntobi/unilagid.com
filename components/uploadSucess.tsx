@@ -23,7 +23,7 @@ const UploadSuccess = ({msg}) => {
             <p className="text-gray-500 text-center">Your submission was successful and would be reviewed. You will be notified when the review is complete!</p>
           </div>
           <div className="flex justify-center items-center">
-            <Link href={DASHBOARD}>
+            <Link href={"/dashboard/idcard"}>
               <button className="bg-green-500 text-white px-20 py-2 rounded-md mt-4">Download ID Card</button>
             </Link>
           </div>
