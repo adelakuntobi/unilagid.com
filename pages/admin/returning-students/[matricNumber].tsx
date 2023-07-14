@@ -1,28 +1,19 @@
 import { useEffect, useState } from 'react';
-import Layout from '../../../components/Layout';
 import { AllSection, Modalstyle } from '../../../styles/useStyles';
 import styled from "styled-components"
-import api, { allReturningStudents } from '../../../services/api';
-import { FiSearch } from 'react-icons/fi';
 import { useRouter } from "next/router";
 import withAuth from '../../../services/withAuth';
-import CircleLoader from '@/components/Loader';
 import AdminLayout from '@/components/adminLayout';
 import { AiOutlineClose } from "react-icons/ai"
-import { useQuery } from 'react-query';
 import PreLoader from '@/components/preloader';
-
-import { BsPatchCheckFill, BsPatchExclamationFill } from 'react-icons/bs';
+import { BsPatchCheckFill } from 'react-icons/bs';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
-import Link from 'next/link';
-import { Document } from 'react-pdf';
-import PDFPreview from '@/components/pdfviewer';
 import { getWithExpiry } from '@/utils/req';
 import cogotoast from '@/components/toaster';
 // import UserTransactions from '../../../components/Users/Eachuser/transactions';
 
 
-const Users = () => {
+const EachUser = () => {
   const [userdata, setUserdata] = useState<any>({})
   const [isLoading, setIsLoading] = useState(false)
   const [changeStatus, setChangeStatus] = useState("")
@@ -124,7 +115,6 @@ const Users = () => {
                   <>
                     <h2 className='text-lg !pb-1'>{userdata?.['user']?.lastName + " " + userdata?.user?.firstName + " " + userdata?.user?.otherNames}</h2>
                     <p className=" leading-none">{userdata?.user?.email}</p>
-
                   </>
               }
 
@@ -434,4 +424,4 @@ const Trans = styled.div`
     color: #101828;
   }
 `
-export default withAuth(Users);
+export default withAuth(EachUser);

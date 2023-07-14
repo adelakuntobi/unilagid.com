@@ -1,40 +1,30 @@
-import { useEffect, useState } from 'react';
-import Layout from '../../components/Layout';
-import { AllSection, Modalstyle } from '../../styles/useStyles';
-import styled from "styled-components"
+import {  useState } from 'react';
+import { AllSection } from '../../styles/useStyles';
 import api, { adminStudents } from '../../services/api';
-// import { useQuery } from 'react-query';
 import { MdOutlineArrowBackIos, MdOutlineArrowForwardIos } from 'react-icons/md';
-// import { convertDate, getInitials } from '../../utils';
 import { FiSearch } from 'react-icons/fi';
 import { useRouter } from "next/router";
-// import UsersTable from '../../components/Users/users-table';
 import withAuth from '../../services/withAuth';
 import CircleLoader from '@/components/Loader';
-import UsersTable from '@/components/users-table';
 import AdminLayout from '@/components/adminLayout';
 import { convertDate, numberWithCommas } from '@/utils/reuseables';
-// import { newStudents } from '@/utils/data';
 import { useQuery } from 'react-query';
 import PreLoadingBox from '@/components/PreloadingBox';
-
 
 export const getOverview = async () => {
   const response = await api.get(adminStudents);
   return response
 }
 
-const Users = () => {
+const AllNewStudents = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("")
   const router = useRouter()
 
-
-
   const goToUser = (id) => {
     router.push(`/admin/returning-students/${id}`)
   }
-  const { data: overviewRes, error, isSuccess: isSuccessful, isLoading } = useQuery('allStudents', getOverview, {
+  const { data: overviewRes, isLoading } = useQuery('allStudents', getOverview, {
     staleTime: Infinity,
     refetchOnWindowFocus: 'always'
   });
@@ -49,7 +39,7 @@ const Users = () => {
       return filteredArray.length;
     }
     else{
-      return 0
+      return 0;
     }
   }
 
@@ -190,9 +180,6 @@ const Users = () => {
           </div>
         </section>
       </AllSection>
-
-
-
     </AdminLayout>
   );
 };
@@ -209,4 +196,4 @@ export const EmptyState = ({ text }) => {
 }
 
 
-export default withAuth(Users);
+export default withAuth(AllNewStudents);

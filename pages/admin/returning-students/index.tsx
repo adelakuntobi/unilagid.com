@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { AllSection } from '../../../styles/useStyles';
 import api, { allReturningStudents } from '../../../services/api';
-// import { useQuery } from 'react-query';
 import { MdOutlineArrowBackIos, MdOutlineArrowForwardIos } from 'react-icons/md';
 import { FiSearch } from 'react-icons/fi';
 import { useRouter } from "next/router";
@@ -12,24 +11,13 @@ import { convertDate, getColor, numberWithCommas } from '@/utils/reuseables';
 import { useQuery } from 'react-query';
 import PreLoadingBox from '@/components/PreloadingBox';
 
-export const fetchUsers = async (type?: any, page?: any) => {
-  var url
-  if (type === "drop_offs") {
-    url = `super/drop-offs-users`
-  }
-  else {
-    url = `super/${type}-users`
-  }
-  const response = await api.get(url);
-  return response
-}
 
 export const getReturningStudents = async () => {
   const response = await api.get(allReturningStudents);
   return response
 }
 
-const Users = () => {
+const ReturningStudents = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("")
   const router = useRouter()
@@ -39,7 +27,7 @@ const Users = () => {
     // console.log("go to user")
     router.push(`/admin/returning-students/${id}`)
   }
-  const { data: overviewRes, error, isSuccess: isSuccessful, isLoading } = useQuery('allReturningStudents', getReturningStudents, {
+  const { data: overviewRes, isLoading } = useQuery('allReturningStudents', getReturningStudents, {
     staleTime: Infinity,
     refetchOnWindowFocus: 'always'
   });
@@ -220,4 +208,4 @@ export const EmptyState = ({ text }) => {
 }
 
 
-export default withAuth(Users);
+export default withAuth(ReturningStudents);

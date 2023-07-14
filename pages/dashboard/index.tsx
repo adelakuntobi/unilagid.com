@@ -43,7 +43,7 @@ const Dashboard = () => {
     staleTime: Infinity,
     refetchOnWindowFocus: 'always'
   });
-console.log(isError, overviewRes, error)
+  console.log(isError, overviewRes, error)
   useEffect(() => {
     if (isError) {
       console.log(isError, overviewRes)
@@ -131,7 +131,7 @@ console.log(isError, overviewRes, error)
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF();
       pdf.addImage(imgData, 'PNG', 0, 0, 204, 322);
-      pdf.save("StudentCopyIDcard" + user?.lastName + " " + user?.firstName+".pdf");
+      pdf.save("StudentCopyIDcard" + user?.lastName + " " + user?.firstName + ".pdf");
     });
 
   }
