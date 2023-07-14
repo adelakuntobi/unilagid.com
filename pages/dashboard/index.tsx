@@ -43,15 +43,11 @@ const Dashboard = () => {
     staleTime: Infinity,
     refetchOnWindowFocus: 'always'
   });
-  console.log(isError, overviewRes, error)
   useEffect(() => {
-    if (isError) {
-      console.log(isError, overviewRes)
-      if (error['response'].data.message === "Unauthenticated") {
-        logOutAction()
-        cogotoast("Please login to continue", "error");
-        router.push('/login')
-      }
+    if (error && error['response'].data.message === "Unauthenticated") {
+      logOutAction()
+      cogotoast("Please login to continue", "error");
+      router.push('/login')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isError])
@@ -59,16 +55,12 @@ const Dashboard = () => {
   const user = overviewRes?.data?.data
 
   function validatePassword(password) {
-    // Define the regular expressions for each password requirement
     const uppercasePattern = /[A-Z]/;
     const lowercasePattern = /[a-z]/;
     const digitPattern = /\d/;
     const minLength = 8;
 
-    // Store the missing requirements
     const missingRequirements = [];
-
-    // Check each requirement and add the missing ones to the array
     if (!uppercasePattern.test(password)) {
       missingRequirements.push('uppercase');
     }
@@ -135,7 +127,7 @@ const Dashboard = () => {
     });
 
   }
-  if (isLoading && isError) return <FullPageLoader />
+  if (isLoading || error) return <FullPageLoader />
   return (
     <Layout>
       {
