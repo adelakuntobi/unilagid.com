@@ -1,39 +1,66 @@
-# UnilagID - A facial recognition Progressive Web App that creates ID cards for students
+# UNILAG ID - University Identification Card System
 
-A brief description of your project.
+[![GitHub stars](https://img.shields.io/github/stars/adelakuntobi/unilagid.com)](https://github.com/adelakuntobi/unilagid.com/stargazers)
 
-## Table of Contents
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+This E - Voting System Was Developed With Django(Python Framework).
+Feel free to make changes based on your requirements.
+
+If you like this project, then ADD a STAR ⭐️ to this project 👆
+
+This Voting System web application built using Django can serve as the automated voting system for organizations and/or institutions. The system works like the common election manual system of voting whereas the system must be populated by the list of the positions, candidates, and voters. The E-voting system can help a certain organization or school to minimize the voting time duration because aside providing the voters an online platform to vote, the system will automatically count the votes for each candidate. The system has 2 sides of the user interface which are the administrator and voters side. The admin user is in charge to populate and manage the data of the system and the voter side which is where the voters will choose their candidate and submit their votes.
+
+
+![UNILAG ID Screenshot](screenshots/unilagid-screenshot.png)
 
 ## Features
 
-- List the main features and functionalities of your project.
+- Automated ID card creation
+- Integration with student database
+- Customizable ID card templates
+- User management and authentication
+- Responsive and user-friendly interface
+
+## Prerequisites
+
+Before running the UNILAG ID system, make sure you have the following installed:
+
+- Git Version Control: [https://git-scm.com/](https://git-scm.com/)
+- Node (Package Manager): [https://nodejs.org/en](https://nodejs.org/en)
+- Yarn (Package Manager): [npm install --global yarn]
+  Note: **yarn** is an alternative to **npm** 
 
 ## Installation
 
-- Explain how to install and set up your project. Include any prerequisites or dependencies.
+**1. Create a folder where you want to save the project.**
+**2. Clone this project**
 
-## Usage
+```
+$  git clone https://github.com/adelakuntobi/unilagid.com.git
+```
 
-- Provide instructions on how to use your project. Include examples or code snippets if necessary.
+Then, Enter the project
 
-## Contributing
+```
+$  cd unilagid.com
+```
+**3. Install all the dependencies.**<br/>
+Command for npm:
+   ```
+   $ npm install
+   ```
+Command for yarn:   
+   ```
+   $ yarn install
+  ```
+**4. Now, run your server**<br/>
+Command for npm:
+   ```
+   $ npm run dev
+   ```
+Command for yarn:   
+   ```
+   $ yarn run dev
+  ```
+**5. Create a super-admin**<br/>
 
-- Explain how others can contribute to your project, such as submitting bug reports or feature requests.
-
-## License
-
-- Specify the license under which your project is distributed.
-
-## Acknowledgements
-
-- Give credit to any resources or individuals that you have used or been inspired by in your project.
-
-## Contact
-
-- Provide your contact information (email, social media, etc.) for others to reach out to you.
 
