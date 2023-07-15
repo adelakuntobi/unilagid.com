@@ -1,3 +1,7 @@
+<p align="center">
+    <img title="Unilag" src="https://unilag.edu.ng/wp-content/uploads/Untitled-7-5.png" width="50%"/>
+</p>
+
 # UNILAG ID - University Identification Card System
 
 [![GitHub stars](https://img.shields.io/github/stars/adelakuntobi/unilagid.com)](https://github.com/adelakuntobi/unilagid.com/stargazers)
