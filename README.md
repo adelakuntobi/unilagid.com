@@ -65,6 +65,23 @@ Command for yarn:
    ```
    $ yarn run dev
   ```
-**5. Create a super-admin**<br/>
+
+## Usage
+Create a user account by registering on the UNILAG ID platform.
+
+Log in to the UNILAG ID platform using your registered credentials.
+
+To create a admin, navigate to http://localhost:3000/admin/create.
+
+Input the following details for the admin:
+- First Name: [Admin First Name]
+- Last Name: [Admin Last Name]
+- Department: [Admin Department]
+- Faculty: [Admin Faculty]
+- Email: [Admin Email]
+- Password: [Admin Password]
+- Click the "Create" button to create the admin account.
+
+Log in to the UNILAG ID platform using the admin credentials.
 
 
