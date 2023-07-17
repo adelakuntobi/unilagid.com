@@ -71,7 +71,7 @@ Create a user account by registering on the UNILAG ID platform.
 
 Log in to the UNILAG ID platform using your registered credentials.
 
-To create a admin, navigate to http://localhost:3000/admin/create.
+To create an admin, navigate to https://unilagid.com/admin/create.
 
 Input the following details for the admin:
 - First Name: [Admin First Name]
@@ -82,6 +82,6 @@ Input the following details for the admin:
 - Password: [Admin Password]
 - Click the "Create" button to create the admin account.
 
-Log in to the UNILAG ID platform using the admin credentials.
+Log in to the UNILAG ID platform https://unilagid.com/admin/login using the admin credentials.
 
-
+On Successful login, you can create a student with the url, https://unilagid.com/admin/student/create.
