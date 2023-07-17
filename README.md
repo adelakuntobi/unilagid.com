@@ -85,3 +85,15 @@ Input the following details for the admin:
 Log in to the UNILAG ID platform https://unilagid.com/admin/login using the admin credentials.
 
 On Successful login, you can create a student with the url, https://unilagid.com/admin/student/create.
+
+
+## Support
+For additional assistance using this library, contact the developer experience (DX) team via [email](mailto:support@unilagid.com).
+
+## Open to contribution ?
+
+Yeah. Pull requests are welcomed.
+
+## Having any issue using this ?
+
+Please, let us know. Open up an issue.
