@@ -32,11 +32,14 @@ const Login = () => {
     {
       onSuccess: (response) => {
         const res = response.data
-        const { access_token } = res.data;
+        const { firstName, lastName, staffID, access_token } = res.data;
         setWithExpiry('jwtToken', access_token, 18000000)
+        sessionStorage.setItem("admin_name", firstName + " " + lastName)
+        sessionStorage.setItem("admin_id", staffID)
+
         api.defaults.headers.Authorization = `Bearer ${access_token}`
         // api.defaults.headers.auth_key= `${process.env.API_AUTHORIZATION_KEY}`
-         cogotoast(`Welcome back`, "success")
+        cogotoast(`Welcome back`, "success")
         router.push("/admin")
       },
       onError: (res) => {

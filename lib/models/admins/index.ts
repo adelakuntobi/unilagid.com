@@ -3,6 +3,9 @@ import mongoose, { Schema, model } from "mongoose";
 interface admins {
   firstName: string;
   lastName: string;
+  staffID: string;
+  department: string;
+  faculty: string;
   email: string;
   password: string;
   createdAt: string;
@@ -11,7 +14,6 @@ interface admins {
 
 const adminsSchema = new Schema<admins>(
   {
-    
     email: {
       type: String,
       required: true,
@@ -21,6 +23,18 @@ const adminsSchema = new Schema<admins>(
       required: true,
     },
     lastName: {
+      type: String,
+      required: true,
+    },
+    staffID: {
+      type: String,
+      required: true,
+    },
+    department: {
+      type: String,
+      required: true,
+    },
+    faculty: {
       type: String,
       required: true,
     },

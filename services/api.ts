@@ -15,6 +15,7 @@ export let uploadSign = "/api/upload/signature";
 export let uploadDocs = "/api/upload/docs";
 
 export let adminLogin = "/api/admin/login";
+export let adminCreate = "/api/admin/create";
 export let adminOverview = "/api/admin/overview";
 export let adminStudents = "/api/admin/all-students";
 export let allReturningStudents = "/api/admin/all-returning-students";

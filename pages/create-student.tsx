@@ -23,8 +23,8 @@ const CreateUser = () => {
   const [fields, setFields] = useState<any>({
     faculty: '',
   })
-  const [isOpen, setIsOpen] = useState(false)
   const [faculty, setFaculty] = useState([])
+  const [isOpen, setIsOpen] = useState(false)
   const [error, setError] = useState(false)
   const router = useRouter()
 
