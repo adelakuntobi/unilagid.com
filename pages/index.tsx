@@ -61,7 +61,7 @@ export default function Home() {
           <div className='items-center justify-between gap-3 container py-6'>
 
             <Logo />
-            <ul className='items-center gap-10'>
+            <ul className='!hidden md:!flex items-center gap-10'>
               <li>Home</li>
               <li>About</li>
               <li>FAQ</li>
@@ -69,13 +69,13 @@ export default function Home() {
             </ul>
 
             <Link href="/login">
-              <button className='px-12'>Create card</button>
+              <button className='px-6 md:px-12'>Create card</button>
             </Link>
 
           </div>
         </nav>
         <div className='items-center justify-center px-4  text-center gap-8 mx-auto z-[10] relative max-w-5xl' style={{ height: "calc(100vh - 192px)" }}>
-          <div>
+          <div className='hidden md:block'>
             <motion.img
               initial={{ y: -10 }}
               animate={{ y: 10 }}
@@ -104,17 +104,17 @@ export default function Home() {
             exit={{ opacity: 0, transition: { duration: 1 } }}
             variants={{ visible: { transition: { staggerChildren: 0.3 } } }}
 
-            className='items-center justify-center flex-col px-4 max-w-5xl text-center gap-4 mx-auto z-[10] relative'>
+            className='items-center justify-center flex-col px-0 md:px-4 max-w-5xl text-center gap-4 mx-auto z-[10] relative'>
             <motion.h1
               variants={{
                 hidden: { opacity: 0, y: -20 },
                 visible
               }}
-              className='other-font text-6xl font-medium text-center text-[#101828]'>
+              className='other-font text-4xl md:text-6xl font-medium text-center text-[#101828]'>
               Studying at <span className='bg-[#FFBE00] rounded-full px-3'>Unilag?</span> <br />
               Create your Student ID</motion.h1>
-            <motion.p variants={itemVariants} className='text-[#333333] text-xl'>No more waiting for hours in the school office or standing long queues. Simply upload your photo and fill out your information</motion.p>
-            <Link href="/login">
+            <motion.p variants={itemVariants} className='text-[#333333] text-sm md:text-xl'>No more waiting for hours in the school office or standing long queues. Simply upload your photo and fill out your information</motion.p>
+            <Link href="/login" className='w-full'>
               <motion.button variants={itemVariants}
               // initial={{ opacity: 0.6 }}
               whileHover={{
@@ -123,12 +123,12 @@ export default function Home() {
               }}
               whileTap={{ scale: 0.9 }}
               // whileInView={{ opacity: 1 }}
-               className='px-20'>Get Started</motion.button>
+               className='w-full mx-auto md:w-auto px-14'>Get Started</motion.button>
             </Link>
           </motion.div>
 
 
-          <div className=''>
+          <div className='hidden md:block'>
             <motion.img
                initial={{ y: -10 }}
               animate={{ y: 10 }}
@@ -156,21 +156,21 @@ export default function Home() {
 
 
       <main className='mb-32'>
-        <section className='container !max-w-6xl items-center gap-24 py-24'>
-          <div className=' w-6/12'>
-            <h3 className='text-6xl other-font mb-12 font-light'>Create your student ID with just a few clicks.</h3>
-            <div className='grid grid-cols-2 gap-6'>
+        <section className='container !max-w-6xl flex-col-reverse md:flex-row items-center gap-24 py-24'>
+          <div className='w-full md:w-6/12'>
+            <h3 className='text-3xl md:text-6xl other-font mb-12 font-light'>Create your student ID with just a few clicks.</h3>
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
               {
                 features.map((feature, index) => (
                   <div key={index} className='rounded-[14px] p-6' style={{
                     border: "1.7119px solid #E8E8E8"
                   }}
                   >
-                    <div className='bg-[#E8F2EE] w-10 h-10 rounded-full grid place-items-center'>
+                    <div className='bg-[#E8F2EE] w-10 h-10 rounded-full grid place-items-center mb-4'>
                       <feature.icon className='text-xl text-[#219653]' />
                     </div>
-                    <h4 className='text-lg font-medium my-2'>{feature.heading}</h4>
-                    <p>{feature.desc}</p>
+                    <h4 className='text-base md:text-lg font-medium mb-1.5'>{feature.heading}</h4>
+                    <p className='text-sm md:text-base'>{feature.desc}</p>
                   </div>
                 ))
               }
@@ -245,12 +245,11 @@ export default function Home() {
         </section>
 
 
-        <section className='bg-[#219653] text-white container !max-w-7xl items-center rounded-3xl gap-24 lg:!px-32'>
-          <div className='flex flex-col gap-2 items-start'>
-
-            <h3 className='text-5xl leading-tight '>One app.<br />
+        <section className='bg-[#219653] text-white container !max-w-7xl flex-col-reverse md:flex-col items-center rounded-none md:rounded-3xl gap-x-24 gap-y-6 lg:!px-32'>
+          <div className='flex flex-col gap-2 items-start pb-10 md:pb-0'>
+            <h3 className='text-3xl md:text-5xl leading-tight '>One app.<br />
               All Processes.</h3>
-            <p className='mb-5 text-lg'>Enjoy the ease of ID creation. Benefits include convenience, efficiency, cost-effectiveness, customization, security, sustainability, and accessibility.</p>
+            <p className='mb-5 text-sm md:text-lg'>Enjoy the ease of ID creation. Benefits include convenience, efficiency, cost-effectiveness, customization, security, sustainability, and accessibility.</p>
             <Link href="/login">
               <button className='px-14 bg-white text-black font-bold border-none'>Get Started</button>
             </Link>
@@ -263,7 +262,7 @@ export default function Home() {
 
       <footer className='bg-[#101828] rounded-t-[52px] text-white pt-5 '>
         <div className="container">
-          <div className='grid gap-6 grid-cols-5 py-16'>
+          <div className='grid gap-6 grid-cols-2 md:grid-cols-5 py-16'>
             <div className='col-span-3'>
               <div className='items-center gap-2 '>
                 <img src='/img/logo.svg' alt="" />
@@ -287,9 +286,9 @@ export default function Home() {
               </FooterUls>
             </div>
           </div>
-          <div className='items-center justify-between !text-[#eeececb2] font-bold gap-6 py-6'>
+          <div className='flex-col items-center justify-between !text-[#eeececb2] font-bold gap-x-6 gap-y-3 py-6'>
             <small>&copy; 2023 UNILAG. All rights reserved</small>
-            <div className='items-center gap-8'>
+            <div className='items-center gap-4 md:gap-8'>
 
               <small>Terms and conditions</small>
               <small>Privacy Policy</small>
@@ -319,6 +318,12 @@ const FooterUls = styled.ul`
       color: rgba(238, 236, 236, 0.7);
       margin-bottom: 6px;
     }
+
+    @media (max-width: 1024px) { 
+      font-size: 16px;
+      line-height: 24px;
+    }	
   }
+
 
 `

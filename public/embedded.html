@@ -1,0 +1,30 @@
+<!-- embedded_content.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Embedded Content</title>
+
+  </head>
+  <body class="overflow-hidden">
+    
+    <div class=' w-56 h-64 rounded-md shadow iframe-img'>
+
+      <img
+      id="userImg"
+      src=""
+      alt=""
+      width="200px"
+      height="224px"
+      class="rounded-md"
+    />
+  </div>
+    
+
+    <script>
+      const userimg = sessionStorage.getItem("userImg")
+      document.getElementById("userImg").src = userimg;
+    </script>
+  </body>
+</html>
+
+

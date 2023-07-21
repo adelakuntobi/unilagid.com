@@ -85,8 +85,8 @@ const Login = () => {
             <Logo />
           </div>
           <div className='justify-center flex-col gap-1'>
-            <h2 className='text-3xl text-center'>Login to your account</h2>
-            <p className='  text-center mx-auto text-lg text-[#475467]'>Using your valid school credentials, login to the platform.</p>
+            <h2 className='text-xl md:text-3xl text-center'>Login to your account</h2>
+            <p className='  text-center mx-auto text-sm md:text-lg text-[#475467]'>Using your valid school credentials, login to the platform.</p>
           </div>
           <FormInput>
             <label htmlFor="matricNo">Matric No.</label>

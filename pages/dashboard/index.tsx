@@ -15,12 +15,8 @@ import cogotoast from '@/components/toaster';
 import withAuth from '@/services/withAuth';
 import { useRouter } from "next/router"
 import { logOutAction } from '@/utils/auth';
-import IdCard from './idcard';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import MyPDFDocument from '@/components/DownloadIDcard';
-import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer';
-import ComponentToPDF from '@/components/DownloadIDcard';
 
 export const getOverview = async () => {
   const response = await api.get(overview);
@@ -75,8 +71,6 @@ const Dashboard = () => {
     if (password.length < minLength) {
       missingRequirements.push(`at least ${minLength} characters`);
     }
-
-    // Return the array of missing requirements
     return missingRequirements;
   }
 
@@ -93,7 +87,6 @@ const Dashboard = () => {
 
   const changePassword = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
     try {
       if (fields?.password === fields?.confirmPassword) UpdatePassword();
       else cogotoast("Password and confirm password does not match", "error")
@@ -119,6 +112,7 @@ const Dashboard = () => {
     }
   );
   const baseUrl = process.env.IMAGE_URL
+  sessionStorage.setItem("userImg", baseUrl + user?.matricNo)
   const handlePrint = () => {
 
     // html2canvas(document.querySelector("#capture"), { scale: 15 }).then(canvas => {
@@ -126,10 +120,10 @@ const Dashboard = () => {
     //   const pdf = new jsPDF();
     //   pdf.addImage(imgData, 'PNG', 0, 0, 200, 400);
     // });
-    
+
     // const divElement = divRef.current;
     const hideElements = document.getElementsByClassName('content');
-    
+
     html2canvas(document.querySelector("#capture"), { scale: 2 }).then((canvas) => {
       for (let i = 0; i < hideElements.length; i++) {
         const element = hideElements[i] as HTMLElement;
@@ -138,9 +132,9 @@ const Dashboard = () => {
       }
       const imgData = canvas.toDataURL('image/jpeg');
       const pdf = new jsPDF();
-      pdf.addImage(imgData, 'JPEG', 0, 0,  200, 400);
+      pdf.addImage(imgData, 'JPEG', 0, 0, 200, 400);
       pdf.save("StudentCopyIDcard " + user?.lastName + " " + user?.firstName + ".pdf");
-          
+
       for (let i = 0; i < hideElements.length; i++) {
         const element = hideElements[i] as HTMLElement;
         // element.style.display = '';
@@ -149,27 +143,6 @@ const Dashboard = () => {
     });
 
   }
-
-  const downloadPDF = () => {
-    const hideElements = document.getElementsByClassName('content');
-    // for (let i = 0; i < hideElements.length; i++) {
-    //   const element = hideElements[i] as HTMLElement;
-    //   element.style.display = 'none';
-    // }
-  
-    const doc = new jsPDF();
-    doc.html(document.getElementById('content'), {
-      callback: function (pdf) {
-        for (let i = 0; i < hideElements.length; i++) {
-          const element = hideElements[i] as HTMLElement;
-          // element.style.display = '';
-          element.classList.remove('hidden');
-        }
-        pdf.save('example.pdf');
-      },
-    });
-  };
-  
 
 
   if (isLoading || error) return <FullPageLoader />
@@ -236,38 +209,24 @@ const Dashboard = () => {
           </div>
         </Modalstyle>
       }
-      {/* <IdCard /> */}
-      {/* <PDFDownloadLink document={<ComponentToPDF />} fileName="document.pdf">
-        {({ blob, url, loading, error }) =>
-          loading ? 'Generating PDF...' : 'Download PDF'
-        }
-      </PDFDownloadLink> */}
-      {/* <IsError /> */}
-
-      {/* <section>
-        <div className='bg-[#219653] text-white  px-10 py-12  relative overflow-hidden'>
-          <img src="/img/dashboard-pattern.svg" className='absolute object-cover top-0 left-0 bottom-0 z-0 w-full h-full' alt="" />
-          <div className='max-w-7xl mx-auto flex-col md:flex-row items-center justify-between'>
-            <div className=''>
-              <h4 className='text-2xl font-semibold'>Welcome,<span className='text-3xl'> Oguntunde Victor</span></h4>
-              <p className='font-semibold text-lg'>Programme : Bachelor of Science in Electrical and Electronics Engineering</p>
-            </div>
-            <img className='relative z-10' src="/img/dashboard-header.svg" alt="" />
-          </div>
-        </div>
-      </section> */}
-
       <section className='bg-gray-50 py-28'>
-        <div className='max-w-7xl mx-auto items-center gap-10'>
+        <div className='max-w-7xl mx-auto flex-col md:flex-row items-center gap-10 px-4'>
 
-          <img src={baseUrl + user?.matricNo} className=' w-56 h-64 rounded-md shadow' alt="" />
+          {/* <img src={baseUrl + user?.matricNo} className=' w-56 h-64 rounded-md shadow' alt="" /> */}
+          <iframe
+            src="/embedded.html"
+            // src={baseUrl + user?.matricNo}
+          // title="Embedded Content"
+          width="224"
+          height="256"
+          ></iframe>
           <div className='flex flex-col gap-4 justify-start items-start'>
             {
               user?.newStudent ? <span className='bg-[#219653] text-white text-xs rounded-sm px-2 py-1 font-bold'>Fresh Student</span> :
                 <span className='bg-[#ffbe00] text-xs rounded-sm px-2 py-1 font-bold'>Returning Student</span>}
             <div>
-              <h1 className='text-5xl font-bold'> <span className='uppercase'>{user?.lastName},</span> {user?.firstName} {user?.otherNames}</h1>
-              <h2 className='text-2xl font-bold'>{user?.matricNo}</h2>
+              <h1 className='text-3xl md:text-5xl font-bold'> <span className='uppercase'>{user?.lastName},</span> {user?.firstName} {user?.otherNames}</h1>
+              <h2 className='text-base md:text-2xl font-bold'>{user?.matricNo}</h2>
             </div>
             <div className='flex flex-wrap gap-x-8 gap-y-1.5 max-w-xl'>
               <HeaderProfile>
@@ -326,8 +285,6 @@ const Dashboard = () => {
               }
             </div>
           </div>
-          {/* {
-          } */}
           <Link href={
             user?.newStudent ? NEW_STUDENT : RETURNING_STUDENT
           }>
@@ -341,20 +298,22 @@ const Dashboard = () => {
 
 
 const HeaderProfile = styled.div`
-display: flex;
-align-items: center;
-/* font-size: 14px; */
-gap: 5px;
-font-weight: 500;
-label{
-  /* font-weight: 700; */
-  color: #908f8f;
-}
-p{
-  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
+  label{
+    color: #908f8f;
+  }
+  p{
+    text-transform: capitalize;
     font-weight: 600;
-    color  : #3d3f45;
-    }
+    color: #3d3f45;
+  }
+
+  @media (max-width: 1024px) { 
+    font-size: 14px;
+  }	
 `
 
 export default withAuth(Dashboard);

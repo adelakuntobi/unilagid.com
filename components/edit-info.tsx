@@ -98,14 +98,14 @@ else
           <h1 className='text-3xl '>{`${user?.lastName} ${user?.firstName} ${user?.otherNames}`}</h1>
           <h4 className='text-xl font-semibold'>{user?.matricNo}</h4>
           <form onSubmit={handleSubmit} action="">
-            <div className="grid gap-x-5 gap-y-6 py-6 grid-cols-2">
+            <div className="grid gap-x-5 gap-y-6 py-6 grid-cols-1 md:grid-cols-2">
 
               {
                 theSapa.map((item, index) => {
                   const key = Object.keys(item)[0]
                   const value = item[key]
                   return (
-                    <Editables className={item.width ? "col-span-2" : undefined} key={key} editable={item.editable}>
+                    <Editables className={item.width ? "md:col-span-2" : undefined} key={key} editable={item.editable}>
                       <label className='capitalize' htmlFor="key">{item.label ?? key}</label>
                       <input type="text" name={key} placeholder={key}
                         className={`!rounded  ${error ? "!border-red-600" : undefined}`}
