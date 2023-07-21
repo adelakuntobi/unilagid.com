@@ -212,14 +212,12 @@ const Dashboard = () => {
       <section className='bg-gray-50 py-28'>
         <div className='max-w-7xl mx-auto flex-col md:flex-row items-center gap-10 px-4'>
 
-          {/* <img src={baseUrl + user?.matricNo} className=' w-56 h-64 rounded-md shadow' alt="" /> */}
-          <iframe
+          <img src={baseUrl + user?.matricNo} className=' w-56 h-64 rounded-md shadow' alt="" />
+          {/* <iframe
             src="/embedded.html"
-            // src={baseUrl + user?.matricNo}
-          // title="Embedded Content"
           width="224"
           height="256"
-          ></iframe>
+          ></iframe> */}
           <div className='flex flex-col gap-4 justify-start items-start'>
             {
               user?.newStudent ? <span className='bg-[#219653] text-white text-xs rounded-sm px-2 py-1 font-bold'>Fresh Student</span> :
