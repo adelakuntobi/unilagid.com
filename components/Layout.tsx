@@ -1,4 +1,4 @@
-import React, { ReactNode} from 'react'
+import React, { ReactNode } from 'react'
 import Link from 'next/link'
 import Head from 'next/head'
 import TopNav from './TopNav'
@@ -14,6 +14,7 @@ const Layout = ({ children, title }: Props) => {
     <div>
       <Head>
         <title>{`Studentify`}</title>
+        <link rel="shortcut icon" href="/img/logo.svg" type="image/x-icon" />
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
@@ -21,7 +22,7 @@ const Layout = ({ children, title }: Props) => {
 
       <div className='w-full h-full bg-white pb-4'>
         <TopNav />
-        <div  className=''>
+        <div className=''>
           {children}
         </div>
       </div>

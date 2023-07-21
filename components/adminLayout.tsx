@@ -20,6 +20,7 @@ const AdminLayout = ({ children, title }: Props) => {
     <div>
       <Head>
         <title>{`Superadmin - ${title}`}</title>
+        <link rel="shortcut icon" href="/img/logo.svg" type="image/x-icon" />
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>

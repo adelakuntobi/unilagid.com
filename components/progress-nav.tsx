@@ -55,6 +55,8 @@ const ProgressNav = (props: any) => {
     <>
       <Head>
         <title>{`Studentify`}</title>
+        <link rel="shortcut icon" href="/img/logo.svg" type="image/x-icon" />
+
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
