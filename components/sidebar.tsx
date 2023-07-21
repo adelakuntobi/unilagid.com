@@ -27,6 +27,11 @@ const Sidebar = ({ collapsed, toggled, handleToggleSidebar }) => {
       route: "/admin",
     },
     {
+      Icon: MdOutlineSpaceDashboard,
+      title: "Enroll Student",
+      route: "/admin/student/create",
+    },
+    {
       Icon: AiOutlineCreditCard,
       title: "New students",
       route: "/admin/new-students",
