@@ -97,7 +97,7 @@ const IdCard = () => {
         {/* <p className='absolute -rotate-45 opacity-30 text-primary-600 text-xl uppercase top-48  right-0 left-0 m-auto'>not for offical use</p> */}
         <p className='absolute -rotate-45 opacity-20 text-primary-600 text-lg uppercase top-52  right-0 left-4 m-auto'>not for offical use</p>
         <div className=''>
-          <img src={baseUrl + user?.matricNo} alt=""
+          <img src={"data:image/jpeg;base64," + bio?.selfie} alt=""
             className='absolute left-0 right-0 mx-auto top-[61px] w-[98px] h-[98px] object-cover rounded-full' />
           <div>
             <ul className='text-[9px] absolute bottom-16 left-2 font-medium'>
