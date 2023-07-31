@@ -141,8 +141,8 @@ const ReturningStudents = () => {
                     <th className='!text-left'>Full Name</th>
                     <th>Faculty</th>
                     <th>Year of Admission</th>
-                    <th>Date Created</th>
                     <th>Status</th>
+                    <th>Date Created</th>
                     <th><MdOutlineArrowForwardIos className="text text-[#9CA1A5] block ml-auto mr-0" /></th>
                   </tr>
                 </thead>

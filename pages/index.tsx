@@ -247,7 +247,7 @@ export default function Home() {
         </section>
 
 
-        <section className='bg-[#219653] text-white container !max-w-7xl flex-col-reverse md:flex-col items-center rounded-none md:rounded-3xl gap-x-24 gap-y-6 lg:!px-32'>
+        <section className='bg-[#219653] text-white container !max-w-7xl flex-col-reverse md:flex-row items-center rounded-none md:rounded-3xl gap-x-24 gap-y-6 lg:!px-32'>
           <div className='flex flex-col gap-2 items-start pb-10 md:pb-0'>
             <h3 className='text-3xl md:text-5xl leading-tight '>One app.<br />
               All Processes.</h3>

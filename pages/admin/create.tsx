@@ -168,7 +168,7 @@ const Login = () => {
                   }
                 </div>
               </div>
-              <small className='mt-2 block text-right'><b className='hover:text-primary cursor-pointer'>Forgot password?</b></small>
+              {/* <small className='mt-2 block text-right'><b className='hover:text-primary cursor-pointer'>Forgot password?</b></small> */}
 
             </FormInput>
             <button className='!w-full mt-6' disabled={isLoading}>
